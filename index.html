@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>XCP Host APIs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- FontAwesome is pretty awesome:
+	 http://fortawesome.github.com/Font-Awesome -->
+
+    <link rel="stylesheet" href="fontawesome/css/font-awesome.css">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body onload="prettyPrint()">
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+            </a>
+            <a class="brand" href="index.html">
+                XCP Host APIs
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li>
+                        <a href="storage.html">
+                            storage
+                        </a>
+                    </li>
+                    <li>
+                        <a href="domains.html">
+                            domains
+                        </a>
+                    </li>
+                    <li>
+                        <a href="memory.html">
+                            memory
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="hero-unit">
+        <h1>
+            XCP Host APIs
+        </h1>
+        <p>
+            This site contains prototype API definitions and example code fragments for interoperating with services running on an XCP host.
+        </p>
+        <a class="btn btn-primary btn-large" href="https://github.com/xen-org">
+            <i class="icon-github-sign icon-large">
+                
+            </i>
+            View Project on GitHub
+        </a>
+    </div>
+    <div class="row">
+        <div class="span4">
+            <h2>
+                Storage Manager
+            </h2>
+            <p>
+                The xapi toolstack delegates all storage control-plane functions to the Storage Manager (SM). The SM organises Virtual Disk Images (VDIs) into collections known as Storage Repositories (SRs). The Storage Manager API (SMAPI) provides a simple abstract interface which allows the toolstack to create, destroy, snapshot, clone, resize etc VDIs within SRs
+            </p>
+            <p>
+                <a class="btn btn-info" href="storage.html">
+                    View details
+                </a>
+            </p>
+        </div>
+        <div class="span4">
+            <h2>
+                Domain manager
+            </h2>
+            <p>
+                The Xen domain management service is responsible for all domain management on an XCP host. The API allows clients to register VM configurations with the management service and issue VM lifecycle commands such as: start, shutdown, reboot, suspend, resume and migrate. A simple event interface allows interested clients to notice when significant events have happened, for example a VM reboot or a Virtual Block Device (VBD) unplug.
+            </p>
+            <p>
+                <a class="btn btn-info" href="domains.html">
+                    View details
+                </a>
+            </p>
+        </div>
+        <div class="span4">
+            <h2>
+                Memory manager
+            </h2>
+            <p>
+                The memory management service (also known as &quot;squeezed&quot;) shares host memory among running VMs via their balloon drivers. Each VM has an associated memory range (minimum and maximum amount of allocated memory) and the manager attempts to share the host memory fairly.
+            </p>
+            <p>
+                <a class="btn btn-info" href="memory.html">
+                    View details
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>

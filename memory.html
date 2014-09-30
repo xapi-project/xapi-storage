@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>XCP Host APIs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- FontAwesome is pretty awesome:
+	 http://fortawesome.github.com/Font-Awesome -->
+
+    <link rel="stylesheet" href="fontawesome/css/font-awesome.css">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body onload="prettyPrint()">
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li>
+                        <a href="#a-83">
+                            <i class="icon-pencil">
+                                
+                            </i>
+                            debug_info
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-84">
+                            <i class="icon-pencil">
+                                
+                            </i>
+                            reservation_id
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-85">
+                            <i class="icon-pencil">
+                                
+                            </i>
+                            domid
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-86">
+                            <i class="icon-pencil">
+                                
+                            </i>
+                            kib
+                        </a>
+                    </li>
+                    <li class="nav-header">
+                        <a href="#a-Memory">
+                            <i class="icon-book">
+                                
+                            </i>
+                            Memory
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-87">
+                            <i class="icon-pencil">
+                                
+                            </i>
+                            info
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-reserve">
+                            <i class="icon-cogs">
+                                
+                            </i>
+                            reserve
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-reserve_range">
+                            <i class="icon-cogs">
+                                
+                            </i>
+                            reserve_range
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-transfer_to_domain">
+                            <i class="icon-cogs">
+                                
+                            </i>
+                            transfer_to_domain
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-delete">
+                            <i class="icon-cogs">
+                                
+                            </i>
+                            delete
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#a-balance">
+                            <i class="icon-cogs">
+                                
+                            </i>
+                            balance
+                        </a>
+                    </li>
+                    <li class="nav-header">
+                        <a href="#a-exceptions">
+                            Exceptions
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="span9">
+            <h1 id="a-memory">
+                memory: Memory manager
+            </h1>
+            <p>
+                The memory management service (also known as &quot;squeezed&quot;) shares host memory among running VMs via their balloon drivers. Each VM has an associated memory range (minimum and maximum amount of allocated memory) and the manager attempts to share the host memory fairly.
+            </p>
+            <h2 id="a-83">
+                type debug_info = string
+            </h2>
+            <p>
+                Debug context from the caller
+            </p>
+            <h2 id="a-84">
+                type reservation_id = string
+            </h2>
+            <p>
+                A reference (or handle) to a memory reservation
+            </p>
+            <h2 id="a-85">
+                type domid = int64
+            </h2>
+            <p>
+                A domain id
+            </p>
+            <h2 id="a-86">
+                type kib = int64
+            </h2>
+            <p>
+                An amount of memory in KiB
+            </p>
+            <h2 id="a-Memory">
+                Memory
+            </h2>
+            <p>
+                Create and manipulate VM memory reservations
+            </p>
+            <h2 id="a-87">
+                type info = struct  { ... }
+            </h2>
+            <p>
+                Properties of this service
+            </p>
+            <p>
+                Members:
+            </p>
+            <table class="table table-striped table-condensed">
+                <th>
+                    <td>
+                        Type
+                    </td>
+                    <td>
+                        Description
+                    </td>
+                </th>
+                <tr>
+                    <td>
+                        <code>
+                            name
+                        </code>
+                    </td>
+                    <td>
+                        <code>
+                            string
+                        </code>
+                    </td>
+                    <td>
+                        Human-readable name of this service
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>
+                            vendor
+                        </code>
+                    </td>
+                    <td>
+                        <code>
+                            string
+                        </code>
+                    </td>
+                    <td>
+                        Vendor of this service
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>
+                            version
+                        </code>
+                    </td>
+                    <td>
+                        <code>
+                            string
+                        </code>
+                    </td>
+                    <td>
+                        Version number of this service
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>
+                            features
+                        </code>
+                    </td>
+                    <td>
+                        <code>
+                            string list
+                        </code>
+                    </td>
+                    <td>
+                        A set of feature flags
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <code>
+                            instance_id
+                        </code>
+                    </td>
+                    <td>
+                        <code>
+                            string
+                        </code>
+                    </td>
+                    <td>
+                        A unique id for this instance, regenerated over service restart
+                    </td>
+                </tr>
+            </table>
+            <h3 id="a-reserve">
+                reserve
+            </h3>
+            <p>
+                [reserve kib] reserves [kib] of memory for some undisclosed purpose and returns a reservation id
+            </p>
+
+          <ul id="tab" class="nav nav-tabs">
+            <li><a href="#defn-reserve" data-toggle="tab">Definition</a></li>
+            <li class="active"><a href="#ocaml-reserve" data-toggle="tab">ocaml client</a></li>
+            <li><a href="#ocaml-server-reserve" data-toggle="tab">ocaml server</a></li>
+            <li><a href="#python-client-reserve" data-toggle="tab">python client</a></li>
+            <li><a href="#python-server-reserve" data-toggle="tab">python server</a></li>
+            <li><a href="#dbus-reserve" data-toggle="tab">DBUS XML</a></li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade" id="defn-reserve">
+            <div class="alert alert-info">
+                <table class="table table-striped">
+                    <th>
+                        <td>
+                            Direction
+                        </td>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                    </th>
+                    <tr>
+                        <td>
+                            <code>
+                                dbg
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-83">
+                                    debug_info
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Debug context from the caller
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                amount
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-86">
+                                    kib
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Amount of memory to reserve on the host
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                reservation_id
+                            </code>
+                        </td>
+                        <td>
+                            out
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-84">
+                                    reservation_id
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            A reference to a reservation which can be transferred to a VM
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            </div>
+            <div class="tab-pane fade" id="dbus-reserve">
+            <pre class="prettyprint">
+                &lt;method name=&quot;reserve&quot;&gt;
+    &lt;tp:docstring&gt;
+        [reserve kib] reserves [kib] of memory for some undisclosed purpose and returns a reservation id
+    &lt;/tp:docstring&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;dbg&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Debug context from the caller
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;x&quot; name=&quot;amount&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Amount of memory to reserve on the host
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;reservation_id&quot; direction=&quot;out&quot;&gt;
+        &lt;tp:docstring&gt;
+            A reference to a reservation which can be transferred to a VM
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+&lt;/method&gt;
+
+            </pre>
+
+            </div>
+            <div class="tab-pane fade in active" id="ocaml-reserve">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocaml903920ocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+#require <span style="color:#aa4444">"lwt"</span>;;
+#require <span style="color:#aa4444">"lwt.syntax"</span>;;
+#require <span style="color:#aa4444">"rpc.unix"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Memory_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">"/"</span> ~host:<span style="color:#aa4444">"127.0.0.1"</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.reserve ~dbg:<span style="color:#aa4444">"string"</span> ~amount:0<span style="color:#0033cc">L</span>;;</pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="ocaml-server-reserve">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocaml82fae8ocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Memory_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Memory_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> reserve x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>.<span style="color:#0033cc">Reserve</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.(<span style="color:#aa4444">"string"</span>)))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="python-client-reserve">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Memory.reserve({ dbg: &quot;string&quot;, amount: 0L })
+    print (repr(results))
+            </pre>
+
+            </div>
+            <div class="tab-pane fade" id="python-server-reserve">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+class Memory_myimplementation(Memory_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def reserve(self, dbg, amount):
+        &quot;&quot;&quot;Create and manipulate VM memory reservations&quot;&quot;&quot;
+        result = {}
+        result[&quot;reservation_id&quot;] = &quot;string&quot;
+        return result
+    # ...
+            </pre>
+
+            </div>
+          </div>
+            <h3 id="a-reserve_range">
+                reserve_range
+            </h3>
+            <p>
+                [reserve_range min_kib max_kib] reserves as much as possible between [min_kib] and [max_kib] of memory for some undisclosed purpose and returns a reservation id
+            </p>
+
+          <ul id="tab" class="nav nav-tabs">
+            <li><a href="#defn-reserve_range" data-toggle="tab">Definition</a></li>
+            <li class="active"><a href="#ocaml-reserve_range" data-toggle="tab">ocaml client</a></li>
+            <li><a href="#ocaml-server-reserve_range" data-toggle="tab">ocaml server</a></li>
+            <li><a href="#python-client-reserve_range" data-toggle="tab">python client</a></li>
+            <li><a href="#python-server-reserve_range" data-toggle="tab">python server</a></li>
+            <li><a href="#dbus-reserve_range" data-toggle="tab">DBUS XML</a></li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade" id="defn-reserve_range">
+            <div class="alert alert-info">
+                <table class="table table-striped">
+                    <th>
+                        <td>
+                            Direction
+                        </td>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                    </th>
+                    <tr>
+                        <td>
+                            <code>
+                                dbg
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-83">
+                                    debug_info
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Debug context from the caller
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                min
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-86">
+                                    kib
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Minimum amount of memory to reserve on the host
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                max
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-86">
+                                    kib
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Maximum amount of memory to reserve on the host
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                reservation_id
+                            </code>
+                        </td>
+                        <td>
+                            out
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-84">
+                                    reservation_id
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            A reference to a reservation which can be transferred to a VM
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            </div>
+            <div class="tab-pane fade" id="dbus-reserve_range">
+            <pre class="prettyprint">
+                &lt;method name=&quot;reserve_range&quot;&gt;
+    &lt;tp:docstring&gt;
+        [reserve_range min_kib max_kib] reserves as much as possible between [min_kib] and [max_kib] of memory for some undisclosed purpose and returns a reservation id
+    &lt;/tp:docstring&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;dbg&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Debug context from the caller
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;x&quot; name=&quot;min&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Minimum amount of memory to reserve on the host
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;x&quot; name=&quot;max&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Maximum amount of memory to reserve on the host
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;reservation_id&quot; direction=&quot;out&quot;&gt;
+        &lt;tp:docstring&gt;
+            A reference to a reservation which can be transferred to a VM
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+&lt;/method&gt;
+
+            </pre>
+
+            </div>
+            <div class="tab-pane fade in active" id="ocaml-reserve_range">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocaml23a140ocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+#require <span style="color:#aa4444">"lwt"</span>;;
+#require <span style="color:#aa4444">"lwt.syntax"</span>;;
+#require <span style="color:#aa4444">"rpc.unix"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Memory_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">"/"</span> ~host:<span style="color:#aa4444">"127.0.0.1"</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.reserve_range ~dbg:<span style="color:#aa4444">"string"</span> ~min:0<span style="color:#0033cc">L</span> ~max:0<span style="color:#0033cc">L</span>;;</pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="ocaml-server-reserve_range">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocamlc4a3a9ocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Memory_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Memory_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> reserve_range x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>.<span style="color:#0033cc">Reserve_range</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.(<span style="color:#aa4444">"string"</span>)))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="python-client-reserve_range">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Memory.reserve_range({ dbg: &quot;string&quot;, min: 0L, max: 0L })
+    print (repr(results))
+            </pre>
+
+            </div>
+            <div class="tab-pane fade" id="python-server-reserve_range">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+class Memory_myimplementation(Memory_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def reserve_range(self, dbg, min, max):
+        &quot;&quot;&quot;Create and manipulate VM memory reservations&quot;&quot;&quot;
+        result = {}
+        result[&quot;reservation_id&quot;] = &quot;string&quot;
+        return result
+    # ...
+            </pre>
+
+            </div>
+          </div>
+            <h3 id="a-transfer_to_domain">
+                transfer_to_domain
+            </h3>
+            <p>
+                [transfer_to_domain reservation_id domid] transfers the memory reserved by [reservation_id] to domain [domid]
+            </p>
+
+          <ul id="tab" class="nav nav-tabs">
+            <li><a href="#defn-transfer_to_domain" data-toggle="tab">Definition</a></li>
+            <li class="active"><a href="#ocaml-transfer_to_domain" data-toggle="tab">ocaml client</a></li>
+            <li><a href="#ocaml-server-transfer_to_domain" data-toggle="tab">ocaml server</a></li>
+            <li><a href="#python-client-transfer_to_domain" data-toggle="tab">python client</a></li>
+            <li><a href="#python-server-transfer_to_domain" data-toggle="tab">python server</a></li>
+            <li><a href="#dbus-transfer_to_domain" data-toggle="tab">DBUS XML</a></li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade" id="defn-transfer_to_domain">
+            <div class="alert alert-info">
+                <table class="table table-striped">
+                    <th>
+                        <td>
+                            Direction
+                        </td>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                    </th>
+                    <tr>
+                        <td>
+                            <code>
+                                dbg
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-83">
+                                    debug_info
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Debug context from the caller
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                reservation_id
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-84">
+                                    reservation_id
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            A reference to a memory reservation
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                domid
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-85">
+                                    domid
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Domain id to transfer the reservation to
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            </div>
+            <div class="tab-pane fade" id="dbus-transfer_to_domain">
+            <pre class="prettyprint">
+                &lt;method name=&quot;transfer_to_domain&quot;&gt;
+    &lt;tp:docstring&gt;
+        [transfer_to_domain reservation_id domid] transfers the memory reserved by [reservation_id] to domain [domid]
+    &lt;/tp:docstring&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;dbg&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Debug context from the caller
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;reservation_id&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            A reference to a memory reservation
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;x&quot; name=&quot;domid&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Domain id to transfer the reservation to
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+&lt;/method&gt;
+
+            </pre>
+
+            </div>
+            <div class="tab-pane fade in active" id="ocaml-transfer_to_domain">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocamld5b623ocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+#require <span style="color:#aa4444">"lwt"</span>;;
+#require <span style="color:#aa4444">"lwt.syntax"</span>;;
+#require <span style="color:#aa4444">"rpc.unix"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Memory_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">"/"</span> ~host:<span style="color:#aa4444">"127.0.0.1"</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.transfer_to_domain ~dbg:<span style="color:#aa4444">"string"</span> ~reservation_id:<span style="color:#aa4444">"string"</span> ~domid:0<span style="color:#0033cc">L</span>;;</pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="ocaml-server-transfer_to_domain">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocaml71eb9docaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Memory_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Memory_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> transfer_to_domain x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>.<span style="color:#0033cc">Transfer_to_domain</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="python-client-transfer_to_domain">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Memory.transfer_to_domain({ dbg: &quot;string&quot;, reservation_id: &quot;string&quot;, domid: 0L })
+    print (repr(results))
+            </pre>
+
+            </div>
+            <div class="tab-pane fade" id="python-server-transfer_to_domain">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+class Memory_myimplementation(Memory_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def transfer_to_domain(self, dbg, reservation_id, domid):
+        &quot;&quot;&quot;Create and manipulate VM memory reservations&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+            </pre>
+
+            </div>
+          </div>
+            <h3 id="a-delete">
+                delete
+            </h3>
+            <p>
+                [delete reservation_id] deletes the reservation identified by [reservation_id]
+            </p>
+
+          <ul id="tab" class="nav nav-tabs">
+            <li><a href="#defn-delete" data-toggle="tab">Definition</a></li>
+            <li class="active"><a href="#ocaml-delete" data-toggle="tab">ocaml client</a></li>
+            <li><a href="#ocaml-server-delete" data-toggle="tab">ocaml server</a></li>
+            <li><a href="#python-client-delete" data-toggle="tab">python client</a></li>
+            <li><a href="#python-server-delete" data-toggle="tab">python server</a></li>
+            <li><a href="#dbus-delete" data-toggle="tab">DBUS XML</a></li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade" id="defn-delete">
+            <div class="alert alert-info">
+                <table class="table table-striped">
+                    <th>
+                        <td>
+                            Direction
+                        </td>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                    </th>
+                    <tr>
+                        <td>
+                            <code>
+                                dbg
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-83">
+                                    debug_info
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Debug context from the caller
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                reservation_id
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-84">
+                                    reservation_id
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            A reference to a memory reservation
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            </div>
+            <div class="tab-pane fade" id="dbus-delete">
+            <pre class="prettyprint">
+                &lt;method name=&quot;delete&quot;&gt;
+    &lt;tp:docstring&gt;
+        [delete reservation_id] deletes the reservation identified by [reservation_id]
+    &lt;/tp:docstring&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;dbg&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Debug context from the caller
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;reservation_id&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            A reference to a memory reservation
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+&lt;/method&gt;
+
+            </pre>
+
+            </div>
+            <div class="tab-pane fade in active" id="ocaml-delete">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocaml67fbdaocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+#require <span style="color:#aa4444">"lwt"</span>;;
+#require <span style="color:#aa4444">"lwt.syntax"</span>;;
+#require <span style="color:#aa4444">"rpc.unix"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Memory_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">"/"</span> ~host:<span style="color:#aa4444">"127.0.0.1"</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.delete ~dbg:<span style="color:#aa4444">"string"</span> ~reservation_id:<span style="color:#aa4444">"string"</span>;;</pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="ocaml-server-delete">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocaml98812eocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Memory_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Memory_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> delete x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>.<span style="color:#0033cc">Delete</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="python-client-delete">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Memory.delete({ dbg: &quot;string&quot;, reservation_id: &quot;string&quot; })
+    print (repr(results))
+            </pre>
+
+            </div>
+            <div class="tab-pane fade" id="python-server-delete">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+class Memory_myimplementation(Memory_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def delete(self, dbg, reservation_id):
+        &quot;&quot;&quot;Create and manipulate VM memory reservations&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+            </pre>
+
+            </div>
+          </div>
+            <h3 id="a-balance">
+                balance
+            </h3>
+            <p>
+                Rebalance memory allocations between domains
+            </p>
+
+          <ul id="tab" class="nav nav-tabs">
+            <li><a href="#defn-balance" data-toggle="tab">Definition</a></li>
+            <li class="active"><a href="#ocaml-balance" data-toggle="tab">ocaml client</a></li>
+            <li><a href="#ocaml-server-balance" data-toggle="tab">ocaml server</a></li>
+            <li><a href="#python-client-balance" data-toggle="tab">python client</a></li>
+            <li><a href="#python-server-balance" data-toggle="tab">python server</a></li>
+            <li><a href="#dbus-balance" data-toggle="tab">DBUS XML</a></li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade" id="defn-balance">
+            <div class="alert alert-info">
+                <table class="table table-striped">
+                    <th>
+                        <td>
+                            Direction
+                        </td>
+                        <td>
+                            Type
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                    </th>
+                    <tr>
+                        <td>
+                            <code>
+                                dbg
+                            </code>
+                        </td>
+                        <td>
+                            in
+                        </td>
+                        <td>
+                            <code>
+                                <a href="#a-83">
+                                    debug_info
+                                </a>
+                            </code>
+                        </td>
+                        <td>
+                            Debug context from the caller
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            </div>
+            <div class="tab-pane fade" id="dbus-balance">
+            <pre class="prettyprint">
+                &lt;method name=&quot;balance&quot;&gt;
+    &lt;tp:docstring&gt;
+        Rebalance memory allocations between domains
+    &lt;/tp:docstring&gt;
+    &lt;arg type=&quot;s&quot; name=&quot;dbg&quot; direction=&quot;in&quot;&gt;
+        &lt;tp:docstring&gt;
+            Debug context from the caller
+        &lt;/tp:docstring&gt;
+    &lt;/arg&gt;
+&lt;/method&gt;
+
+            </pre>
+
+            </div>
+            <div class="tab-pane fade in active" id="ocaml-balance">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocamlb442a2ocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+#require <span style="color:#aa4444">"lwt"</span>;;
+#require <span style="color:#aa4444">"lwt.syntax"</span>;;
+#require <span style="color:#aa4444">"rpc.unix"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Memory_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">"/"</span> ~host:<span style="color:#aa4444">"127.0.0.1"</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.balance ~dbg:<span style="color:#aa4444">"string"</span>;;</pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="ocaml-server-balance">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>
+/var/folders/ml/fqqlxl6j03l2lf9ljfms9m540000gn/T/ocamlb2b61eocaml</title>
+  <meta name="GENERATOR" content="caml2html 1.4.3">
+</head>
+<body>
+
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">"xcp-api-client"</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Memory_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Memory_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> balance x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Memory</span>.<span style="color:#0033cc">Balance</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+</body>
+</html>
+
+            </div>
+            <div class="tab-pane fade" id="python-client-balance">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Memory.balance({ dbg: &quot;string&quot; })
+    print (repr(results))
+            </pre>
+
+            </div>
+            <div class="tab-pane fade" id="python-server-balance">
+            <pre class="prettyprint lang-python">
+                
+import xmlrpclib
+import xcp
+from storage import *
+
+class Memory_myimplementation(Memory_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def balance(self, dbg):
+        &quot;&quot;&quot;Create and manipulate VM memory reservations&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+            </pre>
+
+            </div>
+          </div>
+            <h1 id="a-exceptions">
+                Exceptions
+            </h1>
+            <table class="table table-striped table-condensed">
+                <th>
+                    <td>
+                        Parameter Types
+                    </td>
+                    <td>
+                        Description
+                    </td>
+                </th>
+            </table>
+        </div>
+    </div>
+</div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
