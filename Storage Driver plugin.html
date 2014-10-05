@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
+    <title>Xapi storage interfaces</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <script src="js/vendor/modernizr.js"></script>
 
@@ -32,9 +32,9 @@
         <ul class="dropdown">
           <li><a href="concepts.html">Concepts</a></li>
           
-      <li><a href="control.html">control</a></li>
+      <li><a href="Storage Driver plugin.html">Storage Driver plugin</a></li>
     
-      <li><a href="data.html">data</a></li>
+      <li><a href="Storage Datapath plugin.html">Storage Datapath plugin</a></li>
     
         </ul>
       </li>
@@ -118,8 +118,8 @@
   
 
     <div class="large-9 medium-9 columns">
-      <h1>control</h1>
-      <p>The xapi toolstack delegates all storage control-plane functions to &quot;drivers&quot;, also known as &quot;Storage Manager plugins&quot;. These driversallow the toolstack to create/destroy/snapshot/clone volumes whichare organised into groups called Storage Repositories (SR). Volumeshave a set of URIs which can be used by the storage data-plane toread and write the disk data.</p>
+      <h1>Storage Driver plugin</h1>
+      <p>The xapi toolstack delegates all storage control-plane functions to  &quot;drivers&quot;, also known as &quot;Storage Driver plugins&quot;. These plugins allow the toolstack to create/destroy/snapshot/clone volumes which are organised into groups called Storage Repositories (SR). Volumes have a set of URIs which can be used by the &quot;Datapath plugins&quot; to connect the disk data to VMs.</p>
       
     <h4 id="a-0">type debug_info = string</h4>
     <p> Debug context from the caller </p>
@@ -128,10 +128,10 @@
     <p> Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract. </p>
   
     <h4 id="a-2">type sr = string</h4>
-    <p> Primary key for a specific Storage Repository. This can be any string which is meaningful to the implementation. For example this could be an NFS directory name, an LVM VG name or even a URI.This string is abstract. </p>
+    <p> Primary key for a specific Storage Repository. This can be any  string which is meaningful to the implementation. For example this  could be an NFS directory name, an LVM VG name or even a URI. This string is abstract. </p>
   
     <h4 id="a-3">type volume = struct  { ... }</h4>
-    <p> A set of properties associated with a volume. These properties can change dynamically and can be queried by the Volume.stat call. </p>
+    <p> A set of properties associated with a volume. These properties can  change dynamically and can be queried by the Volume.stat call. </p>
   
       <p>Members:</p>
     
@@ -173,7 +173,7 @@
       <tr>
         <td><pre>uri</pre></td>
         <td><pre>string list</pre></td>
-        <td>A list of URIs which can be opened and used for I/O. A URI could reference a local block device, a remote NFS share, iSCSI LUN or RBD volume. In cases where the data may be accessed over several protocols, he list should be sorted into descending order of desirability. Xapi will open the most desirable URI for which it has an available datapath driver.</td></tr>
+        <td>A list of URIs which can be opened and used for I/O. A URI could  reference a local block device, a remote NFS share, iSCSI LUN or  RBD volume. In cases where the data may be accessed over several  protocols, he list should be sorted into descending order of  desirability. Xapi will open the most desirable URI for which it has  an available datapath driver.</td></tr>
     
       </tbody>
     </table>
@@ -243,11 +243,11 @@
   
       
     <h2 id="a-Driver">Driver</h2>
-    <p>Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage driver by xapi.</p>
+    <p>Discover properties of this implementation. Every implementation  must support the query interface or it will not be recognised as  a storage driver by xapi.</p>
     
     
     <h3 id="a-query">query</h3>
-    <p>Query this implementation and return its properties. This is called by xapi to determine whether it is compatible with xapi and to discover the supported features.</p>
+    <p>Query this implementation and return its properties. This is  called by xapi to determine whether it is compatible with xapi  and to discover the supported features.</p>
     
     <dl class="tabs" data-tab="">
       <dd class="active"><a href="#defn-query">Definition</a></dd>
@@ -297,7 +297,7 @@
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Driver_client</span>(<span style="color:#990099">struct</span>
@@ -315,7 +315,7 @@
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Driver_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -354,7 +354,7 @@ class Driver_myimplementation(Driver_skeleton):
     # by default each method will return a Not_implemented error
     # ...
     def query(self, dbg):
-        &quot;&quot;&quot;Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage driver by xapi.&quot;&quot;&quot;
+        &quot;&quot;&quot;Discover properties of this implementation. Every implementation  must support the query interface or it will not be recognised as  a storage driver by xapi.&quot;&quot;&quot;
         result = {}
         result[&quot;query_result&quot;] = { &quot;driver&quot;: &quot;string&quot;, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;vendor&quot;: &quot;string&quot;, &quot;copyright&quot;: &quot;string&quot;, &quot;version&quot;: &quot;string&quot;, &quot;required_api_version&quot;: &quot;string&quot;, &quot;features&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;configuration&quot;: { &quot;string&quot;: &quot;string&quot; } }
         return result
@@ -415,7 +415,7 @@ class Driver_myimplementation(Driver_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Driver_client</span>(<span style="color:#990099">struct</span>
@@ -433,7 +433,7 @@ class Driver_myimplementation(Driver_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Driver_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -472,7 +472,7 @@ class Driver_myimplementation(Driver_skeleton):
     # by default each method will return a Not_implemented error
     # ...
     def ls(self, dbg):
-        &quot;&quot;&quot;Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage driver by xapi.&quot;&quot;&quot;
+        &quot;&quot;&quot;Discover properties of this implementation. Every implementation  must support the query interface or it will not be recognised as  a storage driver by xapi.&quot;&quot;&quot;
         result = {}
         result[&quot;srs&quot;] = [ &quot;string&quot;, &quot;string&quot; ]
         return result
@@ -483,7 +483,7 @@ class Driver_myimplementation(Driver_skeleton):
   
   
     <h3 id="a-diagnostics">diagnostics</h3>
-    <p>Returns a printable set of backend diagnostic information.Implementations are encouraged to include any data which will be useful to diagnose problems. Note this data should not include personally-identifiable data as it is intended to be automatically included in bug reports.</p>
+    <p>Returns a printable set of backend diagnostic information. Implementations are encouraged to include any data which will  be useful to diagnose problems. Note this data should not  include personally-identifiable data as it is intended to be  automatically included in bug reports.</p>
     
     <dl class="tabs" data-tab="">
       <dd class="active"><a href="#defn-diagnostics">Definition</a></dd>
@@ -533,7 +533,7 @@ class Driver_myimplementation(Driver_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Driver_client</span>(<span style="color:#990099">struct</span>
@@ -551,7 +551,7 @@ class Driver_myimplementation(Driver_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Driver_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -590,7 +590,7 @@ class Driver_myimplementation(Driver_skeleton):
     # by default each method will return a Not_implemented error
     # ...
     def diagnostics(self, dbg):
-        &quot;&quot;&quot;Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage driver by xapi.&quot;&quot;&quot;
+        &quot;&quot;&quot;Discover properties of this implementation. Every implementation  must support the query interface or it will not be recognised as  a storage driver by xapi.&quot;&quot;&quot;
         result = {}
         result[&quot;diagnostics&quot;] = &quot;string&quot;
         return result
@@ -684,7 +684,7 @@ class Driver_myimplementation(Driver_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
@@ -702,7 +702,7 @@ class Driver_myimplementation(Driver_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -816,7 +816,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
@@ -834,7 +834,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -948,7 +948,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
@@ -966,7 +966,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1073,7 +1073,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
@@ -1091,7 +1091,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1204,7 +1204,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
@@ -1222,7 +1222,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1335,7 +1335,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
@@ -1353,7 +1353,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1465,7 +1465,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
@@ -1483,7 +1483,7 @@ class Volume_myimplementation(Volume_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1589,7 +1589,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
@@ -1607,7 +1607,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1707,7 +1707,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
@@ -1725,7 +1725,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1824,7 +1824,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
@@ -1842,7 +1842,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
@@ -1948,7 +1948,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
@@ -1966,7 +1966,7 @@ class SR_myimplementation(SR_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Control</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Driver</span> plugin
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
