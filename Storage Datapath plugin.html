@@ -1,0 +1,547 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xapi storage interfaces</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <script src="js/vendor/modernizr.js"></script>
+
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+  </head>
+  <body>
+
+<nav class="top-bar" data-topbar="" role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="index.html">Xapi storage interface</a></h1>
+    </li>
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+  <section class="top-bar-section">
+    <ul class="right">
+      <li class="has-dropdown">
+        <a href="learn.html">Learn</a>
+        <ul class="dropdown">
+          <li><a href="features.html">Features</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Develop</a>
+        <ul class="dropdown">
+          <li><a href="concepts.html">Concepts</a></li>
+          
+      <li><a href="Storage Driver plugin.html">Storage Driver plugin</a></li>
+    
+      <li><a href="Storage Datapath plugin.html">Storage Datapath plugin</a></li>
+    
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Support</a>
+        <ul class="dropdown">
+          <li><a href="contact.html">Mailing list</a></li>
+          <li><a href="contact.html">Issue tracker</a></li>
+          <li><a href="contact.html">IRC</a></li>
+        </ul>
+      </li>
+      <li class="active"><a href="getstarted.html">Get Started</a></li>
+    </ul>
+  </section>
+</nav>
+
+    <div class="row">
+
+    
+      <div class="large-3 medium-3 columns">
+        <ul class="side-nav">
+          <li><label>types</label></li>
+          
+      <li><a href="#a-10">debug_info</a></li>
+    
+          <li class="divider"/>
+          <li><label>interfaces</label></li>
+          
+      <li><label>Datapath</label></li>
+      
+      
+      <li><a href="#a-attach">attach</a></li>
+    
+      <li><a href="#a-activate">activate</a></li>
+    
+      <li><a href="#a-deactivate">deactivate</a></li>
+    
+      <li><a href="#a-detach">detach</a></li>
+    
+    
+          <li class="divider"/>
+          <li><a href="#a-exceptions">exceptions</a></li>
+        </ul>
+      </div>
+  
+
+    <div class="large-9 medium-9 columns">
+      <h1>Storage Datapath plugin</h1>
+      <p>The Datapath plugin takes a URI which points to virtual disk data and chooses a Xen datapath implementation: driver domain, blkback implementation and caching strategy.</p>
+      
+    <h4 id="a-10">type debug_info = string</h4>
+    <p> Debug context from the caller </p>
+  
+      
+    <h2 id="a-Datapath">Datapath</h2>
+    <p>...</p>
+    
+    
+    <h3 id="a-attach">attach</h3>
+    <p>[attach]</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-attach">Definition</a></dd>
+     <dd><a href="#ocaml-attach">OCaml example</a></dd>
+     <dd><a href="#python-attach">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-attach">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-attach">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.attach ~dbg:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> attach x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Attach</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-attach">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Datapath.attach({ dbg: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+class Datapath_myimplementation(Datapath_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def attach(self, dbg):
+        &quot;&quot;&quot;...&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-activate">activate</h3>
+    <p>[activate]</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-activate">Definition</a></dd>
+     <dd><a href="#ocaml-activate">OCaml example</a></dd>
+     <dd><a href="#python-activate">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-activate">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-activate">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.activate ~dbg:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> activate x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Activate</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-activate">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Datapath.activate({ dbg: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+class Datapath_myimplementation(Datapath_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def activate(self, dbg):
+        &quot;&quot;&quot;...&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-deactivate">deactivate</h3>
+    <p>[deactivate]</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-deactivate">Definition</a></dd>
+     <dd><a href="#ocaml-deactivate">OCaml example</a></dd>
+     <dd><a href="#python-deactivate">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-deactivate">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-deactivate">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.deactivate ~dbg:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> deactivate x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Deactivate</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-deactivate">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Datapath.deactivate({ dbg: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+class Datapath_myimplementation(Datapath_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def deactivate(self, dbg):
+        &quot;&quot;&quot;...&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-detach">detach</h3>
+    <p>[detach]</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-detach">Definition</a></dd>
+     <dd><a href="#ocaml-detach">OCaml example</a></dd>
+     <dd><a href="#python-detach">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-detach">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-detach">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.detach ~dbg:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Storage</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> detach x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Detach</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-detach">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xcp.connect()
+    results = c.Datapath.detach({ dbg: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xcp
+from storage import *
+
+class Datapath_myimplementation(Datapath_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def detach(self, dbg):
+        &quot;&quot;&quot;...&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+  
+      of_exception env x.Interfaces.exn_decls)$
+    </div>
+    </div>
+  
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
