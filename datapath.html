@@ -10,6 +10,7 @@
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
   </head>
   <body>
+<!DOCTYPE html>
 
 <nav class="top-bar" data-topbar="" role="navigation">
   <ul class="title-area">
@@ -21,7 +22,7 @@
   <section class="top-bar-section">
     <ul class="right">
       <li class="has-dropdown">
-        <a href="learn.html">Learn</a>
+        <a href="features.html">Learn</a>
         <ul class="dropdown">
           <li><a href="features.html">Features</a></li>
           <li><a href="concepts.html">Concepts</a></li>
@@ -33,9 +34,11 @@
         <a href="#">Develop</a>
         <ul class="dropdown">
           
-      <li><a href="Volume plugin.html">Volume plugin</a></li>
+      <li><a href="plugin.html">plugin</a></li>
     
-      <li><a href="Datapath plugin.html">Datapath plugin</a></li>
+      <li><a href="volume.html">volume</a></li>
+    
+      <li><a href="datapath.html">datapath</a></li>
     
         </ul>
       </li>
@@ -51,6 +54,7 @@
     </ul>
   </section>
 </nav>
+<!DOCTYPE html>
 
     <div class="row">
 
@@ -59,20 +63,24 @@
         <ul class="side-nav">
           <li><label>types</label></li>
           
-      <li><a href="#a-10">debug_info</a></li>
+      <li><a href="#a-14">debug_info</a></li>
     
-      <li><a href="#a-11">domain</a></li>
+      <li><a href="#a-15">domain</a></li>
     
-      <li><a href="#a-12">uri</a></li>
+      <li><a href="#a-16">uri</a></li>
     
-      <li><a href="#a-13">backend</a></li>
+      <li><a href="#a-17">implementation</a></li>
     
-          <li class="divider"/>
+      <li><a href="#a-18">backend</a></li>
+    
+          <li class="divider"></li>
           <li><label>interfaces</label></li>
           
       <li><label>Datapath</label></li>
       
       
+      <li><a href="#a-open">open</a></li>
+    
       <li><a href="#a-attach">attach</a></li>
     
       <li><a href="#a-activate">activate</a></li>
@@ -81,27 +89,62 @@
     
       <li><a href="#a-detach">detach</a></li>
     
+      <li><a href="#a-close">close</a></li>
     
-          <li class="divider"/>
+    
+          <li class="divider"></li>
           <li><a href="#a-exceptions">exceptions</a></li>
         </ul>
       </div>
   
 
     <div class="large-9 medium-9 columns">
-      <h1>Datapath plugin</h1>
+      <h1>datapath</h1>
       <p>The Datapath plugin takes a URI which points to virtual disk data and chooses a Xen datapath implementation: driver domain, blkback implementation and caching strategy.</p>
       
-    <h4 id="a-10">type debug_info = string</h4>
+    <h4 id="a-14">type debug_info = string</h4>
     <p> Debug context from the caller </p>
   
-    <h4 id="a-11">type domain = string</h4>
+    <h4 id="a-15">type domain = string</h4>
     <p> A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning. </p>
   
-    <h4 id="a-12">type uri = string</h4>
+    <h4 id="a-16">type uri = string</h4>
     <p> A URI representing the means for accessing the volume data. The interpretation of the URI is specific to the implementation. Xapi will choose which implementation to use based on the URI scheme. </p>
   
-    <h4 id="a-13">type backend = struct  { ... }</h4>
+    <h4 id="a-17">type implementation = variant { ... }</h4>
+    <p> The choice of blkback to use. </p>
+  
+      <p>Constructors:</p>
+    
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+      <tr>
+        <td><pre>Blkback</pre></td>
+        <td><pre>string</pre></td>
+        <td>use kernel blkback with the given 'params' key</td></tr>
+    
+      <tr>
+        <td><pre>Tapdisk3</pre></td>
+        <td><pre>string</pre></td>
+        <td>use userspace tapdisk3 with the given 'params' key</td></tr>
+    
+      <tr>
+        <td><pre>Qdisk</pre></td>
+        <td><pre>string</pre></td>
+        <td>use userspace qemu qdisk with the given 'params' key</td></tr>
+    
+      </tbody>
+    </table>
+  
+    <h4 id="a-18">type backend = struct  { ... }</h4>
     <p> A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM. </p>
   
       <p>Members:</p>
@@ -123,9 +166,7 @@
     
       <tr>
         <td><pre>implementation</pre></td>
-        <td><pre>| blkback (string) (** use kernel blkback with the given 'params' key *)
-| tapdisk3 (string) (** use userspace tapdisk3 with the given 'params' key *)
-| qdisk (string) (** use userspace qemu qdisk with the given 'params' key *)</pre></td>
+        <td><pre>implementation</pre></td>
         <td>choice of implementation technology</td></tr>
     
       </tbody>
@@ -136,6 +177,130 @@
     <p>Xapi will call the functions here on VM start/shutdown/suspend/resume/migrate. Every function is idempotent. Every function takes a domain parameter which allows the implementation to track how many domains are currently using the volume.</p>
     
     
+    <h3 id="a-open">open</h3>
+    <p>[open uri persistent] is called before a disk is attached to a VM. If persistent is true then care should be taken to persist all writes to the disk. If persistent is false then the implementation should configure a temporary location for writes so they can be thrown away on [close].</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-open">Definition</a></dd>
+     <dd><a href="#ocaml-open">OCaml example</a></dd>
+     <dd><a href="#python-open">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-open">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-14">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>uri</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-16">uri</a> </code></td>
+      <td>A URI which represents how to access the volume disk data.</td>
+    </tr>
+  
+    <tr>
+      <td><code>persistent</code></td>
+      <td>in</td>
+      <td><code>bool</code></td>
+      <td>True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-open">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>._open ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~persistent:true;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> _open x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Open</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-open">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Datapath.open({ dbg: &quot;string&quot;, uri: &quot;string&quot;, persistent: True })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Datapath_myimplementation(Datapath_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def open(self, dbg, uri, persistent):
+        &quot;&quot;&quot;Xapi will call the functions here on VM start/shutdown/suspend/resume/migrate. Every function is idempotent. Every function takes a domain parameter which allows the implementation to track how many domains are currently using the volume.&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
     <h3 id="a-attach">attach</h3>
     <p>[attach uri domain] prepares a connection between the storage named by [uri] and the Xen domain with id [domain]. The return value is the information needed by the Xen toolstack to setup the shared-memory blkfront protocol. Note that the same volume may be simultaneously attached to multiple hosts for example over a migrate. If an implementation needs to perform an explicit handover, then it should implement [activate] and [deactivate]. This function is idempotent.</p>
     
@@ -161,28 +326,28 @@
     <tr>
       <td><code>dbg</code></td>
       <td>in</td>
-      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td><code> <a href="#a-14">debug_info</a> </code></td>
       <td>Debug context from the caller</td>
     </tr>
   
     <tr>
       <td><code>uri</code></td>
       <td>in</td>
-      <td><code> <a href="#a-12">uri</a> </code></td>
+      <td><code> <a href="#a-16">uri</a> </code></td>
       <td>A URI which represents how to access the volume disk data.</td>
     </tr>
   
     <tr>
       <td><code>domain</code></td>
       <td>in</td>
-      <td><code> <a href="#a-11">domain</a> </code></td>
+      <td><code> <a href="#a-15">domain</a> </code></td>
       <td>An opaque string which represents the Xen domain.</td>
     </tr>
   
     <tr>
       <td><code>backend</code></td>
       <td>out</td>
-      <td><code> <a href="#a-13">backend</a> </code></td>
+      <td><code> <a href="#a-18">backend</a> </code></td>
       <td>The Xen block backend configuration.</td>
     </tr>
   
@@ -201,7 +366,7 @@
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
@@ -219,16 +384,16 @@
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
     <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
     <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
     <span style="color:#990000">(* ... *)</span>
     <span style="color:green">let</span> attach x =
-        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Attach</span> <span style="color:green">in</span>
-        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ domain_uuid = <span style="color:#aa4444">&quot;string&quot;</span>; implementation = blkback <span style="color:#aa4444">&quot;string&quot;</span> })))
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Attach</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ domain_uuid = <span style="color:#aa4444">&quot;string&quot;</span>; implementation = <span style="color:#0033cc">Blkback</span> <span style="color:#aa4444">&quot;string&quot;</span> })))
     <span style="color:#990000">(* ... *)</span>
 <span style="color:#990099">end</span></pre>
 
@@ -239,11 +404,11 @@
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 if __name__ == &quot;__main__&quot;:
-    c = xcp.connect()
+    c = xapi.connect()
     results = c.Datapath.attach({ dbg: &quot;string&quot;, uri: &quot;string&quot;, domain: &quot;string&quot; })
     print (repr(results))
         </pre>
@@ -251,7 +416,7 @@ if __name__ == &quot;__main__&quot;:
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 class Datapath_myimplementation(Datapath_skeleton):
@@ -293,21 +458,21 @@ class Datapath_myimplementation(Datapath_skeleton):
     <tr>
       <td><code>dbg</code></td>
       <td>in</td>
-      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td><code> <a href="#a-14">debug_info</a> </code></td>
       <td>Debug context from the caller</td>
     </tr>
   
     <tr>
       <td><code>uri</code></td>
       <td>in</td>
-      <td><code> <a href="#a-12">uri</a> </code></td>
+      <td><code> <a href="#a-16">uri</a> </code></td>
       <td>A URI which represents how to access the volume disk data.</td>
     </tr>
   
     <tr>
       <td><code>domain</code></td>
       <td>in</td>
-      <td><code> <a href="#a-11">domain</a> </code></td>
+      <td><code> <a href="#a-15">domain</a> </code></td>
       <td>An opaque string which represents the Xen domain.</td>
     </tr>
   
@@ -326,7 +491,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
@@ -344,15 +509,15 @@ class Datapath_myimplementation(Datapath_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
     <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
     <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
     <span style="color:#990000">(* ... *)</span>
     <span style="color:green">let</span> activate x =
-        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Activate</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Activate</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
         return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
     <span style="color:#990000">(* ... *)</span>
 <span style="color:#990099">end</span></pre>
@@ -364,11 +529,11 @@ class Datapath_myimplementation(Datapath_skeleton):
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 if __name__ == &quot;__main__&quot;:
-    c = xcp.connect()
+    c = xapi.connect()
     results = c.Datapath.activate({ dbg: &quot;string&quot;, uri: &quot;string&quot;, domain: &quot;string&quot; })
     print (repr(results))
         </pre>
@@ -376,7 +541,7 @@ if __name__ == &quot;__main__&quot;:
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 class Datapath_myimplementation(Datapath_skeleton):
@@ -417,21 +582,21 @@ class Datapath_myimplementation(Datapath_skeleton):
     <tr>
       <td><code>dbg</code></td>
       <td>in</td>
-      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td><code> <a href="#a-14">debug_info</a> </code></td>
       <td>Debug context from the caller</td>
     </tr>
   
     <tr>
       <td><code>uri</code></td>
       <td>in</td>
-      <td><code> <a href="#a-12">uri</a> </code></td>
+      <td><code> <a href="#a-16">uri</a> </code></td>
       <td>A URI which represents how to access the volume disk data.</td>
     </tr>
   
     <tr>
       <td><code>domain</code></td>
       <td>in</td>
-      <td><code> <a href="#a-11">domain</a> </code></td>
+      <td><code> <a href="#a-15">domain</a> </code></td>
       <td>An opaque string which represents the Xen domain.</td>
     </tr>
   
@@ -450,7 +615,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
@@ -468,15 +633,15 @@ class Datapath_myimplementation(Datapath_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
     <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
     <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
     <span style="color:#990000">(* ... *)</span>
     <span style="color:green">let</span> deactivate x =
-        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Deactivate</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Deactivate</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
         return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
     <span style="color:#990000">(* ... *)</span>
 <span style="color:#990099">end</span></pre>
@@ -488,11 +653,11 @@ class Datapath_myimplementation(Datapath_skeleton):
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 if __name__ == &quot;__main__&quot;:
-    c = xcp.connect()
+    c = xapi.connect()
     results = c.Datapath.deactivate({ dbg: &quot;string&quot;, uri: &quot;string&quot;, domain: &quot;string&quot; })
     print (repr(results))
         </pre>
@@ -500,7 +665,7 @@ if __name__ == &quot;__main__&quot;:
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 class Datapath_myimplementation(Datapath_skeleton):
@@ -541,21 +706,21 @@ class Datapath_myimplementation(Datapath_skeleton):
     <tr>
       <td><code>dbg</code></td>
       <td>in</td>
-      <td><code> <a href="#a-10">debug_info</a> </code></td>
+      <td><code> <a href="#a-14">debug_info</a> </code></td>
       <td>Debug context from the caller</td>
     </tr>
   
     <tr>
       <td><code>uri</code></td>
       <td>in</td>
-      <td><code> <a href="#a-12">uri</a> </code></td>
+      <td><code> <a href="#a-16">uri</a> </code></td>
       <td>A URI which represents how to access the volume disk data.</td>
     </tr>
   
     <tr>
       <td><code>domain</code></td>
       <td>in</td>
-      <td><code> <a href="#a-11">domain</a> </code></td>
+      <td><code> <a href="#a-15">domain</a> </code></td>
       <td>An opaque string which represents the Xen domain.</td>
     </tr>
   
@@ -574,7 +739,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 #require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
@@ -592,15 +757,15 @@ class Datapath_myimplementation(Datapath_skeleton):
 #require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
 <span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span> plugin
-<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
 <span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
     <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
     <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
     <span style="color:#990000">(* ... *)</span>
     <span style="color:green">let</span> detach x =
-        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Detach</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Detach</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
         return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
     <span style="color:#990000">(* ... *)</span>
 <span style="color:#990099">end</span></pre>
@@ -612,11 +777,11 @@ class Datapath_myimplementation(Datapath_skeleton):
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 if __name__ == &quot;__main__&quot;:
-    c = xcp.connect()
+    c = xapi.connect()
     results = c.Datapath.detach({ dbg: &quot;string&quot;, uri: &quot;string&quot;, domain: &quot;string&quot; })
     print (repr(results))
         </pre>
@@ -624,13 +789,130 @@ if __name__ == &quot;__main__&quot;:
         <pre class="prettyprint lang-py">
         
 import xmlrpclib
-import xcp
+import xapi
 from storage import *
 
 class Datapath_myimplementation(Datapath_skeleton):
     # by default each method will return a Not_implemented error
     # ...
     def detach(self, dbg, uri, domain):
+        &quot;&quot;&quot;Xapi will call the functions here on VM start/shutdown/suspend/resume/migrate. Every function is idempotent. Every function takes a domain parameter which allows the implementation to track how many domains are currently using the volume.&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-close">close</h3>
+    <p>[close uri] is called after a disk is detached and a VM shutdown. This is an opportunity to throw away writes if the disk is not persistent.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-close">Definition</a></dd>
+     <dd><a href="#ocaml-close">OCaml example</a></dd>
+     <dd><a href="#python-close">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-close">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-14">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>uri</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-16">uri</a> </code></td>
+      <td>A URI which represents how to access the volume disk data.</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-close">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.close ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> close x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Close</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-close">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Datapath.close({ dbg: &quot;string&quot;, uri: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Datapath_myimplementation(Datapath_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def close(self, dbg, uri):
         &quot;&quot;&quot;Xapi will call the functions here on VM start/shutdown/suspend/resume/migrate. Every function is idempotent. Every function takes a domain parameter which allows the implementation to track how many domains are currently using the volume.&quot;&quot;&quot;
         result = {}
         return result
@@ -653,6 +935,12 @@ class Datapath_myimplementation(Datapath_skeleton):
      </thead>
      <tbody>
        
+      <tr>
+        <td><pre>Unimplemented</pre></td>
+        <td><pre>string</pre></td>
+        <td>The operation has not been implemented</td>
+      </tr>
+    
      </tbody>
     </table>
   

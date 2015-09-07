@@ -1,0 +1,2542 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xapi storage interfaces</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <script src="js/vendor/modernizr.js"></script>
+
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+  </head>
+  <body>
+<!DOCTYPE html>
+
+<nav class="top-bar" data-topbar="" role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="index.html">Xapi storage interface</a></h1>
+    </li>
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+  <section class="top-bar-section">
+    <ul class="right">
+      <li class="has-dropdown">
+        <a href="features.html">Learn</a>
+        <ul class="dropdown">
+          <li><a href="features.html">Features</a></li>
+          <li><a href="concepts.html">Concepts</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Develop</a>
+        <ul class="dropdown">
+          
+      <li><a href="plugin.html">plugin</a></li>
+    
+      <li><a href="volume.html">volume</a></li>
+    
+      <li><a href="datapath.html">datapath</a></li>
+    
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#">Support</a>
+        <ul class="dropdown">
+          <li><a href="contact.html">Mailing list</a></li>
+          <li><a href="contact.html">Issue tracker</a></li>
+          <li><a href="contact.html">IRC</a></li>
+        </ul>
+      </li>
+      <li class="active"><a href="getstarted.html">Get Started</a></li>
+    </ul>
+  </section>
+</nav>
+<!DOCTYPE html>
+
+    <div class="row">
+
+    
+      <div class="large-3 medium-3 columns">
+        <ul class="side-nav">
+          <li><label>types</label></li>
+          
+      <li><a href="#a-3">debug_info</a></li>
+    
+      <li><a href="#a-4">key</a></li>
+    
+      <li><a href="#a-5">sr</a></li>
+    
+      <li><a href="#a-6">health</a></li>
+    
+      <li><a href="#a-7">sr_stat</a></li>
+    
+      <li><a href="#a-8">volume</a></li>
+    
+          <li class="divider"></li>
+          <li><label>interfaces</label></li>
+          
+      <li><label>Volume</label></li>
+      
+      
+      <li><a href="#a-create">create</a></li>
+    
+      <li><a href="#a-snapshot">snapshot</a></li>
+    
+      <li><a href="#a-clone">clone</a></li>
+    
+      <li><a href="#a-destroy">destroy</a></li>
+    
+      <li><a href="#a-set_name">set_name</a></li>
+    
+      <li><a href="#a-set_description">set_description</a></li>
+    
+      <li><a href="#a-set">set</a></li>
+    
+      <li><a href="#a-unset">unset</a></li>
+    
+      <li><a href="#a-resize">resize</a></li>
+    
+      <li><a href="#a-stat">stat</a></li>
+    
+    
+      <li><label>SR</label></li>
+      
+      
+      <li><a href="#a-probe">probe</a></li>
+    
+      <li><a href="#a-create">create</a></li>
+    
+      <li><a href="#a-attach">attach</a></li>
+    
+      <li><a href="#a-detach">detach</a></li>
+    
+      <li><a href="#a-destroy">destroy</a></li>
+    
+      <li><a href="#a-stat">stat</a></li>
+    
+      <li><a href="#a-ls">ls</a></li>
+    
+    
+          <li class="divider"></li>
+          <li><a href="#a-exceptions">exceptions</a></li>
+        </ul>
+      </div>
+  
+
+    <div class="large-9 medium-9 columns">
+      <h1>volume</h1>
+      <p>The xapi toolstack delegates all storage control-plane functions to  &quot;Volume plugins&quot;.These plugins allow the toolstack to create/destroy/snapshot/clone volumes which are organised into groups called Storage Repositories (SR). Volumes have a set of URIs which can be used by the &quot;Datapath plugins&quot; to connect the disk data to VMs.</p>
+      
+    <h4 id="a-3">type debug_info = string</h4>
+    <p> Debug context from the caller </p>
+  
+    <h4 id="a-4">type key = string</h4>
+    <p> Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract. </p>
+  
+    <h4 id="a-5">type sr = string</h4>
+    <p> Primary key for a specific Storage Repository. This can be any  string which is meaningful to the implementation. For example this  could be an NFS directory name, an LVM VG name or even a URI. This string is abstract. </p>
+  
+    <h4 id="a-6">type health = variant { ... }</h4>
+    <p> The health status of an SR. </p>
+  
+      <p>Constructors:</p>
+    
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+      <tr>
+        <td><pre>Healthy</pre></td>
+        <td><pre>string</pre></td>
+        <td>Storage is fully available</td></tr>
+    
+      <tr>
+        <td><pre>Recovering</pre></td>
+        <td><pre>string</pre></td>
+        <td>Storage is busy recovering, e.g. rebuilding mirrors.</td></tr>
+    
+      </tbody>
+    </table>
+  
+    <h4 id="a-7">type sr_stat = struct  { ... }</h4>
+    <p> A set of high-level properties associated with an SR. These properties can change dynamically and can be queried by a SR.stat call. </p>
+  
+      <p>Members:</p>
+    
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+      <tr>
+        <td><pre>sr</pre></td>
+        <td><pre>sr</pre></td>
+        <td>The URI identifying this volume. A typical value would be a file:// URI pointing to a directory or block device.</td></tr>
+    
+      <tr>
+        <td><pre>name</pre></td>
+        <td><pre>string</pre></td>
+        <td>Short, human-readable label for the SR.</td></tr>
+    
+      <tr>
+        <td><pre>description</pre></td>
+        <td><pre>string</pre></td>
+        <td>Longer, human-readable description of the SR. Descriptions are generally only displayed by clients when the user is examining SRs in detail.</td></tr>
+    
+      <tr>
+        <td><pre>free_space</pre></td>
+        <td><pre>int64</pre></td>
+        <td>Number of bytes free on the backing storage (in bytes)</td></tr>
+    
+      <tr>
+        <td><pre>total_space</pre></td>
+        <td><pre>int64</pre></td>
+        <td>Total physical size of the backing storage (in bytes)</td></tr>
+    
+      <tr>
+        <td><pre>datasources</pre></td>
+        <td><pre>string list</pre></td>
+        <td>URIs naming datasources: time-varying quantities representing anything from disk access latency to free space. The entities named by these URIs are self-describing.</td></tr>
+    
+      <tr>
+        <td><pre>clustered</pre></td>
+        <td><pre>bool</pre></td>
+        <td>Indicates whether the SR uses clustered local storage.</td></tr>
+    
+      <tr>
+        <td><pre>health</pre></td>
+        <td><pre>health</pre></td>
+        <td>The health status of the SR.</td></tr>
+    
+      </tbody>
+    </table>
+  
+    <h4 id="a-8">type volume = struct  { ... }</h4>
+    <p> A set of properties associated with a volume. These properties can  change dynamically and can be queried by the Volume.stat call. </p>
+  
+      <p>Members:</p>
+    
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+      <tr>
+        <td><pre>key</pre></td>
+        <td><pre>key</pre></td>
+        <td>A primary key for this volume. The key must be unique within the enclosing Storage Repository (SR). A typical value would be a filename or an LVM volume name.</td></tr>
+    
+      <tr>
+        <td><pre>uuid</pre></td>
+        <td><pre>string option</pre></td>
+        <td>A uuid (or guid) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.</td></tr>
+    
+      <tr>
+        <td><pre>name</pre></td>
+        <td><pre>string</pre></td>
+        <td>Short, human-readable label for the volume. Names are commonly used by when displaying short lists of volumes.</td></tr>
+    
+      <tr>
+        <td><pre>description</pre></td>
+        <td><pre>string</pre></td>
+        <td>Longer, human-readable description of the volume. Descriptions are generally only displayed by clients when the user is examining volumes individually.</td></tr>
+    
+      <tr>
+        <td><pre>read_write</pre></td>
+        <td><pre>bool</pre></td>
+        <td>True means the VDI may be written to, false means the volume is read-only. Some storage media is read-only so all volumes are read-only; for example .iso disk images on an NFS share. Some volume are created read-only; for example because they are snapshots of some other VDI.</td></tr>
+    
+      <tr>
+        <td><pre>virtual_size</pre></td>
+        <td><pre>int64</pre></td>
+        <td>Size of the volume from the perspective of a VM (in bytes)</td></tr>
+    
+      <tr>
+        <td><pre>physical_utilisation</pre></td>
+        <td><pre>int64</pre></td>
+        <td>Amount of space currently used on the backing storage (in bytes)</td></tr>
+    
+      <tr>
+        <td><pre>uri</pre></td>
+        <td><pre>string list</pre></td>
+        <td>A list of URIs which can be opened and used for I/O. A URI could  reference a local block device, a remote NFS share, iSCSI LUN or  RBD volume. In cases where the data may be accessed over several  protocols, he list should be sorted into descending order of  desirability. Xapi will open the most desirable URI for which it has  an available datapath plugin.</td></tr>
+    
+      <tr>
+        <td><pre>keys</pre></td>
+        <td><pre>(string * string) list</pre></td>
+        <td>A lit of key=value pairs which have been stored in the Volume  metadata. These should not be interpreted by the Volume plugin.</td></tr>
+    
+      </tbody>
+    </table>
+  
+      
+    <h2 id="a-Volume">Volume</h2>
+    <p>Operations which operate on volumes (also known as Virtual Disk Images)</p>
+    
+    
+    <h3 id="a-create">create</h3>
+    <p>[create sr name description size] creates a new volume in [sr] with [name] and [description]. The volume will have size &gt;= [size] i.e. it is always permissable for an implementation to round-up the volume to the nearest convenient block size</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-create">Definition</a></dd>
+     <dd><a href="#ocaml-create">OCaml example</a></dd>
+     <dd><a href="#python-create">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-create">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>name</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>A human-readable name to associate with the new disk. This name is intended to be short, to be a good summary of the disk.</td>
+    </tr>
+  
+    <tr>
+      <td><code>description</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>A human-readable description to associate with the new disk. This can be arbitrarily long, up to the general string size limit.</td>
+    </tr>
+  
+    <tr>
+      <td><code>size</code></td>
+      <td>in</td>
+      <td><code>int64</code></td>
+      <td>A minimum size (in bytes) for the disk. Depending on the characteristics of the implementation this may be rounded up to (for example) the nearest convenient block size. The created disk will not be smaller than this size.</td>
+    </tr>
+  
+    <tr>
+      <td><code>volume</code></td>
+      <td>out</td>
+      <td><code> <a href="#a-8">volume</a> </code></td>
+      <td>Properties of the created volume</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-create">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.create ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~name:<span style="color:#aa4444">&quot;string&quot;</span> ~description:<span style="color:#aa4444">&quot;string&quot;</span> ~size:0<span style="color:#0033cc">L</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> create x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Create</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ key = <span style="color:#aa4444">&quot;string&quot;</span>; uuid = <span style="color:#0033cc">Some</span> <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; read_write = true; virtual_size = 0<span style="color:#0033cc">L</span>; physical_utilisation = 0<span style="color:#0033cc">L</span>; uri = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; keys = [ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ] })))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-create">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.create({ dbg: &quot;string&quot;, sr: &quot;string&quot;, name: &quot;string&quot;, description: &quot;string&quot;, size: 0L })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def create(self, dbg, sr, name, description, size):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        result[&quot;volume&quot;] = { &quot;key&quot;: &quot;string&quot;, &quot;uuid&quot;: None, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;read_write&quot;: True, &quot;virtual_size&quot;: 0L, &quot;physical_utilisation&quot;: 0L, &quot;uri&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;keys&quot;: { &quot;string&quot;: &quot;string&quot; } }
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-snapshot">snapshot</h3>
+    <p>[snapshot sr volume] creates a new volue which is a  snapshot of [volume] in [sr]. Snapshots should never be written to; they are intended for backup/restore only. Note the name and description are copied but any extra metadata associated by [set] is not copied.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-snapshot">Definition</a></dd>
+     <dd><a href="#ocaml-snapshot">OCaml example</a></dd>
+     <dd><a href="#python-snapshot">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-snapshot">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>volume</code></td>
+      <td>out</td>
+      <td><code> <a href="#a-8">volume</a> </code></td>
+      <td>Properties of the created volume</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-snapshot">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.snapshot ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> snapshot x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Snapshot</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ key = <span style="color:#aa4444">&quot;string&quot;</span>; uuid = <span style="color:#0033cc">Some</span> <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; read_write = true; virtual_size = 0<span style="color:#0033cc">L</span>; physical_utilisation = 0<span style="color:#0033cc">L</span>; uri = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; keys = [ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ] })))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-snapshot">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.snapshot({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def snapshot(self, dbg, sr, key):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        result[&quot;volume&quot;] = { &quot;key&quot;: &quot;string&quot;, &quot;uuid&quot;: None, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;read_write&quot;: True, &quot;virtual_size&quot;: 0L, &quot;physical_utilisation&quot;: 0L, &quot;uri&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;keys&quot;: { &quot;string&quot;: &quot;string&quot; } }
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-clone">clone</h3>
+    <p>[clone sr volume] creates a new volume which is a writable clone of [volume] in [sr]. Note the name and description are copied but any extra metadata associated by [set] is not copied.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-clone">Definition</a></dd>
+     <dd><a href="#ocaml-clone">OCaml example</a></dd>
+     <dd><a href="#python-clone">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-clone">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>volume</code></td>
+      <td>out</td>
+      <td><code> <a href="#a-8">volume</a> </code></td>
+      <td>Properties of the created volume</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-clone">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.clone ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> clone x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Clone</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ key = <span style="color:#aa4444">&quot;string&quot;</span>; uuid = <span style="color:#0033cc">Some</span> <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; read_write = true; virtual_size = 0<span style="color:#0033cc">L</span>; physical_utilisation = 0<span style="color:#0033cc">L</span>; uri = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; keys = [ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ] })))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-clone">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.clone({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def clone(self, dbg, sr, key):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        result[&quot;volume&quot;] = { &quot;key&quot;: &quot;string&quot;, &quot;uuid&quot;: None, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;read_write&quot;: True, &quot;virtual_size&quot;: 0L, &quot;physical_utilisation&quot;: 0L, &quot;uri&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;keys&quot;: { &quot;string&quot;: &quot;string&quot; } }
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-destroy">destroy</h3>
+    <p>[destroy sr volume] removes [volume] from [sr]</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-destroy">Definition</a></dd>
+     <dd><a href="#ocaml-destroy">OCaml example</a></dd>
+     <dd><a href="#python-destroy">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-destroy">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-destroy">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.destroy ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> destroy x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Destroy</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-destroy">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.destroy({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def destroy(self, dbg, sr, key):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-set_name">set_name</h3>
+    <p>[set_name sr volume new_name] changes the name of [volume]</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-set_name">Definition</a></dd>
+     <dd><a href="#ocaml-set_name">OCaml example</a></dd>
+     <dd><a href="#python-set_name">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-set_name">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>new_name</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>New name</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-set_name">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.set_name ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span> ~new_name:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> set_name x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Set_name</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-set_name">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.set_name({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot;, new_name: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def set_name(self, dbg, sr, key, new_name):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-set_description">set_description</h3>
+    <p>[set_description sr volume new_description] changes the description of [volume]</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-set_description">Definition</a></dd>
+     <dd><a href="#ocaml-set_description">OCaml example</a></dd>
+     <dd><a href="#python-set_description">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-set_description">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>new_description</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>New description</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-set_description">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.set_description ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span> ~new_description:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> set_description x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Set_description</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-set_description">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.set_description({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot;, new_description: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def set_description(self, dbg, sr, key, new_description):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-set">set</h3>
+    <p>[set sr volume key value] associates [key] with [value] in the metadata of [volume] Note these keys and values are not interpreted by the plugin; they are intended for the higher-level software only.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-set">Definition</a></dd>
+     <dd><a href="#ocaml-set">OCaml example</a></dd>
+     <dd><a href="#python-set">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-set">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>k</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>Key</td>
+    </tr>
+  
+    <tr>
+      <td><code>v</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>Value</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-set">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.set ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span> ~k:<span style="color:#aa4444">&quot;string&quot;</span> ~v:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> set x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Set</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-set">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.set({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot;, k: &quot;string&quot;, v: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def set(self, dbg, sr, key, k, v):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-unset">unset</h3>
+    <p>[unset sr volume key] removes [key] and any value associated with it from the metadata of [volume] Note these keys and values are not interpreted by the plugin; they are intended for the higher-level software only.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-unset">Definition</a></dd>
+     <dd><a href="#ocaml-unset">OCaml example</a></dd>
+     <dd><a href="#python-unset">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-unset">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>k</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>Key</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-unset">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.unset ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span> ~k:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> unset x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Unset</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-unset">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.unset({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot;, k: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def unset(self, dbg, sr, key, k):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-resize">resize</h3>
+    <p>[resize sr volume new_size] enlarges [volume] to be at least [new_size].</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-resize">Definition</a></dd>
+     <dd><a href="#ocaml-resize">OCaml example</a></dd>
+     <dd><a href="#python-resize">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-resize">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>new_size</code></td>
+      <td>in</td>
+      <td><code>int64</code></td>
+      <td>New disk size</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-resize">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.resize ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span> ~new_size:0<span style="color:#0033cc">L</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> resize x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Resize</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-resize">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.resize({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot;, new_size: 0L })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def resize(self, dbg, sr, key, new_size):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-stat">stat</h3>
+    <p>[stat sr volume] returns metadata associated with [volume].</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-stat">Definition</a></dd>
+     <dd><a href="#ocaml-stat">OCaml example</a></dd>
+     <dd><a href="#python-stat">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-stat">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>key</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The volume key</td>
+    </tr>
+  
+    <tr>
+      <td><code>volume</code></td>
+      <td>out</td>
+      <td><code> <a href="#a-8">volume</a> </code></td>
+      <td>Volume metadata</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-stat">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Volume_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.stat ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~key:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Volume_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Volume_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> stat x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Volume</span>.<span style="color:#0033cc">Stat</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ key = <span style="color:#aa4444">&quot;string&quot;</span>; uuid = <span style="color:#0033cc">Some</span> <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; read_write = true; virtual_size = 0<span style="color:#0033cc">L</span>; physical_utilisation = 0<span style="color:#0033cc">L</span>; uri = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; keys = [ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ] })))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-stat">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.Volume.stat({ dbg: &quot;string&quot;, sr: &quot;string&quot;, key: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def stat(self, dbg, sr, key):
+        &quot;&quot;&quot;Operations which operate on volumes (also known as Virtual Disk Images)&quot;&quot;&quot;
+        result = {}
+        result[&quot;volume&quot;] = { &quot;key&quot;: &quot;string&quot;, &quot;uuid&quot;: None, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;read_write&quot;: True, &quot;virtual_size&quot;: 0L, &quot;physical_utilisation&quot;: 0L, &quot;uri&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;keys&quot;: { &quot;string&quot;: &quot;string&quot; } }
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+  
+    <h2 id="a-SR">SR</h2>
+    <p>Operations which act on Storage Repositories</p>
+    
+    
+    <h3 id="a-probe">probe</h3>
+    <p>[probe uri]: looks for existing SRs on the storage device</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-probe">Definition</a></dd>
+     <dd><a href="#ocaml-probe">OCaml example</a></dd>
+     <dd><a href="#python-probe">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-probe">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>uri</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository URI</td>
+    </tr>
+  
+    <tr>
+      <td><code>result</code></td>
+      <td>out</td>
+      <td><code>struct  { ... }</code></td>
+      <td>Contents of the storage device</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-probe">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.probe ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> probe x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Probe</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ srs = [ { sr = <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; free_space = 0<span style="color:#0033cc">L</span>; total_space = 0<span style="color:#0033cc">L</span>; datasources = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; clustered = true; health = <span style="color:#0033cc">Healthy</span> <span style="color:#aa4444">&quot;string&quot;</span> }; { sr = <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; free_space = 0<span style="color:#0033cc">L</span>; total_space = 0<span style="color:#0033cc">L</span>; datasources = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; clustered = true; health = <span style="color:#0033cc">Healthy</span> <span style="color:#aa4444">&quot;string&quot;</span> } ]; uris = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ] })))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-probe">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.probe({ dbg: &quot;string&quot;, uri: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def probe(self, dbg, uri):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        result[&quot;result&quot;] = { &quot;srs&quot;: [ { &quot;sr&quot;: &quot;string&quot;, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;free_space&quot;: 0L, &quot;total_space&quot;: 0L, &quot;datasources&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;clustered&quot;: True, &quot;health&quot;: None }, { &quot;sr&quot;: &quot;string&quot;, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;free_space&quot;: 0L, &quot;total_space&quot;: 0L, &quot;datasources&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;clustered&quot;: True, &quot;health&quot;: None } ], &quot;uris&quot;: [ &quot;string&quot;, &quot;string&quot; ] }
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-create">create</h3>
+    <p>[create uri configuration]: creates a fresh SR</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-create">Definition</a></dd>
+     <dd><a href="#ocaml-create">OCaml example</a></dd>
+     <dd><a href="#python-create">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-create">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>uri</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository URI</td>
+    </tr>
+  
+    <tr>
+      <td><code>configuration</code></td>
+      <td>in</td>
+      <td><code>(string * string) list</code></td>
+      <td>Plugin-specific configuration which describes where and how to create the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-create">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.create ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~configuration:[ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ];;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> create x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Create</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-create">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.create({ dbg: &quot;string&quot;, uri: &quot;string&quot;, configuration: { &quot;string&quot;: &quot;string&quot; } })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def create(self, dbg, uri, configuration):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-attach">attach</h3>
+    <p>[attach uri]: attaches the SR to the local host. Once an SR is attached then volumes may be manipulated.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-attach">Definition</a></dd>
+     <dd><a href="#ocaml-attach">OCaml example</a></dd>
+     <dd><a href="#python-attach">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-attach">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>uri</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository URI</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>out</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-attach">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.attach ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> attach x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Attach</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.(<span style="color:#aa4444">&quot;string&quot;</span>)))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-attach">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.attach({ dbg: &quot;string&quot;, uri: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def attach(self, dbg, uri):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        result[&quot;sr&quot;] = &quot;string&quot;
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-detach">detach</h3>
+    <p>[detach sr]: detaches the SR, clearing up any associated resources. Once the SR is detached then volumes may not be manipulated.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-detach">Definition</a></dd>
+     <dd><a href="#ocaml-detach">OCaml example</a></dd>
+     <dd><a href="#python-detach">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-detach">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-detach">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.detach ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> detach x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Detach</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-detach">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.detach({ dbg: &quot;string&quot;, sr: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def detach(self, dbg, sr):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-destroy">destroy</h3>
+    <p>[destroy sr]: destroys the [sr] and deletes any volumes associated with it. Note that an SR must be attached to be destroyed; otherwise Sr_not_attached is thrown.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-destroy">Definition</a></dd>
+     <dd><a href="#ocaml-destroy">OCaml example</a></dd>
+     <dd><a href="#python-destroy">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-destroy">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-destroy">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.destroy ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> destroy x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Destroy</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-destroy">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.destroy({ dbg: &quot;string&quot;, sr: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def destroy(self, dbg, sr):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-stat">stat</h3>
+    <p>[stat sr] returns summary metadata associated with [sr]. Note this call does not return details of sub-volumes, see SR.ls.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-stat">Definition</a></dd>
+     <dd><a href="#ocaml-stat">OCaml example</a></dd>
+     <dd><a href="#python-stat">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-stat">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>out</td>
+      <td><code> <a href="#a-7">sr_stat</a> </code></td>
+      <td>SR metadata</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-stat">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.stat ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> stat x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Stat</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ sr = <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; free_space = 0<span style="color:#0033cc">L</span>; total_space = 0<span style="color:#0033cc">L</span>; datasources = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; clustered = true; health = <span style="color:#0033cc">Healthy</span> <span style="color:#aa4444">&quot;string&quot;</span> })))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-stat">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.stat({ dbg: &quot;string&quot;, sr: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def stat(self, dbg, sr):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        result[&quot;sr&quot;] = { &quot;sr&quot;: &quot;string&quot;, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;free_space&quot;: 0L, &quot;total_space&quot;: 0L, &quot;datasources&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;clustered&quot;: True, &quot;health&quot;: None }
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-ls">ls</h3>
+    <p>[ls sr] returns a list of volumes contained within an attached SR.</p>
+    
+    <dl class="tabs" data-tab="">
+      <dd class="active"><a href="#defn-ls">Definition</a></dd>
+     <dd><a href="#ocaml-ls">OCaml example</a></dd>
+     <dd><a href="#python-ls">Python example</a></dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id="defn-ls">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>volumes</code></td>
+      <td>out</td>
+      <td><code> <a href="#a-8">volume</a>  list</code></td>
+      <td>List of all the visible volumes in the SR</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="content" id="ocaml-ls">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.ls ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> ls x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Ls</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.([ { key = <span style="color:#aa4444">&quot;string&quot;</span>; uuid = <span style="color:#0033cc">Some</span> <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; read_write = true; virtual_size = 0<span style="color:#0033cc">L</span>; physical_utilisation = 0<span style="color:#0033cc">L</span>; uri = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; keys = [ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ] }; { key = <span style="color:#aa4444">&quot;string&quot;</span>; uuid = <span style="color:#0033cc">Some</span> <span style="color:#aa4444">&quot;string&quot;</span>; name = <span style="color:#aa4444">&quot;string&quot;</span>; description = <span style="color:#aa4444">&quot;string&quot;</span>; read_write = true; virtual_size = 0<span style="color:#0033cc">L</span>; physical_utilisation = 0<span style="color:#0033cc">L</span>; uri = [ <span style="color:#aa4444">&quot;string&quot;</span>; <span style="color:#aa4444">&quot;string&quot;</span> ]; keys = [ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ] } ])))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="content" id="python-ls">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.ls({ dbg: &quot;string&quot;, sr: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def ls(self, dbg, sr):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        result[&quot;volumes&quot;] = [ { &quot;key&quot;: &quot;string&quot;, &quot;uuid&quot;: None, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;read_write&quot;: True, &quot;virtual_size&quot;: 0L, &quot;physical_utilisation&quot;: 0L, &quot;uri&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;keys&quot;: { &quot;string&quot;: &quot;string&quot; } }, { &quot;key&quot;: &quot;string&quot;, &quot;uuid&quot;: None, &quot;name&quot;: &quot;string&quot;, &quot;description&quot;: &quot;string&quot;, &quot;read_write&quot;: True, &quot;virtual_size&quot;: 0L, &quot;physical_utilisation&quot;: 0L, &quot;uri&quot;: [ &quot;string&quot;, &quot;string&quot; ], &quot;keys&quot;: { &quot;string&quot;: &quot;string&quot; } } ]
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+  
+      
+    <h3 id="a-exceptions">exceptions</h3>
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+     </thead>
+     <tbody>
+       
+      <tr>
+        <td><pre>Sr_not_attached</pre></td>
+        <td><pre>string</pre></td>
+        <td>An SR must be attached in order to access volumes</td>
+      </tr>
+    
+      <tr>
+        <td><pre>SR_does_not_exist</pre></td>
+        <td><pre>string</pre></td>
+        <td>The specified SR could not be found</td>
+      </tr>
+    
+      <tr>
+        <td><pre>Volume_does_not_exist</pre></td>
+        <td><pre>string</pre></td>
+        <td>The specified volume could not be found in the SR</td>
+      </tr>
+    
+      <tr>
+        <td><pre>Unimplemented</pre></td>
+        <td><pre>string</pre></td>
+        <td>The operation has not been implemented</td>
+      </tr>
+    
+      <tr>
+        <td><pre>Cancelled</pre></td>
+        <td><pre>string</pre></td>
+        <td>The task has been asynchronously cancelled</td>
+      </tr>
+    
+     </tbody>
+    </table>
+  
+    </div>
+    </div>
+  
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
