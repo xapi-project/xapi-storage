@@ -54,14 +54,34 @@
     </ul>
   </section>
 </nav>
-<!DOCTYPE html>
+<div class="row">
+<h1>Features supported</h1>
 
-    <div class="row">
-      <div class="large-12 columns panel callout">
-        <p>This is a placeholder</p>
-      </div>
-    </div>
-  
+<p>
+The xapi storage interface supports the following features:
+</p>
+<ul>
+<item>Storage Repositories: collections of Volumes on the same storage substrate</item>
+<item>Volumes may be created, cloned, snapshotted, queried, attached to and detached from VMs</item>
+<item>Storage Repositories can be incrementally probed; for example given only an iSCSI target portal, the IQNs and then the LUNs can be discovered.</item>
+<item>Everything is named by URIs, where the scheme describes the protocol used to access the data (e.g. file, iscsi)<item>
+<item>Implementations expose capabilities and these are reported via the XenAPI</item>
+<item>Dynamic properties (such as space utilisation, I/O bandwidth and latency) can be exposed as "datasources" which are compatible with the xapi toolstack RRD framework.</item>
+<item>The storage implementation can be used to store the xapi HA statefile and database redo logs</item>
+<item>If the storage implementation supports fast clone, then it will work with the xapi "clone on boot" feature</item>
+</ul>
+
+<h1>Features not currently supported</h1>
+
+<p>
+The following features are not supported:
+</p>
+
+<ul>
+<item>Storage motion: this requires a redesign of the mirroring code in tapdisk.</item>
+</ul>
+</div>
+
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
