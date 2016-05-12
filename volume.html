@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Xapi storage interfaces</title>
     <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
     <script src="js/vendor/modernizr.js"></script>
 
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
@@ -12,56 +13,60 @@
   <body>
 <!DOCTYPE html>
 
-<nav class="top-bar" data-topbar="" role="navigation">
-  <ul class="title-area">
-    <li class="name">
-      <h1><a href="index.html">Xapi storage interface</a></h1>
-    </li>
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-  </ul>
-  <section class="top-bar-section">
-    <ul class="right">
-      <li class="has-dropdown">
-        <a href="features.html">Learn</a>
-        <ul class="dropdown">
-          <li><a href="features.html">Features</a></li>
-          <li><a href="concepts.html">Concepts</a></li>
-          <li><a href="architecture.html">Architecture</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </li>
-      <li class="has-dropdown">
-        <a href="#">Develop</a>
-        <ul class="dropdown">
-          
+<div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle=""></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+
+    <div class="top-bar" id="main-menu">
+      <div class="top-bar-left">
+	<ul class="menu" data-dropdown-menu="">
+	  <li class="menu-text">SMAPIv3</li>
+	</ul>
+      </div>
+      <div class="top-bar-right">
+	<ul class="menu" data-responsive-menu="drilldown medium-dropdown">
+	  <li class="has-submenu">
+            <a href="features.html">Learn</a>
+            <ul class="submenu menu vertical" data-submenu="">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="concepts.html">Concepts</a></li>
+              <li><a href="architecture.html">Architecture</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+	  </li>
+	  <li>
+            <a href="#">Develop</a>
+            <ul class="submenu menu vertical">
+              
       <li><a href="plugin.html">plugin</a></li>
     
       <li><a href="volume.html">volume</a></li>
     
       <li><a href="datapath.html">datapath</a></li>
     
-        </ul>
-      </li>
-      <li class="has-dropdown">
-        <a href="#">Support</a>
-        <ul class="dropdown">
-          <li><a href="contact.html">Mailing list</a></li>
-          <li><a href="contact.html">Issue tracker</a></li>
-          <li><a href="contact.html">IRC</a></li>
-        </ul>
-      </li>
-      <li class="active"><a href="getstarted.html">Get Started</a></li>
-    </ul>
-  </section>
-</nav>
+            </ul>
+	  </li>
+	  <li>
+            <a href="#">Support</a>
+            <ul class="submenu menu vertical">
+              <li><a href="contact.html">Mailing list</a></li>
+              <li><a href="contact.html">Issue tracker</a></li>
+              <li><a href="contact.html">IRC</a></li>
+            </ul>
+	  </li>
+	  <li class="active"><a href="getstarted.html">Get Started</a></li>
+	</ul>
+      </div>
+    </div>
 <!DOCTYPE html>
 
     <div class="row">
 
     
       <div class="large-3 medium-3 columns">
-        <ul class="side-nav">
-          <li><label>types</label></li>
+        <ul class="menu vertical">
+          <li class="docs-nav-title">types</li>
           
       <li><a href="#a-3">debug_info</a></li>
     
@@ -75,53 +80,55 @@
     
       <li><a href="#a-8">volume</a></li>
     
-          <li class="divider"></li>
-          <li><label>interfaces</label></li>
           
-      <li><label>Volume</label></li>
+      <li class="docs-nav-title">interface: Volume</li>
       
       
-      <li><a href="#a-create">create</a></li>
+      <li><a href="#a-Volume-create">create</a></li>
     
-      <li><a href="#a-snapshot">snapshot</a></li>
+      <li><a href="#a-Volume-snapshot">snapshot</a></li>
     
-      <li><a href="#a-clone">clone</a></li>
+      <li><a href="#a-Volume-clone">clone</a></li>
     
-      <li><a href="#a-destroy">destroy</a></li>
+      <li><a href="#a-Volume-destroy">destroy</a></li>
     
-      <li><a href="#a-set_name">set_name</a></li>
+      <li><a href="#a-Volume-set_name">set_name</a></li>
     
-      <li><a href="#a-set_description">set_description</a></li>
+      <li><a href="#a-Volume-set_description">set_description</a></li>
     
-      <li><a href="#a-set">set</a></li>
+      <li><a href="#a-Volume-set">set</a></li>
     
-      <li><a href="#a-unset">unset</a></li>
+      <li><a href="#a-Volume-unset">unset</a></li>
     
-      <li><a href="#a-resize">resize</a></li>
+      <li><a href="#a-Volume-resize">resize</a></li>
     
-      <li><a href="#a-stat">stat</a></li>
+      <li><a href="#a-Volume-stat">stat</a></li>
     
     
-      <li><label>SR</label></li>
+      <li class="docs-nav-title">interface: SR</li>
       
       
-      <li><a href="#a-probe">probe</a></li>
+      <li><a href="#a-SR-probe">probe</a></li>
     
-      <li><a href="#a-create">create</a></li>
+      <li><a href="#a-SR-create">create</a></li>
     
-      <li><a href="#a-attach">attach</a></li>
+      <li><a href="#a-SR-attach">attach</a></li>
     
-      <li><a href="#a-detach">detach</a></li>
+      <li><a href="#a-SR-detach">detach</a></li>
     
-      <li><a href="#a-destroy">destroy</a></li>
+      <li><a href="#a-SR-destroy">destroy</a></li>
     
-      <li><a href="#a-stat">stat</a></li>
+      <li><a href="#a-SR-stat">stat</a></li>
     
-      <li><a href="#a-ls">ls</a></li>
+      <li><a href="#a-SR-set_name">set_name</a></li>
+    
+      <li><a href="#a-SR-set_description">set_description</a></li>
+    
+      <li><a href="#a-SR-ls">ls</a></li>
     
     
-          <li class="divider"></li>
-          <li><a href="#a-exceptions">exceptions</a></li>
+          <li class="docs-nav-title">exception</li>
+          <li><a href="#a-exceptions">Exceptions</a></li>
         </ul>
       </div>
   
@@ -293,16 +300,16 @@
     <p>Operations which operate on volumes (also known as Virtual Disk Images)</p>
     
     
-    <h3 id="a-create">create</h3>
+    <h3 id="a-Volume-create">create</h3>
     <p>[create sr name description size] creates a new volume in [sr] with [name] and [description]. The volume will have size &gt;= [size] i.e. it is always permissable for an implementation to round-up the volume to the nearest convenient block size</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-create">Definition</a></dd>
-     <dd><a href="#ocaml-create">OCaml example</a></dd>
-     <dd><a href="#python-create">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-create">
+    <ul class="tabs" data-tabs="" id="tab-create">
+     <li class="tabs-title is-active"><a href="#defn-create" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-create">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-create">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-create">
+      <div class="tabs-panel is-active" id="defn-create">
         
   <table width="100%">
   <thead>
@@ -361,7 +368,7 @@
   </table>
   
       </div>
-      <div class="content" id="ocaml-create">
+      <div class="tabs-panel" id="ocaml-create">
         <h4>Client</h4>
         
 <pre>
@@ -405,7 +412,7 @@
 
 
       </div>
-      <div class="content" id="python-create">
+      <div class="tabs-panel" id="python-create">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -439,16 +446,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-snapshot">snapshot</h3>
+    <h3 id="a-Volume-snapshot">snapshot</h3>
     <p>[snapshot sr volume] creates a new volue which is a  snapshot of [volume] in [sr]. Snapshots should never be written to; they are intended for backup/restore only. Note the name and description are copied but any extra metadata associated by [set] is not copied.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-snapshot">Definition</a></dd>
-     <dd><a href="#ocaml-snapshot">OCaml example</a></dd>
-     <dd><a href="#python-snapshot">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-snapshot">
+    <ul class="tabs" data-tabs="" id="tab-snapshot">
+     <li class="tabs-title is-active"><a href="#defn-snapshot" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-snapshot">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-snapshot">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-snapshot">
+      <div class="tabs-panel is-active" id="defn-snapshot">
         
   <table width="100%">
   <thead>
@@ -493,7 +500,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-snapshot">
+      <div class="tabs-panel" id="ocaml-snapshot">
         <h4>Client</h4>
         
 <pre>
@@ -537,7 +544,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-snapshot">
+      <div class="tabs-panel" id="python-snapshot">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -571,16 +578,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-clone">clone</h3>
+    <h3 id="a-Volume-clone">clone</h3>
     <p>[clone sr volume] creates a new volume which is a writable clone of [volume] in [sr]. Note the name and description are copied but any extra metadata associated by [set] is not copied.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-clone">Definition</a></dd>
-     <dd><a href="#ocaml-clone">OCaml example</a></dd>
-     <dd><a href="#python-clone">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-clone">
+    <ul class="tabs" data-tabs="" id="tab-clone">
+     <li class="tabs-title is-active"><a href="#defn-clone" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-clone">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-clone">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-clone">
+      <div class="tabs-panel is-active" id="defn-clone">
         
   <table width="100%">
   <thead>
@@ -625,7 +632,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-clone">
+      <div class="tabs-panel" id="ocaml-clone">
         <h4>Client</h4>
         
 <pre>
@@ -669,7 +676,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-clone">
+      <div class="tabs-panel" id="python-clone">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -703,16 +710,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-destroy">destroy</h3>
+    <h3 id="a-Volume-destroy">destroy</h3>
     <p>[destroy sr volume] removes [volume] from [sr]</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-destroy">Definition</a></dd>
-     <dd><a href="#ocaml-destroy">OCaml example</a></dd>
-     <dd><a href="#python-destroy">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-destroy">
+    <ul class="tabs" data-tabs="" id="tab-destroy">
+     <li class="tabs-title is-active"><a href="#defn-destroy" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-destroy">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-destroy">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-destroy">
+      <div class="tabs-panel is-active" id="defn-destroy">
         
   <table width="100%">
   <thead>
@@ -750,7 +757,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-destroy">
+      <div class="tabs-panel" id="ocaml-destroy">
         <h4>Client</h4>
         
 <pre>
@@ -794,7 +801,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-destroy">
+      <div class="tabs-panel" id="python-destroy">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -827,16 +834,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-set_name">set_name</h3>
+    <h3 id="a-Volume-set_name">set_name</h3>
     <p>[set_name sr volume new_name] changes the name of [volume]</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-set_name">Definition</a></dd>
-     <dd><a href="#ocaml-set_name">OCaml example</a></dd>
-     <dd><a href="#python-set_name">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-set_name">
+    <ul class="tabs" data-tabs="" id="tab-set_name">
+     <li class="tabs-title is-active"><a href="#defn-set_name" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-set_name">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-set_name">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-set_name">
+      <div class="tabs-panel is-active" id="defn-set_name">
         
   <table width="100%">
   <thead>
@@ -881,7 +888,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-set_name">
+      <div class="tabs-panel" id="ocaml-set_name">
         <h4>Client</h4>
         
 <pre>
@@ -925,7 +932,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-set_name">
+      <div class="tabs-panel" id="python-set_name">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -958,16 +965,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-set_description">set_description</h3>
+    <h3 id="a-Volume-set_description">set_description</h3>
     <p>[set_description sr volume new_description] changes the description of [volume]</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-set_description">Definition</a></dd>
-     <dd><a href="#ocaml-set_description">OCaml example</a></dd>
-     <dd><a href="#python-set_description">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-set_description">
+    <ul class="tabs" data-tabs="" id="tab-set_description">
+     <li class="tabs-title is-active"><a href="#defn-set_description" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-set_description">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-set_description">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-set_description">
+      <div class="tabs-panel is-active" id="defn-set_description">
         
   <table width="100%">
   <thead>
@@ -1012,7 +1019,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-set_description">
+      <div class="tabs-panel" id="ocaml-set_description">
         <h4>Client</h4>
         
 <pre>
@@ -1056,7 +1063,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-set_description">
+      <div class="tabs-panel" id="python-set_description">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -1089,16 +1096,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-set">set</h3>
+    <h3 id="a-Volume-set">set</h3>
     <p>[set sr volume key value] associates [key] with [value] in the metadata of [volume] Note these keys and values are not interpreted by the plugin; they are intended for the higher-level software only.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-set">Definition</a></dd>
-     <dd><a href="#ocaml-set">OCaml example</a></dd>
-     <dd><a href="#python-set">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-set">
+    <ul class="tabs" data-tabs="" id="tab-set">
+     <li class="tabs-title is-active"><a href="#defn-set" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-set">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-set">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-set">
+      <div class="tabs-panel is-active" id="defn-set">
         
   <table width="100%">
   <thead>
@@ -1150,7 +1157,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-set">
+      <div class="tabs-panel" id="ocaml-set">
         <h4>Client</h4>
         
 <pre>
@@ -1194,7 +1201,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-set">
+      <div class="tabs-panel" id="python-set">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -1227,16 +1234,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-unset">unset</h3>
+    <h3 id="a-Volume-unset">unset</h3>
     <p>[unset sr volume key] removes [key] and any value associated with it from the metadata of [volume] Note these keys and values are not interpreted by the plugin; they are intended for the higher-level software only.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-unset">Definition</a></dd>
-     <dd><a href="#ocaml-unset">OCaml example</a></dd>
-     <dd><a href="#python-unset">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-unset">
+    <ul class="tabs" data-tabs="" id="tab-unset">
+     <li class="tabs-title is-active"><a href="#defn-unset" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-unset">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-unset">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-unset">
+      <div class="tabs-panel is-active" id="defn-unset">
         
   <table width="100%">
   <thead>
@@ -1281,7 +1288,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-unset">
+      <div class="tabs-panel" id="ocaml-unset">
         <h4>Client</h4>
         
 <pre>
@@ -1325,7 +1332,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-unset">
+      <div class="tabs-panel" id="python-unset">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -1358,16 +1365,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-resize">resize</h3>
+    <h3 id="a-Volume-resize">resize</h3>
     <p>[resize sr volume new_size] enlarges [volume] to be at least [new_size].</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-resize">Definition</a></dd>
-     <dd><a href="#ocaml-resize">OCaml example</a></dd>
-     <dd><a href="#python-resize">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-resize">
+    <ul class="tabs" data-tabs="" id="tab-resize">
+     <li class="tabs-title is-active"><a href="#defn-resize" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-resize">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-resize">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-resize">
+      <div class="tabs-panel is-active" id="defn-resize">
         
   <table width="100%">
   <thead>
@@ -1412,7 +1419,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-resize">
+      <div class="tabs-panel" id="ocaml-resize">
         <h4>Client</h4>
         
 <pre>
@@ -1456,7 +1463,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-resize">
+      <div class="tabs-panel" id="python-resize">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -1489,16 +1496,16 @@ class Volume_myimplementation(Volume_skeleton):
     </div>
   
   
-    <h3 id="a-stat">stat</h3>
+    <h3 id="a-Volume-stat">stat</h3>
     <p>[stat sr volume] returns metadata associated with [volume].</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-stat">Definition</a></dd>
-     <dd><a href="#ocaml-stat">OCaml example</a></dd>
-     <dd><a href="#python-stat">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-stat">
+    <ul class="tabs" data-tabs="" id="tab-stat">
+     <li class="tabs-title is-active"><a href="#defn-stat" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-stat">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-stat">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-stat">
+      <div class="tabs-panel is-active" id="defn-stat">
         
   <table width="100%">
   <thead>
@@ -1543,7 +1550,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-stat">
+      <div class="tabs-panel" id="ocaml-stat">
         <h4>Client</h4>
         
 <pre>
@@ -1587,7 +1594,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-stat">
+      <div class="tabs-panel" id="python-stat">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -1626,16 +1633,16 @@ class Volume_myimplementation(Volume_skeleton):
     <p>Operations which act on Storage Repositories</p>
     
     
-    <h3 id="a-probe">probe</h3>
+    <h3 id="a-SR-probe">probe</h3>
     <p>[probe uri]: looks for existing SRs on the storage device</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-probe">Definition</a></dd>
-     <dd><a href="#ocaml-probe">OCaml example</a></dd>
-     <dd><a href="#python-probe">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-probe">
+    <ul class="tabs" data-tabs="" id="tab-probe">
+     <li class="tabs-title is-active"><a href="#defn-probe" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-probe">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-probe">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-probe">
+      <div class="tabs-panel is-active" id="defn-probe">
         
   <table width="100%">
   <thead>
@@ -1673,7 +1680,7 @@ class Volume_myimplementation(Volume_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-probe">
+      <div class="tabs-panel" id="ocaml-probe">
         <h4>Client</h4>
         
 <pre>
@@ -1717,7 +1724,7 @@ class Volume_myimplementation(Volume_skeleton):
 
 
       </div>
-      <div class="content" id="python-probe">
+      <div class="tabs-panel" id="python-probe">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -1751,16 +1758,16 @@ class SR_myimplementation(SR_skeleton):
     </div>
   
   
-    <h3 id="a-create">create</h3>
-    <p>[create uri configuration]: creates a fresh SR</p>
+    <h3 id="a-SR-create">create</h3>
+    <p>[create uri name description configuration]: creates a fresh SR</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-create">Definition</a></dd>
-     <dd><a href="#ocaml-create">OCaml example</a></dd>
-     <dd><a href="#python-create">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-create">
+    <ul class="tabs" data-tabs="" id="tab-create">
+     <li class="tabs-title is-active"><a href="#defn-create" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-create">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-create">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-create">
+      <div class="tabs-panel is-active" id="defn-create">
         
   <table width="100%">
   <thead>
@@ -1788,6 +1795,20 @@ class SR_myimplementation(SR_skeleton):
     </tr>
   
     <tr>
+      <td><code>name</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>Human-readable name for the SR</td>
+    </tr>
+  
+    <tr>
+      <td><code>description</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>Human-readable description for the SR</td>
+    </tr>
+  
+    <tr>
       <td><code>configuration</code></td>
       <td>in</td>
       <td><code>(string * string) list</code></td>
@@ -1798,7 +1819,7 @@ class SR_myimplementation(SR_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-create">
+      <div class="tabs-panel" id="ocaml-create">
         <h4>Client</h4>
         
 <pre>
@@ -1817,7 +1838,7 @@ class SR_myimplementation(SR_skeleton):
     <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
 <span style="color:#990099">end</span>)
 
-<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.create ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~configuration:[ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ];;</pre>
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.create ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~name:<span style="color:#aa4444">&quot;string&quot;</span> ~description:<span style="color:#aa4444">&quot;string&quot;</span> ~configuration:[ (<span style="color:#aa4444">&quot;string&quot;</span>, <span style="color:#aa4444">&quot;string&quot;</span>) ];;</pre>
 
 
         <h4>Server</h4>
@@ -1842,7 +1863,7 @@ class SR_myimplementation(SR_skeleton):
 
 
       </div>
-      <div class="content" id="python-create">
+      <div class="tabs-panel" id="python-create">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -1852,7 +1873,7 @@ from storage import *
 
 if __name__ == &quot;__main__&quot;:
     c = xapi.connect()
-    results = c.SR.create({ dbg: &quot;string&quot;, uri: &quot;string&quot;, configuration: { &quot;string&quot;: &quot;string&quot; } })
+    results = c.SR.create({ dbg: &quot;string&quot;, uri: &quot;string&quot;, name: &quot;string&quot;, description: &quot;string&quot;, configuration: { &quot;string&quot;: &quot;string&quot; } })
     print (repr(results))
         </pre>
         <h4>Server</h4>
@@ -1865,7 +1886,7 @@ from storage import *
 class SR_myimplementation(SR_skeleton):
     # by default each method will return a Not_implemented error
     # ...
-    def create(self, dbg, uri, configuration):
+    def create(self, dbg, uri, name, description, configuration):
         &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
         result = {}
         return result
@@ -1875,16 +1896,16 @@ class SR_myimplementation(SR_skeleton):
     </div>
   
   
-    <h3 id="a-attach">attach</h3>
+    <h3 id="a-SR-attach">attach</h3>
     <p>[attach uri]: attaches the SR to the local host. Once an SR is attached then volumes may be manipulated.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-attach">Definition</a></dd>
-     <dd><a href="#ocaml-attach">OCaml example</a></dd>
-     <dd><a href="#python-attach">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-attach">
+    <ul class="tabs" data-tabs="" id="tab-attach">
+     <li class="tabs-title is-active"><a href="#defn-attach" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-attach">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-attach">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-attach">
+      <div class="tabs-panel is-active" id="defn-attach">
         
   <table width="100%">
   <thead>
@@ -1922,7 +1943,7 @@ class SR_myimplementation(SR_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-attach">
+      <div class="tabs-panel" id="ocaml-attach">
         <h4>Client</h4>
         
 <pre>
@@ -1966,7 +1987,7 @@ class SR_myimplementation(SR_skeleton):
 
 
       </div>
-      <div class="content" id="python-attach">
+      <div class="tabs-panel" id="python-attach">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -2000,16 +2021,16 @@ class SR_myimplementation(SR_skeleton):
     </div>
   
   
-    <h3 id="a-detach">detach</h3>
+    <h3 id="a-SR-detach">detach</h3>
     <p>[detach sr]: detaches the SR, clearing up any associated resources. Once the SR is detached then volumes may not be manipulated.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-detach">Definition</a></dd>
-     <dd><a href="#ocaml-detach">OCaml example</a></dd>
-     <dd><a href="#python-detach">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-detach">
+    <ul class="tabs" data-tabs="" id="tab-detach">
+     <li class="tabs-title is-active"><a href="#defn-detach" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-detach">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-detach">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-detach">
+      <div class="tabs-panel is-active" id="defn-detach">
         
   <table width="100%">
   <thead>
@@ -2040,7 +2061,7 @@ class SR_myimplementation(SR_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-detach">
+      <div class="tabs-panel" id="ocaml-detach">
         <h4>Client</h4>
         
 <pre>
@@ -2084,7 +2105,7 @@ class SR_myimplementation(SR_skeleton):
 
 
       </div>
-      <div class="content" id="python-detach">
+      <div class="tabs-panel" id="python-detach">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -2117,16 +2138,16 @@ class SR_myimplementation(SR_skeleton):
     </div>
   
   
-    <h3 id="a-destroy">destroy</h3>
+    <h3 id="a-SR-destroy">destroy</h3>
     <p>[destroy sr]: destroys the [sr] and deletes any volumes associated with it. Note that an SR must be attached to be destroyed; otherwise Sr_not_attached is thrown.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-destroy">Definition</a></dd>
-     <dd><a href="#ocaml-destroy">OCaml example</a></dd>
-     <dd><a href="#python-destroy">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-destroy">
+    <ul class="tabs" data-tabs="" id="tab-destroy">
+     <li class="tabs-title is-active"><a href="#defn-destroy" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-destroy">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-destroy">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-destroy">
+      <div class="tabs-panel is-active" id="defn-destroy">
         
   <table width="100%">
   <thead>
@@ -2157,7 +2178,7 @@ class SR_myimplementation(SR_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-destroy">
+      <div class="tabs-panel" id="ocaml-destroy">
         <h4>Client</h4>
         
 <pre>
@@ -2201,7 +2222,7 @@ class SR_myimplementation(SR_skeleton):
 
 
       </div>
-      <div class="content" id="python-destroy">
+      <div class="tabs-panel" id="python-destroy">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -2234,16 +2255,16 @@ class SR_myimplementation(SR_skeleton):
     </div>
   
   
-    <h3 id="a-stat">stat</h3>
+    <h3 id="a-SR-stat">stat</h3>
     <p>[stat sr] returns summary metadata associated with [sr]. Note this call does not return details of sub-volumes, see SR.ls.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-stat">Definition</a></dd>
-     <dd><a href="#ocaml-stat">OCaml example</a></dd>
-     <dd><a href="#python-stat">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-stat">
+    <ul class="tabs" data-tabs="" id="tab-stat">
+     <li class="tabs-title is-active"><a href="#defn-stat" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-stat">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-stat">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-stat">
+      <div class="tabs-panel is-active" id="defn-stat">
         
   <table width="100%">
   <thead>
@@ -2281,7 +2302,7 @@ class SR_myimplementation(SR_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-stat">
+      <div class="tabs-panel" id="ocaml-stat">
         <h4>Client</h4>
         
 <pre>
@@ -2325,7 +2346,7 @@ class SR_myimplementation(SR_skeleton):
 
 
       </div>
-      <div class="content" id="python-stat">
+      <div class="tabs-panel" id="python-stat">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -2359,16 +2380,264 @@ class SR_myimplementation(SR_skeleton):
     </div>
   
   
-    <h3 id="a-ls">ls</h3>
+    <h3 id="a-SR-set_name">set_name</h3>
+    <p>[set_name sr new_name] changes the name of [sr]</p>
+    
+    <ul class="tabs" data-tabs="" id="tab-set_name">
+     <li class="tabs-title is-active"><a href="#defn-set_name" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-set_name">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-set_name">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-set_name">
+      <div class="tabs-panel is-active" id="defn-set_name">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>new_name</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The new name of the SR</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="tabs-panel" id="ocaml-set_name">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.set_name ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~new_name:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> set_name x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Set_name</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="tabs-panel" id="python-set_name">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.set_name({ dbg: &quot;string&quot;, sr: &quot;string&quot;, new_name: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def set_name(self, dbg, sr, new_name):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-SR-set_description">set_description</h3>
+    <p>[set_description sr new_description] changes the description of [sr]</p>
+    
+    <ul class="tabs" data-tabs="" id="tab-set_description">
+     <li class="tabs-title is-active"><a href="#defn-set_description" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-set_description">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-set_description">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-set_description">
+      <div class="tabs-panel is-active" id="defn-set_description">
+        
+  <table width="100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Direction</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>dbg</code></td>
+      <td>in</td>
+      <td><code> <a href="#a-3">debug_info</a> </code></td>
+      <td>Debug context from the caller</td>
+    </tr>
+  
+    <tr>
+      <td><code>sr</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The Storage Repository</td>
+    </tr>
+  
+    <tr>
+      <td><code>new_description</code></td>
+      <td>in</td>
+      <td><code>string</code></td>
+      <td>The new description for the SR</td>
+    </tr>
+  
+  </tbody>
+  </table>
+  
+      </div>
+      <div class="tabs-panel" id="ocaml-set_description">
+        <h4>Client</h4>
+        
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">SR_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
+
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.set_description ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~sr:<span style="color:#aa4444">&quot;string&quot;</span> ~new_description:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
+
+
+        <h4>Server</h4>
+        
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Volume</span>
+
+<span style="color:green">module</span> <span style="color:#0033cc">SR_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">SR_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> set_description x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">SR</span>.<span style="color:#0033cc">Set_description</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
+
+
+      </div>
+      <div class="tabs-panel" id="python-set_description">
+        <h4>Client</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+if __name__ == &quot;__main__&quot;:
+    c = xapi.connect()
+    results = c.SR.set_description({ dbg: &quot;string&quot;, sr: &quot;string&quot;, new_description: &quot;string&quot; })
+    print (repr(results))
+        </pre>
+        <h4>Server</h4>
+        <pre class="prettyprint lang-py">
+        
+import xmlrpclib
+import xapi
+from storage import *
+
+class SR_myimplementation(SR_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+    def set_description(self, dbg, sr, new_description):
+        &quot;&quot;&quot;Operations which act on Storage Repositories&quot;&quot;&quot;
+        result = {}
+        return result
+    # ...
+        </pre>
+      </div>
+    </div>
+  
+  
+    <h3 id="a-SR-ls">ls</h3>
     <p>[ls sr] returns a list of volumes contained within an attached SR.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-ls">Definition</a></dd>
-     <dd><a href="#ocaml-ls">OCaml example</a></dd>
-     <dd><a href="#python-ls">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-ls">
+    <ul class="tabs" data-tabs="" id="tab-ls">
+     <li class="tabs-title is-active"><a href="#defn-ls" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-ls">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-ls">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-ls">
+      <div class="tabs-panel is-active" id="defn-ls">
         
   <table width="100%">
   <thead>
@@ -2406,7 +2675,7 @@ class SR_myimplementation(SR_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-ls">
+      <div class="tabs-panel" id="ocaml-ls">
         <h4>Client</h4>
         
 <pre>
@@ -2450,7 +2719,7 @@ class SR_myimplementation(SR_skeleton):
 
 
       </div>
-      <div class="content" id="python-ls">
+      <div class="tabs-panel" id="python-ls">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -2534,7 +2803,7 @@ class SR_myimplementation(SR_skeleton):
     </div>
   
     <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="js/vendor/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>

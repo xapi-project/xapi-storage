@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Xapi storage interfaces</title>
     <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
     <script src="js/vendor/modernizr.js"></script>
 
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
@@ -12,56 +13,60 @@
   <body>
 <!DOCTYPE html>
 
-<nav class="top-bar" data-topbar="" role="navigation">
-  <ul class="title-area">
-    <li class="name">
-      <h1><a href="index.html">Xapi storage interface</a></h1>
-    </li>
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-  </ul>
-  <section class="top-bar-section">
-    <ul class="right">
-      <li class="has-dropdown">
-        <a href="features.html">Learn</a>
-        <ul class="dropdown">
-          <li><a href="features.html">Features</a></li>
-          <li><a href="concepts.html">Concepts</a></li>
-          <li><a href="architecture.html">Architecture</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </li>
-      <li class="has-dropdown">
-        <a href="#">Develop</a>
-        <ul class="dropdown">
-          
+<div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle=""></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+
+    <div class="top-bar" id="main-menu">
+      <div class="top-bar-left">
+	<ul class="menu" data-dropdown-menu="">
+	  <li class="menu-text">SMAPIv3</li>
+	</ul>
+      </div>
+      <div class="top-bar-right">
+	<ul class="menu" data-responsive-menu="drilldown medium-dropdown">
+	  <li class="has-submenu">
+            <a href="features.html">Learn</a>
+            <ul class="submenu menu vertical" data-submenu="">
+              <li><a href="features.html">Features</a></li>
+              <li><a href="concepts.html">Concepts</a></li>
+              <li><a href="architecture.html">Architecture</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+	  </li>
+	  <li>
+            <a href="#">Develop</a>
+            <ul class="submenu menu vertical">
+              
       <li><a href="plugin.html">plugin</a></li>
     
       <li><a href="volume.html">volume</a></li>
     
       <li><a href="datapath.html">datapath</a></li>
     
-        </ul>
-      </li>
-      <li class="has-dropdown">
-        <a href="#">Support</a>
-        <ul class="dropdown">
-          <li><a href="contact.html">Mailing list</a></li>
-          <li><a href="contact.html">Issue tracker</a></li>
-          <li><a href="contact.html">IRC</a></li>
-        </ul>
-      </li>
-      <li class="active"><a href="getstarted.html">Get Started</a></li>
-    </ul>
-  </section>
-</nav>
+            </ul>
+	  </li>
+	  <li>
+            <a href="#">Support</a>
+            <ul class="submenu menu vertical">
+              <li><a href="contact.html">Mailing list</a></li>
+              <li><a href="contact.html">Issue tracker</a></li>
+              <li><a href="contact.html">IRC</a></li>
+            </ul>
+	  </li>
+	  <li class="active"><a href="getstarted.html">Get Started</a></li>
+	</ul>
+      </div>
+    </div>
 <!DOCTYPE html>
 
     <div class="row">
 
     
       <div class="large-3 medium-3 columns">
-        <ul class="side-nav">
-          <li><label>types</label></li>
+        <ul class="menu vertical">
+          <li class="docs-nav-title">types</li>
           
       <li><a href="#a-14">debug_info</a></li>
     
@@ -73,27 +78,25 @@
     
       <li><a href="#a-18">backend</a></li>
     
-          <li class="divider"></li>
-          <li><label>interfaces</label></li>
           
-      <li><label>Datapath</label></li>
+      <li class="docs-nav-title">interface: Datapath</li>
       
       
-      <li><a href="#a-open">open</a></li>
+      <li><a href="#a-Datapath-open">open</a></li>
     
-      <li><a href="#a-attach">attach</a></li>
+      <li><a href="#a-Datapath-attach">attach</a></li>
     
-      <li><a href="#a-activate">activate</a></li>
+      <li><a href="#a-Datapath-activate">activate</a></li>
     
-      <li><a href="#a-deactivate">deactivate</a></li>
+      <li><a href="#a-Datapath-deactivate">deactivate</a></li>
     
-      <li><a href="#a-detach">detach</a></li>
+      <li><a href="#a-Datapath-detach">detach</a></li>
     
-      <li><a href="#a-close">close</a></li>
+      <li><a href="#a-Datapath-close">close</a></li>
     
     
-          <li class="divider"></li>
-          <li><a href="#a-exceptions">exceptions</a></li>
+          <li class="docs-nav-title">exception</li>
+          <li><a href="#a-exceptions">Exceptions</a></li>
         </ul>
       </div>
   
@@ -177,16 +180,16 @@
     <p>Xapi will call the functions here on VM start/shutdown/suspend/resume/migrate. Every function is idempotent. Every function takes a domain parameter which allows the implementation to track how many domains are currently using the volume.</p>
     
     
-    <h3 id="a-open">open</h3>
+    <h3 id="a-Datapath-open">open</h3>
     <p>[open uri persistent] is called before a disk is attached to a VM. If persistent is true then care should be taken to persist all writes to the disk. If persistent is false then the implementation should configure a temporary location for writes so they can be thrown away on [close].</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-open">Definition</a></dd>
-     <dd><a href="#ocaml-open">OCaml example</a></dd>
-     <dd><a href="#python-open">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-open">
+    <ul class="tabs" data-tabs="" id="tab-open">
+     <li class="tabs-title is-active"><a href="#defn-open" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-open">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-open">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-open">
+      <div class="tabs-panel is-active" id="defn-open">
         
   <table width="100%">
   <thead>
@@ -224,7 +227,7 @@
   </table>
   
       </div>
-      <div class="content" id="ocaml-open">
+      <div class="tabs-panel" id="ocaml-open">
         <h4>Client</h4>
         
 <pre>
@@ -268,7 +271,7 @@
 
 
       </div>
-      <div class="content" id="python-open">
+      <div class="tabs-panel" id="python-open">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -301,16 +304,16 @@ class Datapath_myimplementation(Datapath_skeleton):
     </div>
   
   
-    <h3 id="a-attach">attach</h3>
+    <h3 id="a-Datapath-attach">attach</h3>
     <p>[attach uri domain] prepares a connection between the storage named by [uri] and the Xen domain with id [domain]. The return value is the information needed by the Xen toolstack to setup the shared-memory blkfront protocol. Note that the same volume may be simultaneously attached to multiple hosts for example over a migrate. If an implementation needs to perform an explicit handover, then it should implement [activate] and [deactivate]. This function is idempotent.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-attach">Definition</a></dd>
-     <dd><a href="#ocaml-attach">OCaml example</a></dd>
-     <dd><a href="#python-attach">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-attach">
+    <ul class="tabs" data-tabs="" id="tab-attach">
+     <li class="tabs-title is-active"><a href="#defn-attach" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-attach">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-attach">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-attach">
+      <div class="tabs-panel is-active" id="defn-attach">
         
   <table width="100%">
   <thead>
@@ -355,7 +358,7 @@ class Datapath_myimplementation(Datapath_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-attach">
+      <div class="tabs-panel" id="ocaml-attach">
         <h4>Client</h4>
         
 <pre>
@@ -399,7 +402,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 
 
       </div>
-      <div class="content" id="python-attach">
+      <div class="tabs-panel" id="python-attach">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -433,16 +436,16 @@ class Datapath_myimplementation(Datapath_skeleton):
     </div>
   
   
-    <h3 id="a-activate">activate</h3>
+    <h3 id="a-Datapath-activate">activate</h3>
     <p>[activate uri domain] is called just before a VM needs to read or write its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-activate">Definition</a></dd>
-     <dd><a href="#ocaml-activate">OCaml example</a></dd>
-     <dd><a href="#python-activate">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-activate">
+    <ul class="tabs" data-tabs="" id="tab-activate">
+     <li class="tabs-title is-active"><a href="#defn-activate" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-activate">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-activate">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-activate">
+      <div class="tabs-panel is-active" id="defn-activate">
         
   <table width="100%">
   <thead>
@@ -480,7 +483,7 @@ class Datapath_myimplementation(Datapath_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-activate">
+      <div class="tabs-panel" id="ocaml-activate">
         <h4>Client</h4>
         
 <pre>
@@ -524,7 +527,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 
 
       </div>
-      <div class="content" id="python-activate">
+      <div class="tabs-panel" id="python-activate">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -557,16 +560,16 @@ class Datapath_myimplementation(Datapath_skeleton):
     </div>
   
   
-    <h3 id="a-deactivate">deactivate</h3>
+    <h3 id="a-Datapath-deactivate">deactivate</h3>
     <p>[deactivate uri domain] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-deactivate">Definition</a></dd>
-     <dd><a href="#ocaml-deactivate">OCaml example</a></dd>
-     <dd><a href="#python-deactivate">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-deactivate">
+    <ul class="tabs" data-tabs="" id="tab-deactivate">
+     <li class="tabs-title is-active"><a href="#defn-deactivate" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-deactivate">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-deactivate">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-deactivate">
+      <div class="tabs-panel is-active" id="defn-deactivate">
         
   <table width="100%">
   <thead>
@@ -604,7 +607,7 @@ class Datapath_myimplementation(Datapath_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-deactivate">
+      <div class="tabs-panel" id="ocaml-deactivate">
         <h4>Client</h4>
         
 <pre>
@@ -648,7 +651,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 
 
       </div>
-      <div class="content" id="python-deactivate">
+      <div class="tabs-panel" id="python-deactivate">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -681,16 +684,16 @@ class Datapath_myimplementation(Datapath_skeleton):
     </div>
   
   
-    <h3 id="a-detach">detach</h3>
+    <h3 id="a-Datapath-detach">detach</h3>
     <p>[detach uri domain] is called sometime after a VM has finished reading or writing its disk. This is an opportunity to clean up any resources associated with the disk. This function is called outside the migration downtime window so can be slow without affecting users. This function is idempotent. This function should never fail. If an implementation is unable to perform some cleanup right away then it should queue the action internally. Any error result represents a bug in the implementation.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-detach">Definition</a></dd>
-     <dd><a href="#ocaml-detach">OCaml example</a></dd>
-     <dd><a href="#python-detach">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-detach">
+    <ul class="tabs" data-tabs="" id="tab-detach">
+     <li class="tabs-title is-active"><a href="#defn-detach" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-detach">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-detach">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-detach">
+      <div class="tabs-panel is-active" id="defn-detach">
         
   <table width="100%">
   <thead>
@@ -728,7 +731,7 @@ class Datapath_myimplementation(Datapath_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-detach">
+      <div class="tabs-panel" id="ocaml-detach">
         <h4>Client</h4>
         
 <pre>
@@ -772,7 +775,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 
 
       </div>
-      <div class="content" id="python-detach">
+      <div class="tabs-panel" id="python-detach">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -805,16 +808,16 @@ class Datapath_myimplementation(Datapath_skeleton):
     </div>
   
   
-    <h3 id="a-close">close</h3>
+    <h3 id="a-Datapath-close">close</h3>
     <p>[close uri] is called after a disk is detached and a VM shutdown. This is an opportunity to throw away writes if the disk is not persistent.</p>
     
-    <dl class="tabs" data-tab="">
-      <dd class="active"><a href="#defn-close">Definition</a></dd>
-     <dd><a href="#ocaml-close">OCaml example</a></dd>
-     <dd><a href="#python-close">Python example</a></dd>
-    </dl>
-    <div class="tabs-content">
-      <div class="content active" id="defn-close">
+    <ul class="tabs" data-tabs="" id="tab-close">
+     <li class="tabs-title is-active"><a href="#defn-close" aria-selected="true">Definition</a></li>
+     <li class="tabs-title"><a href="#ocaml-close">OCaml example</a></li>
+     <li class="tabs-title"><a href="#python-close">Python example</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="tab-close">
+      <div class="tabs-panel is-active" id="defn-close">
         
   <table width="100%">
   <thead>
@@ -845,7 +848,7 @@ class Datapath_myimplementation(Datapath_skeleton):
   </table>
   
       </div>
-      <div class="content" id="ocaml-close">
+      <div class="tabs-panel" id="ocaml-close">
         <h4>Client</h4>
         
 <pre>
@@ -889,7 +892,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 
 
       </div>
-      <div class="content" id="python-close">
+      <div class="tabs-panel" id="python-close">
         <h4>Client</h4>
         <pre class="prettyprint lang-py">
         
@@ -948,7 +951,7 @@ class Datapath_myimplementation(Datapath_skeleton):
     </div>
   
     <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="js/vendor/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
