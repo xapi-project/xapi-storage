@@ -237,6 +237,15 @@ let api =
                     "created disk will not be smaller than this size.";
                   ]
                 };
+                {
+                  Arg.name = "sharable";
+                  ty = Basic Boolean;
+                  description = String.concat " " [
+                    "Indicates whether the VDI can be attached by";
+                    "multiple hosts at once.";
+                    "This is used for example by the HA statefile and XAPI redo log."
+                  ]
+                };
               ];
               outputs = [
                 { Arg.name = "volume";
