@@ -266,6 +266,10 @@ let api =
                 "written to; they are intended for backup/restore only.";
                 "Note the name and description are copied but any extra";
                 "metadata associated by [set] is not copied.";
+                "This can raise Activated_on_another_host(host_installation_uuid)";
+                "if the VDI is already active on another host and snapshots";
+                "can only be taken on the host that has the VDI active (if any).";
+                "XAPI will take care of redirecting the request to the proper host"
               ];
               inputs = [
                 sr;
