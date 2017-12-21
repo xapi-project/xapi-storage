@@ -154,6 +154,10 @@ let api =
         TyDecl.name = "Cancelled";
         description = "The task has been asynchronously cancelled";
         ty = Type.(Basic String);
+      }; {
+        TyDecl.name = "Activated_on_another_host";
+        description = "The Volume is already active on another host";
+        ty = Type.(Basic String);
       };
     ];
     type_decls = [
