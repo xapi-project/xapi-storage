@@ -13,42 +13,42 @@
 <!DOCTYPE html>
 <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium"><button class="menu-icon" type="button" data-toggle=""></button><div class="title-bar-title">Menu</div></div><div class="top-bar" id="main-menu"><div class="top-bar-left"><ul class="menu" data-dropdown-menu=""><li><li class="menu-text">SMAPIv3</li></li></ul></div><div class="top-bar-right"><ul class="menu" data-responsive-menu="drilldown medium-dropdown"><li><li class="has-submenu"><a href="features.html">Learn</a><ul class="submenu menu vertical" data-submenu=""><li><li><a href="features.html">Features</a></li></li><li><li><a href="concepts.html">Concepts</a></li></li><li><li><a href="architecture.html">Architecture</a></li></li><li><li><a href="faq.html">FAQ</a></li></li></ul></li></li><li><li><a href="#">Develop</a><ul class="submenu menu vertical"><li><li><a href="plugin.html">plugin</a></li></li><li><li><a href="volume.html">volume</a></li></li><li><li><a href="datapath.html">datapath</a></li></li></ul></li></li><li><li><a href="#">Support</a><ul class="submenu menu vertical"><li><li><a href="contact.html">Mailing list</a></li></li><li><li><a href="contact.html">Issue tracker</a></li></li><li><li><a href="contact.html">IRC</a></li></li></ul></li></li><li><li class="active"><a href="getstarted.html">Get Started</a></li></li></ul></div></div><!DOCTYPE html>
 <div class="row"><div class="large-3 medium-3 columns"><ul class="menu vertical"><li><li class="docs-nav-title">types</li></li><li><li><a href="#a-15">debug_info</a></li><li><a href="#a-16">domain</a></li><li><a href="#a-17">uri</a></li><li><a href="#a-18">implementation</a></li><li><a href="#a-19">backend</a></li></li><li><li class="docs-nav-title">interface:Datapath</li><li><a href="#a-Datapath-open">open</a></li><li><a href="#a-Datapath-attach">attach</a></li><li><a href="#a-Datapath-activate">activate</a></li><li><a href="#a-Datapath-deactivate">deactivate</a></li><li><a href="#a-Datapath-detach">detach</a></li><li><a href="#a-Datapath-close">close</a></li></li><li><li class="docs-nav-title">exception</li></li><li><li><a href="#a-exceptions">Exceptions</a></li></li></ul></div><div class="large-9 medium-9 columns"><h1>datapath</h1><p>The Datapath plugin takes a URI which points to virtual disk data and chooses a Xen datapath implementation: driver domain, blkback implementation and caching strategy.</p><h4 id="a-15">type debug_info = string</h4><p>Debug context from the caller</p><h4 id="a-16">type domain = string</h4><p>A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p><h4 id="a-17">type uri = string</h4><p>A URI representing the means for accessing the volume data. The interpretation of the URI is specific to the implementation. Xapi will choose which implementation to use based on the URI scheme.</p><h4 id="a-18">type implementation = variant { ... }</h4><p>The choice of blkback to use.</p><p>Constructors</p><table width="100%"><thead><th>Name</th><th>Type</th><th>Description</th></thead><tbody><tr><td><pre>Blkback</pre></td><td><pre>string</pre></td><td>use kernel blkback with the given 'params' key</td></tr><tr><td><pre>Tapdisk3</pre></td><td><pre>string</pre></td><td>use userspace tapdisk3 with the given 'params' key</td></tr><tr><td><pre>Qdisk</pre></td><td><pre>string</pre></td><td>use userspace qemu qdisk with the given 'params' key</td></tr></tbody></table><h4 id="a-19">type backend = struct  { ... }</h4><p>A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</p><p>Members</p><table width="100%"><thead><th>Name</th><th>Type</th><th>Description</th></thead><tbody><tr><td><pre>domain_uuid</pre></td><td><pre>string</pre></td><td>UUID of the domain hosting the backend</td></tr><tr><td><pre>implementation</pre></td><td><pre>implementation</pre></td><td>choice of implementation technology</td></tr></tbody></table><h2 id="a-Datapath">Datapath</h2><p>Xapi will call the functions here on VM start/shutdown/suspend/resume/migrate. Every function is idempotent. Every function takes a domain parameter which allows the implementation to track how many domains are currently using the volume.</p><h3 id="a-Datapath-open">open</h3><p>[open uri persistent] is called before a disk is attached to a VM. If persistent is true then care should be taken to persist all writes to the disk. If persistent is false then the implementation should configure a temporary location for writes so they can be thrown away on [close].</p><ul class="tabs" id="tab-open" data-tabs=""><li><li class="tabs-title is-active"><a href="#defn-open" aria-selected="true">Definition</a></li></li><li><li class="tabs-title"><a href="#ocaml-open">OCaml example</a></li></li><li><li class="tabs-title"><a href="#python-open">Python example</a></li></li></ul><div class="tabs-content" data-tabs-content="tab-open"><div class="tabs-panel is-active" id="defn-open"><table width="100%"><thead><tr><th>Name</th><th>Direction</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>dbg</code></td><td>in</td><td><code><a href="#a-15">debug_info</a></code></td><td>Debug context from the caller</td></tr><tr><td><code>uri</code></td><td>in</td><td><code><a href="#a-17">uri</a></code></td><td>A URI which represents how to access the volume disk data.</td></tr><tr><td><code>persistent</code></td><td>in</td><td><code>bool</code></td><td>True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</td></tr></tbody></table></div><div class="tabs-panel" id="ocaml-open"><h4>Client</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* these directives only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt.syntax&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;rpc.unix&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt; = &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_client&lt;/span&gt;(&lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Lwt&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; rpc call = return (&lt;span style=&quot;color:#0033cc&quot;&gt;Rpc_client&lt;/span&gt;.do_rpc ~content_type:&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;XML&lt;/span&gt; ~path:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;/&quot;&lt;/span&gt; ~host:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt; ~port:80 call) &lt;span style=&quot;color:#990000&quot;&gt;(* TODO: Rpc_client needs to support Lwt *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;)
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
 
-&lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; result = &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt;._open ~dbg:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~uri:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~persistent:true;;&lt;/pre&gt;
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>._open ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~persistent:true;;</pre>
 
 <h4>Server</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* this line only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_myimplementation&lt;/span&gt; = &lt;span style=&quot;color:green&quot;&gt;functor&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;: &lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;) -&amp;gt; &lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#990000&quot;&gt;(* by default every operation will return a 'not implemented' exception *)&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_skeleton&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;)
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; _open x =
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Open&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        return (&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;Ok&lt;/span&gt; ())
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;&lt;/pre&gt;
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> _open x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Open</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
 
 </div><div class="tabs-panel" id="python-open"><h4>Client</h4><pre class="prettyprint lang-py">
 import xmlrpclib
@@ -71,42 +71,42 @@ class Datapath_myimplementation(Datapath_skeleton):
         result = {}
         return result
     # ...</pre></div></div><h3 id="a-Datapath-attach">attach</h3><p>[attach uri domain] prepares a connection between the storage named by [uri] and the Xen domain with id [domain]. The return value is the information needed by the Xen toolstack to setup the shared-memory blkfront protocol. Note that the same volume may be simultaneously attached to multiple hosts for example over a migrate. If an implementation needs to perform an explicit handover, then it should implement [activate] and [deactivate]. This function is idempotent.</p><ul class="tabs" id="tab-attach" data-tabs=""><li><li class="tabs-title is-active"><a href="#defn-attach" aria-selected="true">Definition</a></li></li><li><li class="tabs-title"><a href="#ocaml-attach">OCaml example</a></li></li><li><li class="tabs-title"><a href="#python-attach">Python example</a></li></li></ul><div class="tabs-content" data-tabs-content="tab-attach"><div class="tabs-panel is-active" id="defn-attach"><table width="100%"><thead><tr><th>Name</th><th>Direction</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>dbg</code></td><td>in</td><td><code><a href="#a-15">debug_info</a></code></td><td>Debug context from the caller</td></tr><tr><td><code>uri</code></td><td>in</td><td><code><a href="#a-17">uri</a></code></td><td>A URI which represents how to access the volume disk data.</td></tr><tr><td><code>domain</code></td><td>in</td><td><code><a href="#a-16">domain</a></code></td><td>An opaque string which represents the Xen domain.</td></tr><tr><td><code>backend</code></td><td>out</td><td><code><a href="#a-19">backend</a></code></td><td>The Xen block backend configuration.</td></tr></tbody></table></div><div class="tabs-panel" id="ocaml-attach"><h4>Client</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* these directives only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt.syntax&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;rpc.unix&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt; = &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_client&lt;/span&gt;(&lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Lwt&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; rpc call = return (&lt;span style=&quot;color:#0033cc&quot;&gt;Rpc_client&lt;/span&gt;.do_rpc ~content_type:&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;XML&lt;/span&gt; ~path:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;/&quot;&lt;/span&gt; ~host:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt; ~port:80 call) &lt;span style=&quot;color:#990000&quot;&gt;(* TODO: Rpc_client needs to support Lwt *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;)
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
 
-&lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; result = &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt;.attach ~dbg:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~uri:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~domain:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt;;;&lt;/pre&gt;
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.attach ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~domain:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
 
 <h4>Server</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* this line only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_myimplementation&lt;/span&gt; = &lt;span style=&quot;color:green&quot;&gt;functor&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;: &lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;) -&amp;gt; &lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#990000&quot;&gt;(* by default every operation will return a 'not implemented' exception *)&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_skeleton&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;)
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; attach x =
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Attach&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        return (&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;Ok&lt;/span&gt; (&lt;span style=&quot;color:#0033cc&quot;&gt;Out&lt;/span&gt;.({ domain_uuid = &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt;; implementation = &lt;span style=&quot;color:#0033cc&quot;&gt;Blkback&lt;/span&gt; &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; })))
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;&lt;/pre&gt;
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> attach x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Attach</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> (<span style="color:#0033cc">Out</span>.({ domain_uuid = <span style="color:#aa4444">&quot;string&quot;</span>; implementation = <span style="color:#0033cc">Blkback</span> <span style="color:#aa4444">&quot;string&quot;</span> })))
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
 
 </div><div class="tabs-panel" id="python-attach"><h4>Client</h4><pre class="prettyprint lang-py">
 import xmlrpclib
@@ -130,42 +130,42 @@ class Datapath_myimplementation(Datapath_skeleton):
         result[&quot;backend&quot;] = { &quot;domain_uuid&quot;: &quot;string&quot;, &quot;implementation&quot;: None }
         return result
     # ...</pre></div></div><h3 id="a-Datapath-activate">activate</h3><p>[activate uri domain] is called just before a VM needs to read or write its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p><ul class="tabs" id="tab-activate" data-tabs=""><li><li class="tabs-title is-active"><a href="#defn-activate" aria-selected="true">Definition</a></li></li><li><li class="tabs-title"><a href="#ocaml-activate">OCaml example</a></li></li><li><li class="tabs-title"><a href="#python-activate">Python example</a></li></li></ul><div class="tabs-content" data-tabs-content="tab-activate"><div class="tabs-panel is-active" id="defn-activate"><table width="100%"><thead><tr><th>Name</th><th>Direction</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>dbg</code></td><td>in</td><td><code><a href="#a-15">debug_info</a></code></td><td>Debug context from the caller</td></tr><tr><td><code>uri</code></td><td>in</td><td><code><a href="#a-17">uri</a></code></td><td>A URI which represents how to access the volume disk data.</td></tr><tr><td><code>domain</code></td><td>in</td><td><code><a href="#a-16">domain</a></code></td><td>An opaque string which represents the Xen domain.</td></tr></tbody></table></div><div class="tabs-panel" id="ocaml-activate"><h4>Client</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* these directives only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt.syntax&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;rpc.unix&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt; = &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_client&lt;/span&gt;(&lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Lwt&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; rpc call = return (&lt;span style=&quot;color:#0033cc&quot;&gt;Rpc_client&lt;/span&gt;.do_rpc ~content_type:&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;XML&lt;/span&gt; ~path:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;/&quot;&lt;/span&gt; ~host:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt; ~port:80 call) &lt;span style=&quot;color:#990000&quot;&gt;(* TODO: Rpc_client needs to support Lwt *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;)
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
 
-&lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; result = &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt;.activate ~dbg:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~uri:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~domain:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt;;;&lt;/pre&gt;
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.activate ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~domain:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
 
 <h4>Server</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* this line only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_myimplementation&lt;/span&gt; = &lt;span style=&quot;color:green&quot;&gt;functor&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;: &lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;) -&amp;gt; &lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#990000&quot;&gt;(* by default every operation will return a 'not implemented' exception *)&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_skeleton&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;)
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; activate x =
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Activate&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        return (&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;Ok&lt;/span&gt; ())
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;&lt;/pre&gt;
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> activate x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Activate</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
 
 </div><div class="tabs-panel" id="python-activate"><h4>Client</h4><pre class="prettyprint lang-py">
 import xmlrpclib
@@ -188,42 +188,42 @@ class Datapath_myimplementation(Datapath_skeleton):
         result = {}
         return result
     # ...</pre></div></div><h3 id="a-Datapath-deactivate">deactivate</h3><p>[deactivate uri domain] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p><ul class="tabs" id="tab-deactivate" data-tabs=""><li><li class="tabs-title is-active"><a href="#defn-deactivate" aria-selected="true">Definition</a></li></li><li><li class="tabs-title"><a href="#ocaml-deactivate">OCaml example</a></li></li><li><li class="tabs-title"><a href="#python-deactivate">Python example</a></li></li></ul><div class="tabs-content" data-tabs-content="tab-deactivate"><div class="tabs-panel is-active" id="defn-deactivate"><table width="100%"><thead><tr><th>Name</th><th>Direction</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>dbg</code></td><td>in</td><td><code><a href="#a-15">debug_info</a></code></td><td>Debug context from the caller</td></tr><tr><td><code>uri</code></td><td>in</td><td><code><a href="#a-17">uri</a></code></td><td>A URI which represents how to access the volume disk data.</td></tr><tr><td><code>domain</code></td><td>in</td><td><code><a href="#a-16">domain</a></code></td><td>An opaque string which represents the Xen domain.</td></tr></tbody></table></div><div class="tabs-panel" id="ocaml-deactivate"><h4>Client</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* these directives only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt.syntax&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;rpc.unix&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt; = &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_client&lt;/span&gt;(&lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Lwt&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; rpc call = return (&lt;span style=&quot;color:#0033cc&quot;&gt;Rpc_client&lt;/span&gt;.do_rpc ~content_type:&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;XML&lt;/span&gt; ~path:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;/&quot;&lt;/span&gt; ~host:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt; ~port:80 call) &lt;span style=&quot;color:#990000&quot;&gt;(* TODO: Rpc_client needs to support Lwt *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;)
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
 
-&lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; result = &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt;.deactivate ~dbg:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~uri:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~domain:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt;;;&lt;/pre&gt;
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.deactivate ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~domain:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
 
 <h4>Server</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* this line only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_myimplementation&lt;/span&gt; = &lt;span style=&quot;color:green&quot;&gt;functor&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;: &lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;) -&amp;gt; &lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#990000&quot;&gt;(* by default every operation will return a 'not implemented' exception *)&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_skeleton&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;)
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; deactivate x =
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Deactivate&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        return (&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;Ok&lt;/span&gt; ())
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;&lt;/pre&gt;
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> deactivate x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Deactivate</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
 
 </div><div class="tabs-panel" id="python-deactivate"><h4>Client</h4><pre class="prettyprint lang-py">
 import xmlrpclib
@@ -246,42 +246,42 @@ class Datapath_myimplementation(Datapath_skeleton):
         result = {}
         return result
     # ...</pre></div></div><h3 id="a-Datapath-detach">detach</h3><p>[detach uri domain] is called sometime after a VM has finished reading or writing its disk. This is an opportunity to clean up any resources associated with the disk. This function is called outside the migration downtime window so can be slow without affecting users. This function is idempotent. This function should never fail. If an implementation is unable to perform some cleanup right away then it should queue the action internally. Any error result represents a bug in the implementation.</p><ul class="tabs" id="tab-detach" data-tabs=""><li><li class="tabs-title is-active"><a href="#defn-detach" aria-selected="true">Definition</a></li></li><li><li class="tabs-title"><a href="#ocaml-detach">OCaml example</a></li></li><li><li class="tabs-title"><a href="#python-detach">Python example</a></li></li></ul><div class="tabs-content" data-tabs-content="tab-detach"><div class="tabs-panel is-active" id="defn-detach"><table width="100%"><thead><tr><th>Name</th><th>Direction</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>dbg</code></td><td>in</td><td><code><a href="#a-15">debug_info</a></code></td><td>Debug context from the caller</td></tr><tr><td><code>uri</code></td><td>in</td><td><code><a href="#a-17">uri</a></code></td><td>A URI which represents how to access the volume disk data.</td></tr><tr><td><code>domain</code></td><td>in</td><td><code><a href="#a-16">domain</a></code></td><td>An opaque string which represents the Xen domain.</td></tr></tbody></table></div><div class="tabs-panel" id="ocaml-detach"><h4>Client</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* these directives only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt.syntax&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;rpc.unix&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt; = &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_client&lt;/span&gt;(&lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Lwt&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; rpc call = return (&lt;span style=&quot;color:#0033cc&quot;&gt;Rpc_client&lt;/span&gt;.do_rpc ~content_type:&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;XML&lt;/span&gt; ~path:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;/&quot;&lt;/span&gt; ~host:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt; ~port:80 call) &lt;span style=&quot;color:#990000&quot;&gt;(* TODO: Rpc_client needs to support Lwt *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;)
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
 
-&lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; result = &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt;.detach ~dbg:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~uri:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~domain:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt;;;&lt;/pre&gt;
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.detach ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span> ~domain:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
 
 <h4>Server</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* this line only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_myimplementation&lt;/span&gt; = &lt;span style=&quot;color:green&quot;&gt;functor&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;: &lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;) -&amp;gt; &lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#990000&quot;&gt;(* by default every operation will return a 'not implemented' exception *)&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_skeleton&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;)
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; detach x =
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Detach&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        return (&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;Ok&lt;/span&gt; ())
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;&lt;/pre&gt;
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> detach x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Detach</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
 
 </div><div class="tabs-panel" id="python-detach"><h4>Client</h4><pre class="prettyprint lang-py">
 import xmlrpclib
@@ -304,42 +304,42 @@ class Datapath_myimplementation(Datapath_skeleton):
         result = {}
         return result
     # ...</pre></div></div><h3 id="a-Datapath-close">close</h3><p>[close uri] is called after a disk is detached and a VM shutdown. This is an opportunity to throw away writes if the disk is not persistent.</p><ul class="tabs" id="tab-close" data-tabs=""><li><li class="tabs-title is-active"><a href="#defn-close" aria-selected="true">Definition</a></li></li><li><li class="tabs-title"><a href="#ocaml-close">OCaml example</a></li></li><li><li class="tabs-title"><a href="#python-close">Python example</a></li></li></ul><div class="tabs-content" data-tabs-content="tab-close"><div class="tabs-panel is-active" id="defn-close"><table width="100%"><thead><tr><th>Name</th><th>Direction</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>dbg</code></td><td>in</td><td><code><a href="#a-15">debug_info</a></code></td><td>Debug context from the caller</td></tr><tr><td><code>uri</code></td><td>in</td><td><code><a href="#a-17">uri</a></code></td><td>A URI which represents how to access the volume disk data.</td></tr></tbody></table></div><div class="tabs-panel" id="ocaml-close"><h4>Client</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* these directives only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;lwt.syntax&quot;&lt;/span&gt;;;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;rpc.unix&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* these directives only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt&quot;</span>;;
+#require <span style="color:#aa4444">&quot;lwt.syntax&quot;</span>;;
+#require <span style="color:#aa4444">&quot;rpc.unix&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt; = &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_client&lt;/span&gt;(&lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Lwt&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; rpc call = return (&lt;span style=&quot;color:#0033cc&quot;&gt;Rpc_client&lt;/span&gt;.do_rpc ~content_type:&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;XML&lt;/span&gt; ~path:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;/&quot;&lt;/span&gt; ~host:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt; ~port:80 call) &lt;span style=&quot;color:#990000&quot;&gt;(* TODO: Rpc_client needs to support Lwt *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;)
+<span style="color:green">module</span> <span style="color:#0033cc">Client</span> = <span style="color:#0033cc">Datapath_client</span>(<span style="color:#990099">struct</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Lwt</span>
+    <span style="color:green">let</span> rpc call = return (<span style="color:#0033cc">Rpc_client</span>.do_rpc ~content_type:<span style="color:#0033cc">`</span><span style="color:#0033cc">XML</span> ~path:<span style="color:#aa4444">&quot;/&quot;</span> ~host:<span style="color:#aa4444">&quot;127.0.0.1&quot;</span> ~port:80 call) <span style="color:#990000">(* TODO: Rpc_client needs to support Lwt *)</span>
+<span style="color:#990099">end</span>)
 
-&lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; result = &lt;span style=&quot;color:#0033cc&quot;&gt;Client&lt;/span&gt;.close ~dbg:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt; ~uri:&lt;span style=&quot;color:#aa4444&quot;&gt;&quot;string&quot;&lt;/span&gt;;;&lt;/pre&gt;
+<span style="color:green">let</span> result = <span style="color:#0033cc">Client</span>.close ~dbg:<span style="color:#aa4444">&quot;string&quot;</span> ~uri:<span style="color:#aa4444">&quot;string&quot;</span>;;</pre>
 
 <h4>Server</h4>
-&lt;pre&gt;
-&lt;span style=&quot;color:#990000&quot;&gt;(* this line only needed in a toplevel: *)&lt;/span&gt;
-#require &lt;span style=&quot;color:#aa4444&quot;&gt;&quot;xcp-api-client&quot;&lt;/span&gt;;;
+<pre>
+<span style="color:#990000">(* this line only needed in a toplevel: *)</span>
+#require <span style="color:#aa4444">&quot;xcp-api-client&quot;</span>;;
 
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;S&lt;/span&gt;
-&lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">S</span>
+<span style="color:#cc9900">open</span> <span style="color:#0033cc">Datapath</span>
 
-&lt;span style=&quot;color:green&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_myimplementation&lt;/span&gt; = &lt;span style=&quot;color:green&quot;&gt;functor&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;: &lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;) -&amp;gt; &lt;span style=&quot;color:#990099&quot;&gt;struct&lt;/span&gt;
-    &lt;span style=&quot;color:#990000&quot;&gt;(* by default every operation will return a 'not implemented' exception *)&lt;/span&gt;
-    &lt;span style=&quot;color:#cc9900&quot;&gt;include&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Datapath_skeleton&lt;/span&gt;(&lt;span style=&quot;color:#0033cc&quot;&gt;M&lt;/span&gt;)
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-    &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; close x =
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Datapath&lt;/span&gt;.&lt;span style=&quot;color:#0033cc&quot;&gt;Close&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        &lt;span style=&quot;color:green&quot;&gt;let&lt;/span&gt; &lt;span style=&quot;color:#cc9900&quot;&gt;open&lt;/span&gt; &lt;span style=&quot;color:#0033cc&quot;&gt;Types&lt;/span&gt; &lt;span style=&quot;color:green&quot;&gt;in&lt;/span&gt;
-        return (&lt;span style=&quot;color:#0033cc&quot;&gt;`&lt;/span&gt;&lt;span style=&quot;color:#0033cc&quot;&gt;Ok&lt;/span&gt; ())
-    &lt;span style=&quot;color:#990000&quot;&gt;(* ... *)&lt;/span&gt;
-&lt;span style=&quot;color:#990099&quot;&gt;end&lt;/span&gt;&lt;/pre&gt;
+<span style="color:green">module</span> <span style="color:#0033cc">Datapath_myimplementation</span> = <span style="color:green">functor</span>(<span style="color:#0033cc">M</span>: <span style="color:#0033cc">M</span>) -&gt; <span style="color:#990099">struct</span>
+    <span style="color:#990000">(* by default every operation will return a 'not implemented' exception *)</span>
+    <span style="color:#cc9900">include</span> <span style="color:#0033cc">Datapath_skeleton</span>(<span style="color:#0033cc">M</span>)
+    <span style="color:#990000">(* ... *)</span>
+    <span style="color:green">let</span> close x =
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span>.<span style="color:#0033cc">Datapath</span>.<span style="color:#0033cc">Close</span> <span style="color:green">in</span>
+        <span style="color:green">let</span> <span style="color:#cc9900">open</span> <span style="color:#0033cc">Types</span> <span style="color:green">in</span>
+        return (<span style="color:#0033cc">`</span><span style="color:#0033cc">Ok</span> ())
+    <span style="color:#990000">(* ... *)</span>
+<span style="color:#990099">end</span></pre>
 
 </div><div class="tabs-panel" id="python-close"><h4>Client</h4><pre class="prettyprint lang-py">
 import xmlrpclib
