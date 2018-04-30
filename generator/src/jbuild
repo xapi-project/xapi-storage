@@ -6,5 +6,6 @@
     generator_lib
     unix
     cmdliner
+    rpclib.markdown
   ))
 ))
