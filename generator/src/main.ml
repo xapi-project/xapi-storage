@@ -1,7 +1,8 @@
 open Cmdliner
 
 let gen_markdown path =
-  let open Types in
+  let open Rpc.Types in
+  let open Xapi_storage in
   let open Files in
 
   List.iter
@@ -13,7 +14,8 @@ let gen_markdown path =
   `Ok ()
 
 let gen_python path =
-  let open Types in
+  let open Rpc.Types in
+  let open Xapi_storage in
   let open Files in
 
   List.iter
@@ -30,7 +32,7 @@ let gen_python_cmd =
   let doc = "Generate the python library files" in
   let path =
     let doc = "Generate the files in the path specified" in
-    Arg.(value & opt string ("./xapi/storage/api/v4") & info ["p";"path"] ~docv:"PATH")
+    Arg.(value & opt string ("./xapi/storage/api/v4") & info ["p";"path"] ~doc ~docv:"PATH")
   in
   Term.(ret (const gen_python $ path)),
   Term.info "gen_python" ~doc ~exits:Term.default_exits
@@ -39,7 +41,7 @@ let gen_markdown_cmd =
   let doc = "Generate documentation files in markdown format" in
   let path =
     let doc = "Generate the files in the path specified" in
-    Arg.(value & opt string (".") & info ["p";"path"] ~docv:"PATH")
+    Arg.(value & opt string (".") & info ["p";"path"] ~doc ~docv:"PATH")
   in
   Term.(ret (const gen_markdown $ path)),
   Term.info "gen_markdown" ~doc ~exits:Term.default_exits
