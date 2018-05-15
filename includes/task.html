@@ -1,0 +1,620 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>task</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="../stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="../javascripts/all.js"></script>
+  </head>
+
+  <body class="includes includes_task" data-languages="[&quot;json&quot;,&quot;ocaml&quot;,&quot;python&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="../images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="../images/logo.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="json">json</a>
+              <a href="#" data-language-name="ocaml">ocaml</a>
+              <a href="#" data-language-name="python">python</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc" class="toc-list-h1">
+          <li>
+            <a href="#task" class="toc-h1 toc-link" data-title="task">task</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#type-definitions" class="toc-h2 toc-link" data-title="type-definitions">Type definitions</a>
+                  </li>
+                  <li>
+                    <a href="#interface-task" class="toc-h2 toc-link" data-title="interface-code-task-code">Interface: <code>Task</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-stat" class="toc-h2 toc-link" data-title="method-code-stat-code">Method: <code>stat</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-cancel" class="toc-h2 toc-link" data-title="method-code-cancel-code">Method: <code>cancel</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-destroy" class="toc-h2 toc-link" data-title="method-code-destroy-code">Method: <code>destroy</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-ls" class="toc-h2 toc-link" data-title="method-code-ls-code">Method: <code>ls</code></a>
+                  </li>
+                  <li>
+                    <a href="#errors" class="toc-h2 toc-link" data-title="errors">Errors</a>
+                  </li>
+              </ul>
+          </li>
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='task'>task</h1>
+<p>The Task interface is required if the backend supports long-running  tasks.</p>
+<h2 id='type-definitions'>Type definitions</h2><h3 id='id'>id</h3><pre class="highlight json tab-json"><code><span class="s2">"id"</span><span class="w">
+</span></code></pre>
+<p>type <code>id</code> = string
+Unique identifier for a task</p>
+<h3 id='task-2'>task</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"ctime"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"debug_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"debug_info"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>task</code> = struct  { ... }</p>
+<h4 id='members'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>debug_info</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>ctime</td>
+<td>float</td>
+<td></td>
+</tr>
+<tr>
+<td>state</td>
+<td>variant { ... }</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='task_list'>task_list</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"task_list"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[]</span><span class="w">
+</span></code></pre>
+<p>type <code>task_list</code> = string list</p>
+<h2 id='interface-task'>Interface: <code>Task</code></h2>
+<p>The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data.</p>
+<h2 id='method-stat'>Method: <code>stat</code></h2>
+<p>[stat task_id] returns the status of the task</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.stat"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"ctime"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"debug_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"debug_info"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"result"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"id"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"debug_info"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ctime"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span> <span class="s">"state"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>id</td>
+<td>in</td>
+<td>id</td>
+<td>Unique identifier for a task</td>
+</tr>
+<tr>
+<td>result</td>
+<td>out</td>
+<td>task</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='method-cancel'>Method: <code>cancel</code></h2>
+<p>[cancel task_id] performs a best-effort cancellation of an ongoing  task. The effect of this should leave the system in one of two  states: Either that the task has completed successfully, or that it  had never been made at all. The call should return immediately and  the status of the task can the be queried via the [stat] call.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.cancel"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">cancel</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>id</td>
+<td>in</td>
+<td>id</td>
+<td>Unique identifier for a task</td>
+</tr>
+</tbody></table>
+<h2 id='method-destroy'>Method: <code>destroy</code></h2>
+<p>[destroy task_id] should remove all traces of the task_id. This call  should fail if the task is currently in progress.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.destroy"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">43</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>id</td>
+<td>in</td>
+<td>id</td>
+<td>Unique identifier for a task</td>
+</tr>
+</tbody></table>
+<h2 id='method-ls'>Method: <code>ls</code></h2>
+<p>[ls] should return a list of all of the tasks the plugin is aware of.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.ls"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">44</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">task_list</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"task_list_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"task_list_2"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">task_list</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
+        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>unnamed</td>
+<td>out</td>
+<td>task_list</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>type <code>exnt</code> = variant { ... }</p>
+<h4 id='constructors'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Unimplemented</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="json">json</a>
+                <a href="#" data-language-name="ocaml">ocaml</a>
+                <a href="#" data-language-name="python">python</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

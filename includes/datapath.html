@@ -1,0 +1,1842 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>datapath</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="../stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="../javascripts/all.js"></script>
+  </head>
+
+  <body class="includes includes_datapath" data-languages="[&quot;json&quot;,&quot;ocaml&quot;,&quot;python&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="../images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="../images/logo.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="json">json</a>
+              <a href="#" data-language-name="ocaml">ocaml</a>
+              <a href="#" data-language-name="python">python</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc" class="toc-list-h1">
+          <li>
+            <a href="#datapath" class="toc-h1 toc-link" data-title="datapath">datapath</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#type-definitions" class="toc-h2 toc-link" data-title="type-definitions">Type definitions</a>
+                  </li>
+                  <li>
+                    <a href="#interface-datapath" class="toc-h2 toc-link" data-title="interface-code-datapath-code">Interface: <code>Datapath</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-open" class="toc-h2 toc-link" data-title="method-code-open-code">Method: <code>open</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-attach" class="toc-h2 toc-link" data-title="method-code-attach-code">Method: <code>attach</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-activate" class="toc-h2 toc-link" data-title="method-code-activate-code">Method: <code>activate</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-deactivate" class="toc-h2 toc-link" data-title="method-code-deactivate-code">Method: <code>deactivate</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-detach" class="toc-h2 toc-link" data-title="method-code-detach-code">Method: <code>detach</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-close" class="toc-h2 toc-link" data-title="method-code-close-code">Method: <code>close</code></a>
+                  </li>
+                  <li>
+                    <a href="#interface-data" class="toc-h2 toc-link" data-title="interface-code-data-code">Interface: <code>Data</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-copy" class="toc-h2 toc-link" data-title="method-code-copy-code">Method: <code>copy</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-mirror" class="toc-h2 toc-link" data-title="method-code-mirror-code">Method: <code>mirror</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-stat" class="toc-h2 toc-link" data-title="method-code-stat-code">Method: <code>stat</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-cancel" class="toc-h2 toc-link" data-title="method-code-cancel-code">Method: <code>cancel</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-destroy" class="toc-h2 toc-link" data-title="method-code-destroy-code">Method: <code>destroy</code></a>
+                  </li>
+                  <li>
+                    <a href="#method-ls" class="toc-h2 toc-link" data-title="method-code-ls-code">Method: <code>ls</code></a>
+                  </li>
+                  <li>
+                    <a href="#errors" class="toc-h2 toc-link" data-title="errors">Errors</a>
+                  </li>
+              </ul>
+          </li>
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='datapath'>datapath</h1>
+<p>The Datapath interfaces are provided to access the data stored
+in the volumes. The <code>Datapath</code> interface is used to open and close the disks for read/write
+operations from VMs and the <code>Data</code> interface is used for operations such as <code>copy</code> and <code>mirror</code></p>
+<h2 id='type-definitions'>Type definitions</h2><h3 id='persistent'>persistent</h3><pre class="highlight json tab-json"><code><span class="kc">true</span><span class="w">
+</span><span class="kc">false</span><span class="w">
+</span></code></pre>
+<p>type <code>persistent</code> = bool
+True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</p>
+<h3 id='backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"implementation"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>backend</code> = struct  { ... }
+A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</p>
+<h4 id='members'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>domain_uuid</td>
+<td>string</td>
+<td>UUID of the domain hosting the backend</td>
+</tr>
+<tr>
+<td>implementation</td>
+<td>variant { ... }</td>
+<td>choice of implementation technology</td>
+</tr>
+</tbody></table>
+<h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>blocklist</code> = struct  { ... }
+List of blocks for copying</p>
+<h4 id='members-2'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>blocksize</td>
+<td>int</td>
+<td>size of the individual blocks</td>
+</tr>
+<tr>
+<td>ranges</td>
+<td>int64 * int64 list</td>
+<td>list of block ranges, where a range is a (start,length) pair, measured in units of [blocksize]</td>
+</tr>
+</tbody></table>
+<h3 id='domain'>domain</h3><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
+</span></code></pre>
+<p>type <code>domain</code> = string
+A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p>
+<h3 id='uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
+</span></code></pre>
+<p>type <code>uri</code> = string
+A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.</p>
+<h3 id='operation'>operation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"Mirror"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>type <code>operation</code> = variant { ... }
+The primary key for referring to a long-running operation</p>
+<h4 id='constructors'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Copy</td>
+<td>string * string</td>
+<td>Copy (src,dst) represents an on-going copy operation from the [src] URI to the [dst] URI</td>
+</tr>
+<tr>
+<td>Mirror</td>
+<td>string * string</td>
+<td>Mirror (src,dst) represents an on-going mirror  operation from the [src] URI to the [dst] URI</td>
+</tr>
+</tbody></table>
+<h3 id='status'>status</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>status</code> = struct  { ... }
+Status information for on-going tasks</p>
+<h4 id='members-3'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>failed</td>
+<td>bool</td>
+<td>[failed] will be set to true if the operation has failed for some  reason</td>
+</tr>
+<tr>
+<td>progress</td>
+<td>float option</td>
+<td>[progress] will be returned for a copy operation, and ranges  between 0 and 1</td>
+</tr>
+</tbody></table>
+<h3 id='operations'>operations</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operations"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[]</span><span class="w">
+</span></code></pre>
+<p>type <code>operations</code> = variant { ... } list
+A list of operations</p>
+<h2 id='interface-datapath'>Interface: <code>Datapath</code></h2>
+<p>Xapi will call the functions here on VM start / shutdown /
+suspend / resume / migrate. Every function is idempotent. Every
+function takes a domain parameter which allows the implementation
+to track how many domains are currently using the volume. </p>
+
+<p>Volumes must be attached via the following sequence of calls:</p>
+
+<ol>
+<li><p>[open url persistent] must be called first and is used to declare
+that the writes to the disks must either be persisted or not.
+[open] is not an exclusive operation - a disk may be opened on
+more than once host at once. The call returns <code>unit</code> or an
+error.</p></li>
+<li><p>[attach url domain] is then called. The <code>domain</code> parameter is
+advisory. Note that this call is currently only ever called once.
+In the future the call may be made multiple times with different
+[domain] parameters if the disk is attached to multiple domains.
+The return value from this call is the information required to 
+attach the disk to a VM. This call is again, not exclusive. The
+volume may be attached to more than one host concurrently.</p></li>
+<li><p>[activate url domain] is called to activate the datapath. This
+must be called before the volume is to be used by the VM, and 
+it is acceptible for this to be an exclusive operation, such that
+it is an error for a volume to be activated on more than one host
+simultaneously.</p></li>
+</ol>
+<h2 id='method-open'>Method: <code>open</code></h2>
+<p>[open uri persistent] is called before a disk is attached to a VM. If persistent is true then care should be taken to persist all writes to the disk. If persistent is false then the implementation should configure a temporary location for writes so they can be thrown away on [close].</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.open"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">open</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">persistent</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="nb">open</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">persistent</span><span class="p">:</span> <span class="bp">True</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">open</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">persistent</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">persistent</span><span class="p">):</span>
+        <span class="s">"""
+Xapi will call the functions here on VM start / shutdown /
+suspend / resume / migrate. Every function is idempotent. Every
+function takes a domain parameter which allows the implementation
+to track how many domains are currently using the volume. 
+
+Volumes must be attached via the following sequence of calls:
+
+1. [open url persistent] must be called first and is used to declare
+   that the writes to the disks must either be persisted or not.
+   [open] is not an exclusive operation - a disk may be opened on
+   more than once host at once. The call returns `unit` or an
+   error.
+
+2. [attach url domain] is then called. The `domain` parameter is
+   advisory. Note that this call is currently only ever called once.
+   In the future the call may be made multiple times with different
+   [domain] parameters if the disk is attached to multiple domains.
+   The return value from this call is the information required to 
+   attach the disk to a VM. This call is again, not exclusive. The
+   volume may be attached to more than one host concurrently.
+
+3. [activate url domain] is called to activate the datapath. This
+   must be called before the volume is to be used by the VM, and 
+   it is acceptible for this to be an exclusive operation, such that
+   it is an error for a volume to be activated on more than one host
+   simultaneously.
+      """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>persistent</td>
+<td>in</td>
+<td>persistent</td>
+<td>True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</td>
+</tr>
+</tbody></table>
+<h2 id='method-attach'>Method: <code>attach</code></h2>
+<p>[attach uri domain] prepares a connection between the storage named by [uri] and the Xen domain with id [domain]. The return value is the information needed by the Xen toolstack to setup the shared-memory blkfront protocol. Note that the same volume may be simultaneously attached to multiple hosts for example over a migrate. If an implementation needs to perform an explicit handover, then it should implement [activate] and [deactivate]. This function is idempotent.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.attach"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">attach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="s">"""
+Xapi will call the functions here on VM start / shutdown /
+suspend / resume / migrate. Every function is idempotent. Every
+function takes a domain parameter which allows the implementation
+to track how many domains are currently using the volume. 
+
+Volumes must be attached via the following sequence of calls:
+
+1. [open url persistent] must be called first and is used to declare
+   that the writes to the disks must either be persisted or not.
+   [open] is not an exclusive operation - a disk may be opened on
+   more than once host at once. The call returns `unit` or an
+   error.
+
+2. [attach url domain] is then called. The `domain` parameter is
+   advisory. Note that this call is currently only ever called once.
+   In the future the call may be made multiple times with different
+   [domain] parameters if the disk is attached to multiple domains.
+   The return value from this call is the information required to 
+   attach the disk to a VM. This call is again, not exclusive. The
+   volume may be attached to more than one host concurrently.
+
+3. [activate url domain] is called to activate the datapath. This
+   must be called before the volume is to be used by the VM, and 
+   it is acceptible for this to be an exclusive operation, such that
+   it is an error for a volume to be activated on more than one host
+   simultaneously.
+      """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementation"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>in</td>
+<td>domain</td>
+<td>An opaque string which represents the Xen domain.</td>
+</tr>
+<tr>
+<td>backend</td>
+<td>out</td>
+<td>backend</td>
+<td>A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</td>
+</tr>
+</tbody></table>
+<h2 id='method-activate'>Method: <code>activate</code></h2>
+<p>[activate uri domain] is called just before a VM needs to read or write its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.activate"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">activate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="s">"""
+Xapi will call the functions here on VM start / shutdown /
+suspend / resume / migrate. Every function is idempotent. Every
+function takes a domain parameter which allows the implementation
+to track how many domains are currently using the volume. 
+
+Volumes must be attached via the following sequence of calls:
+
+1. [open url persistent] must be called first and is used to declare
+   that the writes to the disks must either be persisted or not.
+   [open] is not an exclusive operation - a disk may be opened on
+   more than once host at once. The call returns `unit` or an
+   error.
+
+2. [attach url domain] is then called. The `domain` parameter is
+   advisory. Note that this call is currently only ever called once.
+   In the future the call may be made multiple times with different
+   [domain] parameters if the disk is attached to multiple domains.
+   The return value from this call is the information required to 
+   attach the disk to a VM. This call is again, not exclusive. The
+   volume may be attached to more than one host concurrently.
+
+3. [activate url domain] is called to activate the datapath. This
+   must be called before the volume is to be used by the VM, and 
+   it is acceptible for this to be an exclusive operation, such that
+   it is an error for a volume to be activated on more than one host
+   simultaneously.
+      """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>in</td>
+<td>domain</td>
+<td>An opaque string which represents the Xen domain.</td>
+</tr>
+</tbody></table>
+<h2 id='method-deactivate'>Method: <code>deactivate</code></h2>
+<p>[deactivate uri domain] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.deactivate"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">deactivate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">deactivate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">deactivate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">deactivate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="s">"""
+Xapi will call the functions here on VM start / shutdown /
+suspend / resume / migrate. Every function is idempotent. Every
+function takes a domain parameter which allows the implementation
+to track how many domains are currently using the volume. 
+
+Volumes must be attached via the following sequence of calls:
+
+1. [open url persistent] must be called first and is used to declare
+   that the writes to the disks must either be persisted or not.
+   [open] is not an exclusive operation - a disk may be opened on
+   more than once host at once. The call returns `unit` or an
+   error.
+
+2. [attach url domain] is then called. The `domain` parameter is
+   advisory. Note that this call is currently only ever called once.
+   In the future the call may be made multiple times with different
+   [domain] parameters if the disk is attached to multiple domains.
+   The return value from this call is the information required to 
+   attach the disk to a VM. This call is again, not exclusive. The
+   volume may be attached to more than one host concurrently.
+
+3. [activate url domain] is called to activate the datapath. This
+   must be called before the volume is to be used by the VM, and 
+   it is acceptible for this to be an exclusive operation, such that
+   it is an error for a volume to be activated on more than one host
+   simultaneously.
+      """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>in</td>
+<td>domain</td>
+<td>An opaque string which represents the Xen domain.</td>
+</tr>
+</tbody></table>
+<h2 id='method-detach'>Method: <code>detach</code></h2>
+<p>[detach uri domain] is called sometime after a VM has finished reading or writing its disk. This is an opportunity to clean up any resources associated with the disk. This function is called outside the migration downtime window so can be slow without affecting users. This function is idempotent. This function should never fail. If an implementation is unable to perform some cleanup right away then it should queue the action internally. Any error result represents a bug in the implementation.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.detach"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">33</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">detach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">detach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">detach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">detach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="s">"""
+Xapi will call the functions here on VM start / shutdown /
+suspend / resume / migrate. Every function is idempotent. Every
+function takes a domain parameter which allows the implementation
+to track how many domains are currently using the volume. 
+
+Volumes must be attached via the following sequence of calls:
+
+1. [open url persistent] must be called first and is used to declare
+   that the writes to the disks must either be persisted or not.
+   [open] is not an exclusive operation - a disk may be opened on
+   more than once host at once. The call returns `unit` or an
+   error.
+
+2. [attach url domain] is then called. The `domain` parameter is
+   advisory. Note that this call is currently only ever called once.
+   In the future the call may be made multiple times with different
+   [domain] parameters if the disk is attached to multiple domains.
+   The return value from this call is the information required to 
+   attach the disk to a VM. This call is again, not exclusive. The
+   volume may be attached to more than one host concurrently.
+
+3. [activate url domain] is called to activate the datapath. This
+   must be called before the volume is to be used by the VM, and 
+   it is acceptible for this to be an exclusive operation, such that
+   it is an error for a volume to be activated on more than one host
+   simultaneously.
+      """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>in</td>
+<td>domain</td>
+<td>An opaque string which represents the Xen domain.</td>
+</tr>
+</tbody></table>
+<h2 id='method-close'>Method: <code>close</code></h2>
+<p>[close uri] is called after a disk is detached and a VM shutdown. This is an opportunity to throw away writes if the disk is not persistent.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.close"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">close</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">close</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">close</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+        <span class="s">"""
+Xapi will call the functions here on VM start / shutdown /
+suspend / resume / migrate. Every function is idempotent. Every
+function takes a domain parameter which allows the implementation
+to track how many domains are currently using the volume. 
+
+Volumes must be attached via the following sequence of calls:
+
+1. [open url persistent] must be called first and is used to declare
+   that the writes to the disks must either be persisted or not.
+   [open] is not an exclusive operation - a disk may be opened on
+   more than once host at once. The call returns `unit` or an
+   error.
+
+2. [attach url domain] is then called. The `domain` parameter is
+   advisory. Note that this call is currently only ever called once.
+   In the future the call may be made multiple times with different
+   [domain] parameters if the disk is attached to multiple domains.
+   The return value from this call is the information required to 
+   attach the disk to a VM. This call is again, not exclusive. The
+   volume may be attached to more than one host concurrently.
+
+3. [activate url domain] is called to activate the datapath. This
+   must be called before the volume is to be used by the VM, and 
+   it is acceptible for this to be an exclusive operation, such that
+   it is an error for a volume to be activated on more than one host
+   simultaneously.
+      """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+</tbody></table>
+<h2 id='interface-data'>Interface: <code>Data</code></h2>
+<p>This interface is used for long-running data operations such as
+copying the contents of volumes or mirroring volumes to remote
+destinations.</p>
+
+<p>These operations are asynchronous and rely on the Tasks API to
+report results and errors.</p>
+
+<p>To mirror a VDI a sequence of these API calls is required:</p>
+
+<ol>
+<li><p>Create a destination VDI using the Volume API on the destination
+SR. This must be the same size as the source. To minimize copying
+the destination VDI may be cloned from one that has been previously
+copied, as long as a disk from which the copy was made is still
+present on the source (even as a metadata-only disk)</p></li>
+<li><p>Arrange for the destination disk to be accessible on the source
+host by suitable URL. This may be <code>nbd</code>, <code>iscsi</code>, <code>nfs</code> or
+other URL.</p></li>
+<li><p>Start mirroring all new writes to the destination disk via the
+<code>Data.mirror</code> API call.</p></li>
+<li><p>Find the list of blocks to copy via the CBT API call. Note that if
+the destination volume has not been &#39;prezeroed&#39; then all of the
+blocks must be copied to the destination.</p></li>
+<li><p>Start the background copy of the disk via a call to <code>DATA.copy</code>,
+passing in the list of blocks to copy. The plugin must ensure that
+the copy does not conflict with the mirror operation - ie., all
+writes from the mirror operation must not be overwritten by writes
+of old data from the copy operation.</p></li>
+<li><p>The progress of the copy operation may be queried via the <code>Data.stat</code>
+call.</p></li>
+<li><p>Once the copy operation has succesfully completed the destination
+disk will be a perfect mirror of the source.</p></li>
+</ol>
+<h2 id='method-copy'>Method: <code>copy</code></h2>
+<p>[copy uri domain remotes blocks] copies [blocks] from the local disk  to a remote URI. This may be called as part of a Volume Mirroring  operation, and hence may need to cooperate with whatever process is  currently mirroring writes to ensure data integrity is maintained. The [remote] parameter is a remotely accessible URI, for example, <code>nbd://root:pass@foo.com/path/to/disk</code> that must contain all necessary authentication tokens</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.copy"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"blocklist"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"remote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">copy</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="n">blocklist</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">copy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">:</span> <span class="p">{</span> <span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[</span> <span class="p">[],</span> <span class="p">[]</span> <span class="p">]</span> <span class="p">}</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">copy</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="n">blocklist</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">):</span>
+        <span class="s">"""
+This interface is used for long-running data operations such as
+copying the contents of volumes or mirroring volumes to remote
+destinations.
+
+These operations are asynchronous and rely on the Tasks API to
+report results and errors.
+
+To mirror a VDI a sequence of these API calls is required:
+
+1. Create a destination VDI using the Volume API on the destination
+   SR. This must be the same size as the source. To minimize copying
+   the destination VDI may be cloned from one that has been previously
+   copied, as long as a disk from which the copy was made is still
+   present on the source (even as a metadata-only disk)
+
+2. Arrange for the destination disk to be accessible on the source
+   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
+   other URL.
+
+3. Start mirroring all new writes to the destination disk via the
+   `Data.mirror` API call.
+
+4. Find the list of blocks to copy via the CBT API call. Note that if
+   the destination volume has not been 'prezeroed' then all of the
+   blocks must be copied to the destination.
+
+5. Start the background copy of the disk via a call to `DATA.copy`,
+   passing in the list of blocks to copy. The plugin must ensure that
+   the copy does not conflict with the mirror operation - ie., all
+   writes from the mirror operation must not be overwritten by writes
+   of old data from the copy operation.
+
+6. The progress of the copy operation may be queried via the `Data.stat`
+   call.
+
+7. Once the copy operation has succesfully completed the destination
+   disk will be a perfect mirror of the source.
+
+     """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"operation"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>in</td>
+<td>domain</td>
+<td>An opaque string which represents the Xen domain.</td>
+</tr>
+<tr>
+<td>remote</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access a remote volume disk data.</td>
+</tr>
+<tr>
+<td>blocklist</td>
+<td>in</td>
+<td>blocklist</td>
+<td>List of blocks for copying</td>
+</tr>
+<tr>
+<td>operation</td>
+<td>out</td>
+<td>operation</td>
+<td>The primary key for referring to a long-running operation</td>
+</tr>
+</tbody></table>
+<h2 id='method-mirror'>Method: <code>mirror</code></h2>
+<p>[mirror uri domain remote] starts mirroring new writes to the volume  to a remote URI (usually NBD). This is called as part of a volume  mirroring process</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.mirror"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">,</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">36</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">mirror</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">mirror</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">mirror</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
+        <span class="s">"""
+This interface is used for long-running data operations such as
+copying the contents of volumes or mirroring volumes to remote
+destinations.
+
+These operations are asynchronous and rely on the Tasks API to
+report results and errors.
+
+To mirror a VDI a sequence of these API calls is required:
+
+1. Create a destination VDI using the Volume API on the destination
+   SR. This must be the same size as the source. To minimize copying
+   the destination VDI may be cloned from one that has been previously
+   copied, as long as a disk from which the copy was made is still
+   present on the source (even as a metadata-only disk)
+
+2. Arrange for the destination disk to be accessible on the source
+   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
+   other URL.
+
+3. Start mirroring all new writes to the destination disk via the
+   `Data.mirror` API call.
+
+4. Find the list of blocks to copy via the CBT API call. Note that if
+   the destination volume has not been 'prezeroed' then all of the
+   blocks must be copied to the destination.
+
+5. Start the background copy of the disk via a call to `DATA.copy`,
+   passing in the list of blocks to copy. The plugin must ensure that
+   the copy does not conflict with the mirror operation - ie., all
+   writes from the mirror operation must not be overwritten by writes
+   of old data from the copy operation.
+
+6. The progress of the copy operation may be queried via the `Data.stat`
+   call.
+
+7. Once the copy operation has succesfully completed the destination
+   disk will be a perfect mirror of the source.
+
+     """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"operation"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>in</td>
+<td>domain</td>
+<td>An opaque string which represents the Xen domain.</td>
+</tr>
+<tr>
+<td>remote</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access a remote volume disk data.</td>
+</tr>
+<tr>
+<td>operation</td>
+<td>out</td>
+<td>operation</td>
+<td>The primary key for referring to a long-running operation</td>
+</tr>
+</tbody></table>
+<h2 id='method-stat'>Method: <code>stat</code></h2>
+<p>[stat operation] returns the current status of [operation]. For a  copy operation, this will contain progress information.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.stat"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">status</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">status</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
+        <span class="s">"""
+This interface is used for long-running data operations such as
+copying the contents of volumes or mirroring volumes to remote
+destinations.
+
+These operations are asynchronous and rely on the Tasks API to
+report results and errors.
+
+To mirror a VDI a sequence of these API calls is required:
+
+1. Create a destination VDI using the Volume API on the destination
+   SR. This must be the same size as the source. To minimize copying
+   the destination VDI may be cloned from one that has been previously
+   copied, as long as a disk from which the copy was made is still
+   present on the source (even as a metadata-only disk)
+
+2. Arrange for the destination disk to be accessible on the source
+   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
+   other URL.
+
+3. Start mirroring all new writes to the destination disk via the
+   `Data.mirror` API call.
+
+4. Find the list of blocks to copy via the CBT API call. Note that if
+   the destination volume has not been 'prezeroed' then all of the
+   blocks must be copied to the destination.
+
+5. Start the background copy of the disk via a call to `DATA.copy`,
+   passing in the list of blocks to copy. The plugin must ensure that
+   the copy does not conflict with the mirror operation - ie., all
+   writes from the mirror operation must not be overwritten by writes
+   of old data from the copy operation.
+
+6. The progress of the copy operation may be queried via the `Data.stat`
+   call.
+
+7. Once the copy operation has succesfully completed the destination
+   disk will be a perfect mirror of the source.
+
+     """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"failed"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"progress"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>operation</td>
+<td>in</td>
+<td>operation</td>
+<td>The primary key for referring to a long-running operation</td>
+</tr>
+<tr>
+<td>unnamed</td>
+<td>out</td>
+<td>status</td>
+<td>Status information for on-going tasks</td>
+</tr>
+</tbody></table>
+<h2 id='method-cancel'>Method: <code>cancel</code></h2>
+<p>[cancel operation] cancels a long-running operation. Note that the  call may return before the operation has finished.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.cancel"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">cancel</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
+        <span class="s">"""
+This interface is used for long-running data operations such as
+copying the contents of volumes or mirroring volumes to remote
+destinations.
+
+These operations are asynchronous and rely on the Tasks API to
+report results and errors.
+
+To mirror a VDI a sequence of these API calls is required:
+
+1. Create a destination VDI using the Volume API on the destination
+   SR. This must be the same size as the source. To minimize copying
+   the destination VDI may be cloned from one that has been previously
+   copied, as long as a disk from which the copy was made is still
+   present on the source (even as a metadata-only disk)
+
+2. Arrange for the destination disk to be accessible on the source
+   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
+   other URL.
+
+3. Start mirroring all new writes to the destination disk via the
+   `Data.mirror` API call.
+
+4. Find the list of blocks to copy via the CBT API call. Note that if
+   the destination volume has not been 'prezeroed' then all of the
+   blocks must be copied to the destination.
+
+5. Start the background copy of the disk via a call to `DATA.copy`,
+   passing in the list of blocks to copy. The plugin must ensure that
+   the copy does not conflict with the mirror operation - ie., all
+   writes from the mirror operation must not be overwritten by writes
+   of old data from the copy operation.
+
+6. The progress of the copy operation may be queried via the `Data.stat`
+   call.
+
+7. Once the copy operation has succesfully completed the destination
+   disk will be a perfect mirror of the source.
+
+     """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>operation</td>
+<td>in</td>
+<td>operation</td>
+<td>The primary key for referring to a long-running operation</td>
+</tr>
+</tbody></table>
+<h2 id='method-destroy'>Method: <code>destroy</code></h2>
+<p>[destroy operation] destroys the information about a long-running  operation. This should fail when run against an operation that is  still in progress.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.destroy"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">39</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
+        <span class="s">"""
+This interface is used for long-running data operations such as
+copying the contents of volumes or mirroring volumes to remote
+destinations.
+
+These operations are asynchronous and rely on the Tasks API to
+report results and errors.
+
+To mirror a VDI a sequence of these API calls is required:
+
+1. Create a destination VDI using the Volume API on the destination
+   SR. This must be the same size as the source. To minimize copying
+   the destination VDI may be cloned from one that has been previously
+   copied, as long as a disk from which the copy was made is still
+   present on the source (even as a metadata-only disk)
+
+2. Arrange for the destination disk to be accessible on the source
+   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
+   other URL.
+
+3. Start mirroring all new writes to the destination disk via the
+   `Data.mirror` API call.
+
+4. Find the list of blocks to copy via the CBT API call. Note that if
+   the destination volume has not been 'prezeroed' then all of the
+   blocks must be copied to the destination.
+
+5. Start the background copy of the disk via a call to `DATA.copy`,
+   passing in the list of blocks to copy. The plugin must ensure that
+   the copy does not conflict with the mirror operation - ie., all
+   writes from the mirror operation must not be overwritten by writes
+   of old data from the copy operation.
+
+6. The progress of the copy operation may be queried via the `Data.stat`
+   call.
+
+7. Once the copy operation has succesfully completed the destination
+   disk will be a perfect mirror of the source.
+
+     """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>operation</td>
+<td>in</td>
+<td>operation</td>
+<td>The primary key for referring to a long-running operation</td>
+</tr>
+</tbody></table>
+<h2 id='method-ls'>Method: <code>ls</code></h2>
+<p>[ls] returns a list of all current operations</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.ls"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operations</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operations</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<span class="kn">import</span> <span class="nn">xapi</span>
+<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
+    <span class="c"># by default each method will return a Not_implemented error</span>
+    <span class="c"># ...</span>
+    <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
+        <span class="s">"""
+This interface is used for long-running data operations such as
+copying the contents of volumes or mirroring volumes to remote
+destinations.
+
+These operations are asynchronous and rely on the Tasks API to
+report results and errors.
+
+To mirror a VDI a sequence of these API calls is required:
+
+1. Create a destination VDI using the Volume API on the destination
+   SR. This must be the same size as the source. To minimize copying
+   the destination VDI may be cloned from one that has been previously
+   copied, as long as a disk from which the copy was made is still
+   present on the source (even as a metadata-only disk)
+
+2. Arrange for the destination disk to be accessible on the source
+   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
+   other URL.
+
+3. Start mirroring all new writes to the destination disk via the
+   `Data.mirror` API call.
+
+4. Find the list of blocks to copy via the CBT API call. Note that if
+   the destination volume has not been 'prezeroed' then all of the
+   blocks must be copied to the destination.
+
+5. Start the background copy of the disk via a call to `DATA.copy`,
+   passing in the list of blocks to copy. The plugin must ensure that
+   the copy does not conflict with the mirror operation - ie., all
+   writes from the mirror operation must not be overwritten by writes
+   of old data from the copy operation.
+
+6. The progress of the copy operation may be queried via the `Data.stat`
+   call.
+
+7. Once the copy operation has succesfully completed the destination
+   disk will be a perfect mirror of the source.
+
+     """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span> <span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="c"># ...</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>unnamed</td>
+<td>out</td>
+<td>operations</td>
+<td>A list of operations</td>
+</tr>
+</tbody></table>
+<h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>type <code>exnt</code> = variant { ... }</p>
+<h4 id='constructors-2'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Unimplemented</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='exnt-2'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>type <code>exnt</code> = variant { ... }</p>
+<h4 id='constructors-3'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Unimplemented</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="json">json</a>
+                <a href="#" data-language-name="ocaml">ocaml</a>
+                <a href="#" data-language-name="python">python</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
