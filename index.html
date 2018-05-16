@@ -513,13 +513,15 @@ in domain 0 to sophisticated services running somewhere on the network.</p>
 <p>Consider for example a system using Linux LVM, where individual LVs are mapped
 to VMs as virtual disks. The volume plugin for LVM could implement the
 <code>Volume.create</code> API by simply calling</p>
-<pre class="highlight plaintext"><code>lvcreate -n name -L 64GiB -Z n
-</code></pre>
+
+<p><code>lvcreate -n name -L 64GiB -Z n</code></p>
+
 <p>Consider another example where volumes are simple sparse files stored on an NFS
 share. The volume plugin could implement the <code>Volume.create</code> API by simply
 calling:</p>
-<pre class="highlight plaintext"><code>dd if=/dev/zero of=disk.name count=1 skip=64G
-</code></pre><h3 id='connecting-volumes-to-vms'>Connecting volumes to VMs</h3>
+
+<p><code>dd if=/dev/zero of=disk.name count=1 skip=64G</code></p>
+<h3 id='connecting-volumes-to-vms'>Connecting volumes to VMs</h3>
 <p>VMs running on the Xen hypervisor use special shared-memory protocols to access
 their disks and network interfaces. There are several implementations of these
 protocols including:</p>
@@ -612,18 +614,23 @@ RBD via librados, so Xapi tells libxl to set this up.</p>
 
 <p><img src="images/arch-vm-start.svg" alt="Diagram showing a XenAPI client sending a VM.start request." /></p>
 <h2 id='frequently-asked-questions-how-do-i'>Frequently Asked Questions: How Do I...</h2><h3 id='test-my-code'>Test my code?</h3>
-<p>Although it&#39;s not enforced by the interface, plugin implementations should
-avoid interacting with the toolstack so that they can be easily tested in
-isolation. The OCaml and python generated code includes a convenient
-command-line parser so if you write:</p>
-<pre class="highlight python tab-python"><code><span class="k">class</span> <span class="nc">Implementation</span><span class="p">(</span><span class="n">xapi</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">SR_skeleton</span><span class="p">):</span>
+<blockquote>
+<p>The OCaml and python generated code includes a convenient command-line parser
+so if you write:</p>
+</blockquote>
+<pre class="highlight ocaml tab-ocaml"><code><span class="k">module</span> <span class="nc">Cmds</span> <span class="p">=</span> <span class="nn">Xapi_storage</span><span class="p">.</span><span class="nn">Control</span><span class="p">.</span><span class="nc">Sr</span><span class="p">(</span><span class="nn">Cmdlinergen</span><span class="p">.</span><span class="nc">Gen</span> <span class="bp">()</span><span class="p">)</span>
+
+<span class="nn">Cmdliner</span><span class="p">.</span><span class="nn">Term</span><span class="p">.</span><span class="n">eval_choice</span> <span class="n">default_cmd</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="p">(</span><span class="k">fun</span> <span class="n">t</span> <span class="p">-&gt;</span> <span class="n">t</span> <span class="n">rpc</span><span class="p">)</span> <span class="p">(</span><span class="nn">Cmds</span><span class="p">.</span><span class="n">implementation</span> <span class="bp">()</span><span class="o">))</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="k">class</span> <span class="nc">Implementation</span><span class="p">(</span><span class="n">xapi</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="k">pass</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">SR_commandline</span><span class="p">(</span><span class="n">Implementation</span><span class="p">())</span>
     <span class="n">cmd</span><span class="o">.</span><span class="n">attach</span><span class="p">()</span>
 </code></pre>
+<blockquote>
 <p>You&#39;ll be able to run the command like this:</p>
+</blockquote>
 <pre class="highlight plaintext"><code>$ ./SR.attach
 usage: SR.attach [-h] [-j] dbg uri
 SR.attach: error: too few arguments
@@ -641,7 +648,11 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
   -j, --json  Read json from stdin, print json to stdout
-</code></pre><h3 id='report-dynamic-properties-like-space-consumption'>Report dynamic properties like space consumption?</h3>
+</code></pre>
+<p>Although it&#39;s not enforced by the interface, plugin implementations should
+avoid interacting with the toolstack so that they can be easily tested in
+isolation.</p>
+<h3 id='report-dynamic-properties-like-space-consumption'>Report dynamic properties like space consumption?</h3>
 <p>Dynamic properties like space consumption, bandwidth or latency should be
 exposed as &quot;datasources&quot;. The SR.stat function should return a list of URIs
 pointing at these in &quot;xenostats&quot; format. The toolstack will hook up these
