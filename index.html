@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>SMAPIv3</title>
+    <title>SMAPIv3 Xapi Storage Interface</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -221,7 +221,35 @@
         <ul class="search-results"></ul>
       <div id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="introduction">Introduction</a>
+            <a href="#smapiv3-xapi-storage-interface" class="toc-h1 toc-link" data-title="smapiv3-xapi-storage-interface">SMAPIv3 Xapi Storage Interface</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#who-is-this-for" class="toc-h2 toc-link" data-title="who-is-this-for">Who Is This For?</a>
+                  </li>
+                  <li>
+                    <a href="#status-of-this-documentation" class="toc-h2 toc-link" data-title="status-of-this-documentation">Status of This Documentation</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#learn" class="toc-h1 toc-link" data-title="learn">Learn</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#features" class="toc-h2 toc-link" data-title="features">Features</a>
+                  </li>
+                  <li>
+                    <a href="#concepts" class="toc-h2 toc-link" data-title="concepts">Concepts</a>
+                  </li>
+                  <li>
+                    <a href="#architecture" class="toc-h2 toc-link" data-title="architecture">Architecture</a>
+                  </li>
+                  <li>
+                    <a href="#frequently-asked-questions-how-do-i" class="toc-h2 toc-link" data-title="frequently-asked-questions-how-do-i">Frequently Asked Questions: How Do I...</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#develop" class="toc-h1 toc-link" data-title="develop">Develop</a>
           </li>
           <li>
             <a href="#plugin" class="toc-h1 toc-link" data-title="plugin">plugin</a>
@@ -419,15 +447,255 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://github.com/xapi-project/xapi-storage'>Source Code of SMAPIv3 Interface</a></li>
+            <li><a href='https://github.com/xapi-project/xapi-storage/tree/slate'>Source Code of Website</a></li>
             <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>SMAPIv3 storage interface API reference.</p>
+        <h1 id='smapiv3-xapi-storage-interface'>SMAPIv3 Xapi Storage Interface</h1>
+<p>The SMAPIv3 storage interface provides an easy way to connect <a href="https://github.com/xapi-project/xen-api">xapi</a> to any
+storage type.</p>
+<h2 id='who-is-this-for'>Who Is This For?</h2>
+<p><img src="images/your-bit-here.svg" alt="Your bit here" /></p>
+
+<p>This is for anyone who has a storage system which is not supported by xapi
+out-of-the-box.</p>
+
+<p>This is also for anyone who wants to manage their storage in a customized way.
+If you can make your volumes appear as Linux block devices or you can refer to
+the volumes via URIs of the form <code>iscsi://</code>,  <code>nfs://</code>,  or <code>rbd://</code>, then this
+documentation is for you.</p>
+
+<p><strong>No Xapi or Xen specific knowledge is required.</strong></p>
+<h2 id='status-of-this-documentation'>Status of This Documentation</h2>
+<p>This documentation is a draft intended for discussion, which happens through
+the <a href="https://github.com/xapi-project/xapi-storage/issues">issues on GitHub</a>.</p>
+<h1 id='learn'>Learn</h1><h2 id='features'>Features</h2>
+<p>The xapi storage interface supports the following features:</p>
+
+<ul>
+<li>Storage Repositories: collections of Volumes on the same storage substrate</li>
+<li>Volumes may be created, cloned, snapshotted, queried, attached to and
+detached from VMs</li>
+<li>Storage Repositories can be incrementally probed; for example given only an
+iSCSI target portal, the IQNs and then the LUNs can be discovered.</li>
+<li>Everything is named by URIs, where the scheme describes the protocol used to
+access the data (e.g. file, iscsi)</li>
+<li>Implementations expose capabilities and these are reported via the XenAPI</li>
+<li>Dynamic properties (such as space utilisation, I/O bandwidth and latency) can
+be exposed as &quot;datasources&quot; which are compatible with the xapi toolstack RRD
+framework.</li>
+<li>The storage implementation can be used to store the xapi HA statefile and
+database redo logs</li>
+<li>If the storage implementation supports fast clone, then it will work with the
+xapi &quot;clone on boot&quot; feature</li>
+</ul>
+<h2 id='concepts'>Concepts</h2>
+<p>When a virtual machine looks at its disk, it sees something which looks like a
+real physical disk. This is an illusion. In reality the bytes of data written
+to the &quot;virtual disk&quot; probably reside in a file in a filesystem or in a logical
+volume on some physical storage system that the VM cannot see.</p>
+
+<p>We call the real physical storage system a <strong>Storage Repository</strong> (SR).</p>
+
+<p>We call the virtual disks within the SR <strong>volumes</strong>.</p>
+<h3 id='manipulating-volumes'>Manipulating volumes</h3>
+<p>When a VM is installed, a volume will be created. Typically this volume will be
+deleted when the VM is uninstalled. The Xapi toolstack doesn&#39;t know how to
+manipulate volumes on your storage system directly; instead it delegates to
+&quot;Volume plugins&quot;: implementation-specific plugins which know how to talk the
+storage-specific APIs. These volume plugins can be anything from simple scripts
+in domain 0 to sophisticated services running somewhere on the network.</p>
+
+<p>Consider for example a system using Linux LVM, where individual LVs are mapped
+to VMs as virtual disks. The volume plugin for LVM could implement the
+<code>Volume.create</code> API by simply calling</p>
+<pre class="highlight plaintext"><code>lvcreate -n name -L 64GiB -Z n
+</code></pre>
+<p>Consider another example where volumes are simple sparse files stored on an NFS
+share. The volume plugin could implement the <code>Volume.create</code> API by simply
+calling:</p>
+<pre class="highlight plaintext"><code>dd if=/dev/zero of=disk.name count=1 skip=64G
+</code></pre><h3 id='connecting-volumes-to-vms'>Connecting volumes to VMs</h3>
+<p>VMs running on the Xen hypervisor use special shared-memory protocols to access
+their disks and network interfaces. There are several implementations of these
+protocols including:</p>
+
+<ul>
+<li>the <a href="http://lxr.free-electrons.com/source/drivers/block/xen-blkback/blkback.c">Linux
+xen-blkback</a>
+kernel module</li>
+<li>the <a href="https://github.com/freebsd/freebsd/blob/master/sys/dev/xen/blkback/blkback.c">FreeBSD
+blkback</a>
+driver</li>
+<li>the <a href="https://github.com/qemu/qemu/blob/master/hw/xen/xen_backend.c">QEMU
+qdisk</a>
+userspace implementation</li>
+<li>the <a href="http://xenserver.org/discuss-virtualization/virtualization-blog/entry/tapdisk3.html">XenServer
+tapdisk3</a>
+userspace implementation</li>
+<li>the <a href="https://github.com/mirage/mirage-block-xen">MirageOS</a> userspace and
+kernelspace implementation</li>
+</ul>
+
+<p>With so many implementations to choose from, which one should we use for a
+given volume? This decision - and how to configure the implementation for
+maximum performance - is the job of the Datapath plugin.</p>
+<h3 id='disks-as-uris'>Disks as URIs</h3>
+<p>Every volume has one or more URIs, which describe how to access the data within
+the volume. Examples include:</p>
+
+<ul>
+<li><code>file:///local/block/device</code> - a local file or block device</li>
+<li><code>nfs://server/export/path/file.qcow2</code> - a remote NFS server exporting a
+.qcow2 format file</li>
+<li><code>smb://server/export/path/file.vhd</code> - a remote CIFS server exporting a .vhd
+format file</li>
+<li><code>rbd://pool/volume</code> - a volume in a Ceph storage pool</li>
+<li><code>iscsi://target/lun</code> - a LUN on an iSCSI array</li>
+</ul>
+
+<p>The Xapi toolstack takes the list of URIs provided by the Volume plugin and
+creates a connection between the VM and the disk. Xapi chooses a &quot;Datapath
+plugin&quot; based on the URI scheme. The Datapath plugin returns Xen-specific
+connection details, including choice of backend (kernel blkback or userspace
+qemu) and caching options.</p>
+<h2 id='architecture'>Architecture</h2>
+<p>The system is divided into two parts, intended for people with different
+expertise:</p>
+
+<ol>
+<li>Volume Plugin: this is the storage control-plane. Xapi delegates Volume
+manipulation requests to these plugins, which know how to operate on the
+physical storage which could be anything from an NFS/CIFS server, an iSCSI
+target or a Ceph deployment. <strong>No virtualisation knowledge is required to
+write a Volume Plugin.</strong> The volume plugin do not perform I/O directly,
+instead they associate volumes with URIs which encode a particular method
+for accessing the disk data. For example an NFS plugin could expose URIs of
+the form <code>nfs://server/path/file</code></li>
+<li>Datapath Plugin: this is the storage data-plane. This is Xen-specific code
+which chooses the best way to connect VMs to individual disks. <strong>Xen expertise
+is needed to write a datapath plugin.</strong> Note that this code doesn&#39;t know about
+volumes; it only knows about specific volume access protocols such as NFS,
+iSCSI and RBD.</li>
+</ol>
+<h3 id='volume-plugins'>Volume Plugins</h3>
+<p>Clients such as <a href="http://www.openstack.org/">OpenStack</a>, <a href="http://cloudstack.apache.org/">CloudStack</a>, <a href="https://github.com/xenserver/xenadmin">XenCenter</a> and <a href="https://xen-orchestra.com/">Xen Orchestra</a>
+create VMs and virtual disks by sending XenAPI requests to Xapi. Xapi doesn&#39;t
+know how to manipulate storage directly, so it delegates storage operations to
+a <strong>Volume Plugin</strong>. Each &quot;Storage Repository&quot; is associated with exactly one
+Volume Plugin. These plugins know how to</p>
+
+<ul>
+<li>create volumes;</li>
+<li>destroy volumes;</li>
+<li>snapshot volumes;</li>
+<li>clone volumes; and</li>
+<li>list the ways in which a volume may be accessed.</li>
+</ul>
+
+<p>The following diagram shows a XenAPI client sending a VDI.create request
+causing Xapi to send a Volume.create request to a specific plugin:</p>
+
+<p><img src="images/arch-vol-create.svg" alt="Diagram showing a XenAPI client sending a VDI.create request causing Xapi to
+send a Volume.create request to a plugin." /></p>
+<h3 id='datapath-plugins'>Datapath Plugins</h3>
+<p>The following diagram shows a XenAPI client sending a VM.start request. Xapi
+calls <code>Volume.stat</code> to list the available access methods for the VM&#39;s disks. The
+Ceph Volume Plugin returns a URL of the form <code>rbd://server/pool</code> so Xapi consults
+its &quot;rbd&quot; Datapath plugin and asks &quot;how should I connect this datapath to the
+VM?&quot;. The datapath plugin tells Xapi to use QEMU qdisk&#39;s built-in support for
+RBD via librados, so Xapi tells libxl to set this up.</p>
+
+<p><img src="images/arch-vm-start.svg" alt="Diagram showing a XenAPI client sending a VM.start request." /></p>
+<h2 id='frequently-asked-questions-how-do-i'>Frequently Asked Questions: How Do I...</h2><h3 id='test-my-code'>Test my code?</h3>
+<p>Although it&#39;s not enforced by the interface, plugin implementations should
+avoid interacting with the toolstack so that they can be easily tested in
+isolation. The OCaml and python generated code includes a convenient
+command-line parser so if you write:</p>
+<pre class="highlight python tab-python"><code><span class="k">class</span> <span class="nc">Implementation</span><span class="p">(</span><span class="n">xapi</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">SR_skeleton</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">SR_commandline</span><span class="p">(</span><span class="n">Implementation</span><span class="p">())</span>
+    <span class="n">cmd</span><span class="o">.</span><span class="n">attach</span><span class="p">()</span>
+</code></pre>
+<p>You&#39;ll be able to run the command like this:</p>
+<pre class="highlight plaintext"><code>$ ./SR.attach
+usage: SR.attach [-h] [-j] dbg uri
+SR.attach: error: too few arguments
+
+$ ./SR.attach -h
+usage: SR.attach [-h] [-j] dbg uri
+
+[attach uri]: attaches the SR to the local host. Once an SR is attached then
+volumes may be manipulated.
+
+positional arguments:
+  dbg         Debug context from the caller
+  uri         The Storage Repository URI
+
+optional arguments:
+  -h, --help  show this help message and exit
+  -j, --json  Read json from stdin, print json to stdout
+</code></pre><h3 id='report-dynamic-properties-like-space-consumption'>Report dynamic properties like space consumption?</h3>
+<p>Dynamic properties like space consumption, bandwidth or latency should be
+exposed as &quot;datasources&quot;. The SR.stat function should return a list of URIs
+pointing at these in &quot;xenostats&quot; format. The toolstack will hook up these
+datasources to the <a href="https://github.com/xapi-project/xcp-rrdd">xcp-rrdd</a> daemon which will record history. XenAPI clients
+can then use the <a href="http://xapi-project.github.io/xen-api/metrics.html">RRD API</a> to fetch the data, draw graphs etc.</p>
+<h3 id='expose-backend-specific-functions'>Expose backend-specific functions?</h3>
+<p>The SMAPIv3 is intended to be a <em>generic</em> API. Before extending the SMAPIv3
+itself, first ask the question: would this make sense for 3 completely
+different storage stacks (e.g. consider Ceph, LVM over iSCSI and gfs2). If the
+concept is actually general then propose an SMAPIv3 update via a <a href="https://github.com/xapi-project/xapi-storage/pulls">pull
+request</a>. If the concept
+is actually backend-specific then consider adding a new <a href="http://xapi-project.github.io/devguide/howtos/add-api-extension.html">XenAPI extension</a> for it
+and name the API appropriately (e.g. &quot;LVHD.foo&quot;).</p>
+<h3 id='call-xapi'>Call <a href="https://github.com/xapi-project/xen-api">xapi</a>?</h3>
+<p>Nothing in the interface prevents you from making RPC calls to xapi or other
+toolstack components, however doing so will make it more difficult to test your
+component in isolation.</p>
+
+<p>In the past, a common reason to call xapi was to store data in the xapi
+database, for example the &quot;sm-config&quot; fields. This was unreliable because</p>
+
+<ul>
+<li>The &quot;sm-config&quot; key,value pairs can disappear, for example if the SR is
+forgotten and then re-attached.</li>
+<li>The &quot;sm-config&quot; key,value pairs may be duplicated over VDI.clone (or not):
+the exact behaviour was never defined.</li>
+<li>If the storage is itself reverted to a previous point in time (imagine an
+SR-level snapshot), then the &quot;sm-config&quot; keys, value pairs will not be
+reverted.</li>
+</ul>
+
+<p>It is strongly recommended to store all storage-related state on the storage
+medium. This ensures that the metadata has a &quot;shared fate&quot; with the data: if
+data is restored from backup, reverted to a snapshot, then so is the metadata.</p>
+<h3 id='tie-my-cluster-to-the-xapi-pool'>Tie my cluster to the <a href="https://github.com/xapi-project/xen-api">xapi</a> Pool?</h3>
+<p>Ideally a storage cluster would be managed separately from a xapi pool, with
+it&#39;s own configuration and monitoring interfaces. The storage cluster could be
+very large (consider Ceph-style scale-out) while the xapi pool is designed to
+remain within a rack.</p>
+
+<p>In the past, a common reason to tie a storage cluster to the xapi pool was to
+piggyback on the xapi notions of a single pool master, HA and inter-host
+authenticated RPC mechanisms to co-ordinate activities sych as vhd coalescing.
+If it is still necessary to tie a storage cluster to a xapi pool then the
+storage implementation should launch it&#39;s own &quot;pool monitor&quot; service which
+could use the xapi pool APIs to track host membership and master status. Note:
+this might require adding new capabilities to xapi&#39;s pool APIs, but they should
+not be part of the storage API itself.</p>
+
+<p>Note: in the case where a particular storage implementation requires a
+particular HA cluster stack to be running, this can be declared in the
+<code>Plugin.query</code> call.</p>
+<h1 id='develop'>Develop</h1>
+<p>Below you can find the SMAPIv3 API Reference:</p>
 <h1 id='plugin'>plugin</h1>
 <p>The Datapath plugin takes a URI which points to virtual disk data  and chooses a Xen datapath implementation: driver domain, blkback  implementation and caching strategy.</p>
 <h2 id='type-definitions'>Type definitions</h2><h3 id='query_result'>query_result</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
