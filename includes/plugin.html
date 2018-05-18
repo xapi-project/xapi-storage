@@ -230,7 +230,7 @@
                     <a href="#interface-plugin" class="toc-h2 toc-link" data-title="interface-code-plugin-code">Interface: <code>Plugin</code></a>
                   </li>
                   <li>
-                    <a href="#method-query" class="toc-h2 toc-link" data-title="method-code-query-code">Method: <code>Query</code></a>
+                    <a href="#method-query" class="toc-h2 toc-link" data-title="method-code-query-code">Method: <code>query</code></a>
                   </li>
                   <li>
                     <a href="#method-ls" class="toc-h2 toc-link" data-title="method-code-ls-code">Method: <code>ls</code></a>
@@ -330,15 +330,15 @@ Properties of this implementation</p>
 <p>type <code>srs</code> = string list</p>
 <h2 id='interface-plugin'>Interface: <code>Plugin</code></h2>
 <p>Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi.</p>
-<h2 id='method-query'>Method: <code>Query</code></h2>
+<h2 id='method-query'>Method: <code>query</code></h2>
 <p>Query this implementation and return its properties. This is  called by xapi to determine whether it is compatible with xapi  and to discover the supported features.</p>
 
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.Query"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.query"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">query_result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="nc">Query</span> <span class="n">dbg</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">query_result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">query</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
@@ -349,7 +349,7 @@ Properties of this implementation</p>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">Query</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">query</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
@@ -370,7 +370,7 @@ Properties of this implementation</p>
   </span><span class="s2">"plugin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">query_result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="nc">Query</span> <span class="n">dbg</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">query_result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">query</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
@@ -382,7 +382,7 @@ Properties of this implementation</p>
 <span class="k">class</span> <span class="nc">Plugin_myimplementation</span><span class="p">(</span><span class="n">Plugin_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
-    <span class="k">def</span> <span class="nf">Query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
         <span class="s">"""Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"plugin"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"vendor"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"required_api_version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"features"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">},</span> <span class="s">"required_cluster_stack"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">]</span> <span class="p">}</span>
