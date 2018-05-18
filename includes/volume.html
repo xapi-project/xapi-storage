@@ -535,6 +535,28 @@ List of blocks for copying</p>
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>type <code>key_list</code> = string list</p>
+<h3 id='changed_blocks'>changed_blocks</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"granularity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>changed_blocks</code> = struct  { ... }</p>
+<h4 id='members-4'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>granularity</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>bitmap</td>
+<td>string</td>
+<td>The changed blocks between two volumes as a base64-encoded string</td>
+</tr>
+</tbody></table>
 <h2 id='interface-sr'>Interface: <code>SR</code></h2>
 <p>Operations which act on Storage Repositories</p>
 <h2 id='method-probe'>Method: <code>probe</code></h2>
@@ -2868,11 +2890,20 @@ List of blocks for copying</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Volume.list_changed_blocks"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="p">,</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"length"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"offset"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="n">offset</span> <span class="n">length</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Sr_not_attached</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">SR_does_not_exist</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
@@ -2888,15 +2919,15 @@ List of blocks for copying</p>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">list_changed_blocks</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key2</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">list_changed_blocks</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key2</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="il">0L</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="s2">"changed_blocks"</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"granularity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="n">offset</span> <span class="n">length</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Sr_not_attached</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">SR_does_not_exist</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
@@ -2913,10 +2944,10 @@ List of blocks for copying</p>
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
-    <span class="k">def</span> <span class="nf">list_changed_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_changed_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
         <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"changed_blocks"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"string"</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"changed_blocks"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"granularity"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"bitmap"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -2953,10 +2984,22 @@ List of blocks for copying</p>
 <td>The volume key</td>
 </tr>
 <tr>
+<td>offset</td>
+<td>in</td>
+<td>int64</td>
+<td>The offset of the extent for which changed blocks should be computed</td>
+</tr>
+<tr>
+<td>length</td>
+<td>in</td>
+<td>int</td>
+<td>The length of the extent for which changed blocks should be computed</td>
+</tr>
+<tr>
 <td>changed_blocks</td>
 <td>out</td>
-<td>string</td>
-<td>The changed blocks between two volumes as a base64-encoded string</td>
+<td>changed_blocks</td>
+<td>The changed blocks between two volumes in the specified extent</td>
 </tr>
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exns'>exns</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Sr_not_attached"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">

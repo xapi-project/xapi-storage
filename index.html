@@ -1032,7 +1032,16 @@ operations from VMs and the <code>Data</code> interface is used for operations s
 <p>type <code>persistent</code> = bool
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</p>
 <h3 id='backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"implementation"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -1052,9 +1061,9 @@ A description of which Xen block backend to use. The toolstack needs this to set
 <td>UUID of the domain hosting the backend</td>
 </tr>
 <tr>
-<td>implementation</td>
-<td>variant { ... }</td>
-<td>choice of implementation technology</td>
+<td>implementations</td>
+<td>variant { ... } list</td>
+<td>choice of implementation technologies</td>
 </tr>
 </tbody></table>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
@@ -1299,7 +1308,27 @@ Volumes must be attached via the following sequence of calls:
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_1"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_2_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"extra_2_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_1"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_2_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"extra_2_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
@@ -1343,7 +1372,7 @@ Volumes must be attached via the following sequence of calls:
    simultaneously.
       """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementation"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span> <span class="p">]</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -2790,6 +2819,28 @@ List of blocks for copying</p>
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>type <code>key_list</code> = string list</p>
+<h3 id='changed_blocks'>changed_blocks</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"granularity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>changed_blocks</code> = struct  { ... }</p>
+<h4 id='members-4'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>granularity</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>bitmap</td>
+<td>string</td>
+<td>The changed blocks between two volumes as a base64-encoded string</td>
+</tr>
+</tbody></table>
 <h2 id='interface-sr'>Interface: <code>SR</code></h2>
 <p>Operations which act on Storage Repositories</p>
 <h2 id='method-probe'>Method: <code>probe</code></h2>
@@ -5123,11 +5174,20 @@ List of blocks for copying</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Volume.list_changed_blocks"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="p">,</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"length"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"offset"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="n">offset</span> <span class="n">length</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Sr_not_attached</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">SR_does_not_exist</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
@@ -5143,15 +5203,15 @@ List of blocks for copying</p>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">list_changed_blocks</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key2</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">list_changed_blocks</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key2</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="il">0L</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="s2">"changed_blocks"</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"granularity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="n">offset</span> <span class="n">length</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Sr_not_attached</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">SR_does_not_exist</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
@@ -5168,10 +5228,10 @@ List of blocks for copying</p>
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
-    <span class="k">def</span> <span class="nf">list_changed_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_changed_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
         <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"changed_blocks"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"string"</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"changed_blocks"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"granularity"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"bitmap"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -5208,10 +5268,22 @@ List of blocks for copying</p>
 <td>The volume key</td>
 </tr>
 <tr>
+<td>offset</td>
+<td>in</td>
+<td>int64</td>
+<td>The offset of the extent for which changed blocks should be computed</td>
+</tr>
+<tr>
+<td>length</td>
+<td>in</td>
+<td>int</td>
+<td>The length of the extent for which changed blocks should be computed</td>
+</tr>
+<tr>
 <td>changed_blocks</td>
 <td>out</td>
-<td>string</td>
-<td>The changed blocks between two volumes as a base64-encoded string</td>
+<td>changed_blocks</td>
+<td>The changed blocks between two volumes in the specified extent</td>
 </tr>
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exns'>exns</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Sr_not_attached"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">

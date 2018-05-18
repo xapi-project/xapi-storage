@@ -288,7 +288,16 @@ operations from VMs and the <code>Data</code> interface is used for operations s
 <p>type <code>persistent</code> = bool
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</p>
 <h3 id='backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"implementation"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -308,9 +317,9 @@ A description of which Xen block backend to use. The toolstack needs this to set
 <td>UUID of the domain hosting the backend</td>
 </tr>
 <tr>
-<td>implementation</td>
-<td>variant { ... }</td>
-<td>choice of implementation technology</td>
+<td>implementations</td>
+<td>variant { ... } list</td>
+<td>choice of implementation technologies</td>
 </tr>
 </tbody></table>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
@@ -555,7 +564,27 @@ Volumes must be attached via the following sequence of calls:
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_1"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_2_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"extra_2_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_1"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"extra_2_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"extra_2_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
@@ -599,7 +628,7 @@ Volumes must be attached via the following sequence of calls:
    simultaneously.
       """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementation"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span> <span class="p">]</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
