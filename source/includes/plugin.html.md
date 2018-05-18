@@ -50,18 +50,18 @@ type `srs` = string list
 
 ## Interface: `Plugin`
 Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi.
-## Method: `Query`
+## Method: `query`
 Query this implementation and return its properties. This is  called by xapi to determine whether it is compatible with xapi  and to discover the supported features.
 
 > Client
 
 ```json
-{ "method": "Plugin.Query", "params": [ { "dbg": "dbg" } ], "id": 1 }
+{ "method": "Plugin.query", "params": [ { "dbg": "dbg" } ], "id": 1 }
 ```
 
 ```ocaml
 try
-    let query_result = Client.Query dbg in
+    let query_result = Client.query dbg in
     ...
 with Exn (Unimplemented str) -> ...
 
@@ -75,7 +75,7 @@ from storage import *
 
 if __name__ == "__main__":
     c = xapi.connect()
-    results = c.Plugin.Query({ dbg: "string" })
+    results = c.Plugin.query({ dbg: "string" })
     print (repr(results))
 ```
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
 ```ocaml
 try
-    let query_result = Client.Query dbg in
+    let query_result = Client.query dbg in
     ...
 with Exn (Unimplemented str) -> ...
 
@@ -115,7 +115,7 @@ from storage import *
 class Plugin_myimplementation(Plugin_skeleton):
     # by default each method will return a Not_implemented error
     # ...
-    def Query(self, dbg):
+    def query(self, dbg):
         """Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""
         result = {}
         result = { "plugin": "string", "name": "string", "description": "string", "vendor": "string", "copyright": "string", "version": "string", "required_api_version": "string", "features": [ "string", "string" ], "configuration": { "string": "string" }, "required_cluster_stack": [ "string", "string" ] }
