@@ -25,26 +25,17 @@ True means the disk data is persistent and should be preserved when the datapath
 ### backend
 ```json
 {
-  "implementations": [
-    [
-      "XenDisk",
-      {
-        "backend_type": "backend_type",
-        "extra": [ "extra", [ "extra" ] ],
-        "params": "params"
-      }
-    ]
-  ],
+  "implementation": [ "Blkback", "implementation" ],
   "domain_uuid": "domain_uuid"
 }
 ```
 type `backend` = struct  { ... }
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.
 #### Members
- Name            | Type                 | Description                            
------------------|----------------------|----------------------------------------
- domain_uuid     | string               | UUID of the domain hosting the backend 
- implementations | variant { ... } list | choice of implementation technologies  
+ Name           | Type            | Description                            
+----------------|-----------------|----------------------------------------
+ domain_uuid    | string          | UUID of the domain hosting the backend 
+ implementation | variant { ... } | choice of implementation technology    
 ### blocklist
 ```json
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
@@ -259,27 +250,7 @@ if __name__ == "__main__":
 > Server
 
 ```json
-{
-  "implementations": [
-    [
-      "XenDisk",
-      {
-        "backend_type": "backend_type",
-        "extra": [ "extra_1", [ "extra_2_1", "extra_2_2" ] ],
-        "params": "params"
-      }
-    ],
-    [
-      "XenDisk",
-      {
-        "backend_type": "backend_type",
-        "extra": [ "extra_1", [ "extra_2_1", "extra_2_2" ] ],
-        "params": "params"
-      }
-    ]
-  ],
-  "domain_uuid": "domain_uuid"
-}
+{ "implementation": [ "Blkback", "Blkback" ], "domain_uuid": "domain_uuid" }
 ```
 
 ```ocaml
@@ -329,7 +300,7 @@ Volumes must be attached via the following sequence of calls:
    simultaneously.
       """
         result = {}
-        result["backend"] = { "domain_uuid": "string", "implementations": [ None, None ] }
+        result["backend"] = { "domain_uuid": "string", "implementation": None }
         return result
     # ...
 ```

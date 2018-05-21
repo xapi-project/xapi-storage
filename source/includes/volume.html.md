@@ -143,17 +143,6 @@ List of blocks for copying
 ```
 type `key_list` = string list
 
-### changed_blocks
-```json
-{ "bitmap": "bitmap", "granularity": 0 }
-```
-type `changed_blocks` = struct  { ... }
-
-#### Members
- Name        | Type   | Description                                                       
--------------|--------|-------------------------------------------------------------------
- granularity | int    |                                                                   
- bitmap      | string | The changed blocks between two volumes as a base64-encoded string 
 ## Interface: `SR`
 Operations which act on Storage Repositories
 ## Method: `probe`
@@ -2234,23 +2223,14 @@ class Volume_myimplementation(Volume_skeleton):
 ```json
 {
   "method": "Volume.list_changed_blocks",
-  "params": [
-    {
-      "length": 0,
-      "offset": 0,
-      "key2": "key2",
-      "key": "key",
-      "sr": "sr",
-      "dbg": "dbg"
-    }
-  ],
+  "params": [ { "key2": "key2", "key": "key", "sr": "sr", "dbg": "dbg" } ],
   "id": 28
 }
 ```
 
 ```ocaml
 try
-    let changed_blocks = Client.list_changed_blocks dbg sr key key2 offset length in
+    let changed_blocks = Client.list_changed_blocks dbg sr key key2 in
     ...
 with Exn (Sr_not_attached str) -> ...
 | Exn (SR_does_not_exist str) -> ...
@@ -2269,19 +2249,19 @@ from storage import *
 
 if __name__ == "__main__":
     c = xapi.connect()
-    results = c.Volume.list_changed_blocks({ dbg: "string", sr: "string", key: "string", key2: "string", offset: 0L, length: 0L })
+    results = c.Volume.list_changed_blocks({ dbg: "string", sr: "string", key: "string", key2: "string" })
     print (repr(results))
 ```
 
 > Server
 
 ```json
-{ "bitmap": "bitmap", "granularity": 0 }
+"changed_blocks"
 ```
 
 ```ocaml
 try
-    let changed_blocks = Client.list_changed_blocks dbg sr key key2 offset length in
+    let changed_blocks = Client.list_changed_blocks dbg sr key key2 in
     ...
 with Exn (Sr_not_attached str) -> ...
 | Exn (SR_does_not_exist str) -> ...
@@ -2301,24 +2281,22 @@ from storage import *
 class Volume_myimplementation(Volume_skeleton):
     # by default each method will return a Not_implemented error
     # ...
-    def list_changed_blocks(self, dbg, sr, key, key2, offset, length):
+    def list_changed_blocks(self, dbg, sr, key, key2):
         """Operations which operate on volumes (also known as  Virtual Disk Images)"""
         result = {}
-        result["changed_blocks"] = { "granularity": 0L, "bitmap": "string" }
+        result["changed_blocks"] = "string"
         return result
     # ...
 ```
 
 
- Name           | Direction | Type           | Description                                                          
-----------------|-----------|----------------|----------------------------------------------------------------------
- dbg            | in        | string         | Debug context from the caller                                        
- sr             | in        | string         | The Storage Repository                                               
- key            | in        | key            | The volume key                                                       
- key2           | in        | key            | The volume key                                                       
- offset         | in        | int64          | The offset of the extent for which changed blocks should be computed 
- length         | in        | int            | The length of the extent for which changed blocks should be computed 
- changed_blocks | out       | changed_blocks | The changed blocks between two volumes in the specified extent       
+ Name           | Direction | Type   | Description                                                       
+----------------|-----------|--------|-------------------------------------------------------------------
+ dbg            | in        | string | Debug context from the caller                                     
+ sr             | in        | string | The Storage Repository                                            
+ key            | in        | key    | The volume key                                                    
+ key2           | in        | key    | The volume key                                                    
+ changed_blocks | out       | string | The changed blocks between two volumes as a base64-encoded string 
 ## Errors
 ### exns
 ```json
