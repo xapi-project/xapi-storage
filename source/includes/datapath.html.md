@@ -20,27 +20,36 @@ operations from VMs and the `Data` interface is used for operations such as `cop
 true
 false
 ```
-type `persistent` = bool
+type `persistent` = `bool`
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.
 ### backend
 ```json
 {
-  "implementation": [ "Blkback", "implementation" ],
+  "implementations": [
+    [
+      "XenDisk",
+      {
+        "backend_type": "backend_type",
+        "extra": { "extra": "extra" },
+        "params": "params"
+      }
+    ]
+  ],
   "domain_uuid": "domain_uuid"
 }
 ```
-type `backend` = struct  { ... }
+type `backend` = `struct { "domain_uuid": string, "implementations": variant { XenDisk, BlockDevice, File, Nbd } list }`
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.
 #### Members
- Name           | Type            | Description                            
-----------------|-----------------|----------------------------------------
- domain_uuid    | string          | UUID of the domain hosting the backend 
- implementation | variant { ... } | choice of implementation technology    
+ Name            | Type                                             | Description                            
+-----------------|--------------------------------------------------|----------------------------------------
+ domain_uuid     | string                                           | UUID of the domain hosting the backend 
+ implementations | variant { XenDisk, BlockDevice, File, Nbd } list | choice of implementation technologies  
 ### blocklist
 ```json
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
 ```
-type `blocklist` = struct  { ... }
+type `blocklist` = `struct { "blocksize": int, "ranges": int64 * int64 list }`
 List of blocks for copying
 #### Members
  Name      | Type               | Description                                                                                    
@@ -51,20 +60,20 @@ List of blocks for copying
 ```json
 "domain"
 ```
-type `domain` = string
+type `domain` = `string`
 A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.
 ### uri
 ```json
 "uri"
 ```
-type `uri` = string
+type `uri` = `string`
 A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.
 ### operation
 ```json
 [ "Copy", [ "operation", "operation" ] ]
 [ "Mirror", [ "operation", "operation" ] ]
 ```
-type `operation` = variant { ... }
+type `operation` = `variant { Copy, Mirror }`
 The primary key for referring to a long-running operation
 #### Constructors
  Name   | Type            | Description                                                                                   
@@ -75,7 +84,7 @@ The primary key for referring to a long-running operation
 ```json
 { "progress": 0.0, "failed": true }
 ```
-type `status` = struct  { ... }
+type `status` = `struct { "failed": bool, "progress": float option }`
 Status information for on-going tasks
 #### Members
  Name     | Type         | Description                                                                   
@@ -87,7 +96,7 @@ Status information for on-going tasks
 [ [ "Copy", [ "operations", "operations" ] ] ]
 []
 ```
-type `operations` = variant { ... } list
+type `operations` = `variant { Copy, Mirror } list`
 A list of operations
 ## Interface: `Datapath`
 
@@ -141,12 +150,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Datapath.open({ dbg: "string", uri: "string", persistent: True })
     print (repr(results))
 ```
@@ -167,42 +176,20 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Datapath_myimplementation(Datapath_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def open(self, dbg, uri, persistent):
         """
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """
+        [open uri persistent] is called before a disk is attached to a VM.
+        If persistent is true then care should be taken to persist all writes
+        to the disk. If persistent is false then the implementation should
+        configure a temporary location for writes so they can be thrown away
+        on [close].
+        """
         result = {}
         return result
     # ...
@@ -237,12 +224,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Datapath.attach({ dbg: "string", uri: "string", domain: "string" })
     print (repr(results))
 ```
@@ -250,7 +237,27 @@ if __name__ == "__main__":
 > Server
 
 ```json
-{ "implementation": [ "Blkback", "Blkback" ], "domain_uuid": "domain_uuid" }
+{
+  "implementations": [
+    [
+      "XenDisk",
+      {
+        "backend_type": "backend_type",
+        "extra": { "field_1": "value_1", "field_2": "value_2" },
+        "params": "params"
+      }
+    ],
+    [
+      "XenDisk",
+      {
+        "backend_type": "backend_type",
+        "extra": { "field_1": "value_1", "field_2": "value_2" },
+        "params": "params"
+      }
+    ]
+  ],
+  "domain_uuid": "domain_uuid"
+}
 ```
 
 ```ocaml
@@ -263,44 +270,24 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Datapath_myimplementation(Datapath_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def attach(self, dbg, uri, domain):
         """
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """
+        [attach uri domain] prepares a connection between the storage named by
+        [uri] and the Xen domain with id [domain]. The return value is the
+        information needed by the Xen toolstack to setup the shared-memory
+        blkfront protocol. Note that the same volume may be simultaneously
+        attached to multiple hosts for example over a migrate. If an
+        implementation needs to perform an explicit handover, then it should
+        implement [activate] and [deactivate]. This function is idempotent.
+        """
         result = {}
-        result["backend"] = { "domain_uuid": "string", "implementation": None }
+        result["backend"] = {"domain_uuid": "string", "implementations": [None]}
         return result
     # ...
 ```
@@ -335,12 +322,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Datapath.activate({ dbg: "string", uri: "string", domain: "string" })
     print (repr(results))
 ```
@@ -361,42 +348,20 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Datapath_myimplementation(Datapath_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def activate(self, dbg, uri, domain):
         """
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """
+        [activate uri domain] is called just before a VM needs to read or write
+        its disk. This is an opportunity for an implementation which needs to
+        perform an explicit volume handover to do it. This function is called
+        in the migration downtime window so delays here will be noticeable to
+        users and should be minimised. This function is idempotent.
+        """
         result = {}
         return result
     # ...
@@ -431,12 +396,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Datapath.deactivate({ dbg: "string", uri: "string", domain: "string" })
     print (repr(results))
 ```
@@ -457,42 +422,20 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Datapath_myimplementation(Datapath_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def deactivate(self, dbg, uri, domain):
         """
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """
+        [deactivate uri domain] is called as soon as a VM has finished reading
+        or writing its disk. This is an opportunity for an implementation which
+        needs to perform an explicit volume handover to do it. This function is
+        called in the migration downtime window so delays here will be
+        noticeable to users and should be minimised. This function is idempotent.
+        """
         result = {}
         return result
     # ...
@@ -527,12 +470,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Datapath.detach({ dbg: "string", uri: "string", domain: "string" })
     print (repr(results))
 ```
@@ -553,42 +496,23 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Datapath_myimplementation(Datapath_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def detach(self, dbg, uri, domain):
         """
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """
+        [detach uri domain] is called sometime after a VM has finished reading
+        or writing its disk. This is an opportunity to clean up any resources
+        associated with the disk. This function is called outside the migration
+        downtime window so can be slow without affecting users. This function is
+        idempotent. This function should never fail. If an implementation is
+        unable to perform some cleanup right away then it should queue the
+        action internally. Any error result represents a bug in the
+        implementation.
+        """
         result = {}
         return result
     # ...
@@ -623,12 +547,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Datapath.close({ dbg: "string", uri: "string" })
     print (repr(results))
 ```
@@ -649,42 +573,17 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Datapath_myimplementation(Datapath_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def close(self, dbg, uri):
         """
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """
+        [close uri] is called after a disk is detached and a VM shutdown. This
+        is an opportunity to throw away writes if the disk is not persistent.
+        """
         result = {}
         return result
     # ...
@@ -767,13 +666,13 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
-    results = c.Data.copy({ dbg: "string", uri: "string", domain: "string", remote: "string", blocklist: { "blocksize": 0L, "ranges": [ [], [] ] } })
+    c = myclient.connect()
+    results = c.Data.copy({ dbg: "string", uri: "string", domain: "string", remote: "string", blocklist: {"blocksize": 0L, "ranges": [[]]} })
     print (repr(results))
 ```
 
@@ -793,54 +692,22 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Data_myimplementation(Data_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def copy(self, dbg, uri, domain, remote, blocklist):
         """
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """
+        [copy uri domain remotes blocks] copies [blocks] from the local disk
+        to a remote URI. This may be called as part of a Volume Mirroring
+        operation, and hence may need to cooperate with whatever process is
+        currently mirroring writes to ensure data integrity is maintained.
+        The [remote] parameter is a remotely accessible URI, for example,
+        `nbd://root:pass@foo.com/path/to/disk` that must contain all necessary
+        authentication tokens
+        """
         result = {}
         result["operation"] = None
         return result
@@ -881,12 +748,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Data.mirror({ dbg: "string", uri: "string", domain: "string", remote: "string" })
     print (repr(results))
 ```
@@ -907,54 +774,18 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Data_myimplementation(Data_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def mirror(self, dbg, uri, domain, remote):
         """
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """
+        [mirror uri domain remote] starts mirroring new writes to the volume
+        to a remote URI (usually NBD). This is called as part of a volume
+        mirroring process
+        """
         result = {}
         result["operation"] = None
         return result
@@ -994,12 +825,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Data.stat({ dbg: "string", operation: None })
     print (repr(results))
 ```
@@ -1020,56 +851,19 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Data_myimplementation(Data_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def stat(self, dbg, operation):
         """
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """
+        [stat operation] returns the current status of [operation]. For a
+        copy operation, this will contain progress information.
+        """
         result = {}
-        result = { "failed": True, "progress": None }
+        result = {"failed": True, "progress": None}
         return result
     # ...
 ```
@@ -1105,12 +899,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Data.cancel({ dbg: "string", operation: None })
     print (repr(results))
 ```
@@ -1131,54 +925,17 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Data_myimplementation(Data_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def cancel(self, dbg, operation):
         """
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """
+        [cancel operation] cancels a long-running operation. Note that the
+        call may return before the operation has finished.
+        """
         result = {}
         return result
     # ...
@@ -1214,12 +971,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Data.destroy({ dbg: "string", operation: None })
     print (repr(results))
 ```
@@ -1240,54 +997,18 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Data_myimplementation(Data_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def destroy(self, dbg, operation):
         """
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """
+        [destroy operation] destroys the information about a long-running
+        operation. This should fail when run against an operation that is
+        still in progress.
+        """
         result = {}
         return result
     # ...
@@ -1317,12 +1038,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Data.ls({ dbg: "string" })
     print (repr(results))
 ```
@@ -1343,56 +1064,18 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Data_myimplementation(Data_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def ls(self, dbg):
         """
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """
+        [ls] returns a list of all current operations
+        """
         result = {}
-        result = [ None, None ]
+        result = [None]
         return result
     # ...
 ```
@@ -1407,7 +1090,7 @@ To mirror a VDI a sequence of these API calls is required:
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = variant { ... }
+type `exnt` = `variant { Unimplemented }`
 
 #### Constructors
  Name          | Type   | Description 
@@ -1417,7 +1100,7 @@ type `exnt` = variant { ... }
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = variant { ... }
+type `exnt` = `variant { Unimplemented }`
 
 #### Constructors
  Name          | Type   | Description 

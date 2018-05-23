@@ -15,7 +15,7 @@ The Task interface is required if the backend supports long-running  tasks.
 ```json
 "id"
 ```
-type `id` = string
+type `id` = `string`
 Unique identifier for a task
 ### task
 ```json
@@ -26,21 +26,21 @@ Unique identifier for a task
   "id": "id"
 }
 ```
-type `task` = struct  { ... }
+type `task` = `struct { "id": string, "debug_info": string, "ctime": float, "state": variant { Pending, Completed, Failed } }`
 
 #### Members
- Name       | Type            | Description 
-------------|-----------------|-------------
- id         | string          |             
- debug_info | string          |             
- ctime      | float           |             
- state      | variant { ... } |             
+ Name       | Type                                   | Description 
+------------|----------------------------------------|-------------
+ id         | string                                 |             
+ debug_info | string                                 |             
+ ctime      | float                                  |             
+ state      | variant { Pending, Completed, Failed } |             
 ### task_list
 ```json
 [ "task_list" ]
 []
 ```
-type `task_list` = string list
+type `task_list` = `string list`
 
 ## Interface: `Task`
 The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data.
@@ -67,12 +67,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Task.stat({ dbg: "string", id: "string" })
     print (repr(results))
 ```
@@ -98,17 +98,18 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Task_myimplementation(Task_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def stat(self, dbg, id):
-        """The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""
+        """
+        [stat task_id] returns the status of the task
+        """
         result = {}
-        result["result"] = { "id": "string", "debug_info": "string", "ctime": 1.1, "state": None }
+        result["result"] = {"id": "string", "debug_info": "string", "ctime": 1.1, "state": None}
         return result
     # ...
 ```
@@ -142,12 +143,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Task.cancel({ dbg: "string", id: "string" })
     print (repr(results))
 ```
@@ -168,15 +169,20 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Task_myimplementation(Task_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def cancel(self, dbg, id):
-        """The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""
+        """
+        [cancel task_id] performs a best-effort cancellation of an ongoing
+        task. The effect of this should leave the system in one of two
+        states: Either that the task has completed successfully, or that it
+        had never been made at all. The call should return immediately and
+        the status of the task can the be queried via the [stat] call.
+        """
         result = {}
         return result
     # ...
@@ -210,12 +216,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Task.destroy({ dbg: "string", id: "string" })
     print (repr(results))
 ```
@@ -236,15 +242,17 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Task_myimplementation(Task_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def destroy(self, dbg, id):
-        """The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""
+        """
+        [destroy task_id] should remove all traces of the task_id. This call
+        should fail if the task is currently in progress.
+        """
         result = {}
         return result
     # ...
@@ -274,12 +282,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Task.ls({ dbg: "string" })
     print (repr(results))
 ```
@@ -300,17 +308,18 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Task_myimplementation(Task_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def ls(self, dbg):
-        """The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""
+        """
+        [ls] should return a list of all of the tasks the plugin is aware of.
+        """
         result = {}
-        result = [ "string", "string" ]
+        result = ["string"]
         return result
     # ...
 ```
@@ -325,7 +334,7 @@ class Task_myimplementation(Task_skeleton):
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = variant { ... }
+type `exnt` = `variant { Unimplemented }`
 
 #### Constructors
  Name          | Type   | Description 

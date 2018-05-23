@@ -26,7 +26,7 @@ The Datapath plugin takes a URI which points to virtual disk data  and chooses a
   "plugin": "plugin"
 }
 ```
-type `query_result` = struct  { ... }
+type `query_result` = `struct { "plugin": string, "name": string, "description": string, "vendor": string, "copyright": string, "version": string, "required_api_version": string, "features": string list, "configuration": (string * string) list, "required_cluster_stack": string list }`
 Properties of this implementation
 #### Members
  Name                   | Type                   | Description                                                               
@@ -46,7 +46,7 @@ Properties of this implementation
 [ "srs" ]
 []
 ```
-type `srs` = string list
+type `srs` = `string list`
 
 ## Interface: `Plugin`
 Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi.
@@ -69,12 +69,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Plugin.query({ dbg: "string" })
     print (repr(results))
 ```
@@ -108,17 +108,20 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Plugin_myimplementation(Plugin_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def query(self, dbg):
-        """Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""
+        """
+        Query this implementation and return its properties. This is
+        called by xapi to determine whether it is compatible with xapi
+        and to discover the supported features.
+        """
         result = {}
-        result = { "plugin": "string", "name": "string", "description": "string", "vendor": "string", "copyright": "string", "version": "string", "required_api_version": "string", "features": [ "string", "string" ], "configuration": { "string": "string" }, "required_cluster_stack": [ "string", "string" ] }
+        result = {"plugin": "string", "name": "string", "description": "string", "vendor": "string", "copyright": "string", "version": "string", "required_api_version": "string", "features": ["string"], "configuration": {"string": "string"}, "required_cluster_stack": ["string"]}
         return result
     # ...
 ```
@@ -147,12 +150,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Plugin.ls({ dbg: "string" })
     print (repr(results))
 ```
@@ -173,17 +176,18 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Plugin_myimplementation(Plugin_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def ls(self, dbg):
-        """Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""
+        """
+        [ls dbg]: returns a list of attached SRs
+        """
         result = {}
-        result["srs"] = [ "string", "string" ]
+        result["srs"] = ["string"]
         return result
     # ...
 ```
@@ -212,12 +216,12 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
 
 if __name__ == "__main__":
-    c = xapi.connect()
+    c = myclient.connect()
     results = c.Plugin.diagnostics({ dbg: "string" })
     print (repr(results))
 ```
@@ -238,15 +242,20 @@ with Exn (Unimplemented str) -> ...
 
 ```python
 
-import xmlrpclib
-import xapi
-from storage import *
+# import additional libraries if needed
 
 class Plugin_myimplementation(Plugin_skeleton):
     # by default each method will return a Not_implemented error
     # ...
+
     def diagnostics(self, dbg):
-        """Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""
+        """
+        Returns a printable set of backend diagnostic information.
+        Implementations are encouraged to include any data which will
+        be useful to diagnose problems. Note this data should not
+        include personally-identifiable data as it is intended to be
+        automatically included in bug reports.
+        """
         result = {}
         result["diagnostics"] = "string"
         return result
@@ -263,7 +272,7 @@ class Plugin_myimplementation(Plugin_skeleton):
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = variant { ... }
+type `exnt` = `variant { Unimplemented }`
 
 #### Constructors
  Name          | Type   | Description 
