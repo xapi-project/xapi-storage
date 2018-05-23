@@ -285,14 +285,23 @@ operations from VMs and the <code>Data</code> interface is used for operations s
 <h2 id='type-definitions'>Type definitions</h2><h3 id='persistent'>persistent</h3><pre class="highlight json tab-json"><code><span class="kc">true</span><span class="w">
 </span><span class="kc">false</span><span class="w">
 </span></code></pre>
-<p>type <code>persistent</code> = bool
+<p>type <code>persistent</code> = <code>bool</code>
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</p>
 <h3 id='backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"implementation"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>backend</code> = struct  { ... }
+<p>type <code>backend</code> = <code>struct { &quot;domain_uuid&quot;: string, &quot;implementations&quot;: variant { XenDisk, BlockDevice, File, Nbd } list }</code>
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</p>
 <h4 id='members'>Members</h4>
 <table><thead>
@@ -308,14 +317,14 @@ A description of which Xen block backend to use. The toolstack needs this to set
 <td>UUID of the domain hosting the backend</td>
 </tr>
 <tr>
-<td>implementation</td>
-<td>variant { ... }</td>
-<td>choice of implementation technology</td>
+<td>implementations</td>
+<td>variant { XenDisk, BlockDevice, File, Nbd } list</td>
+<td>choice of implementation technologies</td>
 </tr>
 </tbody></table>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>blocklist</code> = struct  { ... }
+<p>type <code>blocklist</code> = <code>struct { &quot;blocksize&quot;: int, &quot;ranges&quot;: int64 * int64 list }</code>
 List of blocks for copying</p>
 <h4 id='members-2'>Members</h4>
 <table><thead>
@@ -338,16 +347,16 @@ List of blocks for copying</p>
 </tbody></table>
 <h3 id='domain'>domain</h3><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
 </span></code></pre>
-<p>type <code>domain</code> = string
+<p>type <code>domain</code> = <code>string</code>
 A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p>
 <h3 id='uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
 </span></code></pre>
-<p>type <code>uri</code> = string
+<p>type <code>uri</code> = <code>string</code>
 A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.</p>
 <h3 id='operation'>operation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Mirror"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>operation</code> = variant { ... }
+<p>type <code>operation</code> = <code>variant { Copy, Mirror }</code>
 The primary key for referring to a long-running operation</p>
 <h4 id='constructors'>Constructors</h4>
 <table><thead>
@@ -370,7 +379,7 @@ The primary key for referring to a long-running operation</p>
 </tbody></table>
 <h3 id='status'>status</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>status</code> = struct  { ... }
+<p>type <code>status</code> = <code>struct { &quot;failed&quot;: bool, &quot;progress&quot;: float option }</code>
 Status information for on-going tasks</p>
 <h4 id='members-3'>Members</h4>
 <table><thead>
@@ -394,7 +403,7 @@ Status information for on-going tasks</p>
 <h3 id='operations'>operations</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operations"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>operations</code> = variant { ... } list
+<p>type <code>operations</code> = <code>variant { Copy, Mirror } list</code>
 A list of operations</p>
 <h2 id='interface-datapath'>Interface: <code>Datapath</code></h2>
 <p>Xapi will call the functions here on VM start / shutdown /
@@ -440,12 +449,12 @@ simultaneously.</p></li>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="nb">open</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">persistent</span><span class="p">:</span> <span class="bp">True</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -459,42 +468,20 @@ simultaneously.</p></li>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">persistent</span><span class="p">):</span>
         <span class="s">"""
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """</span>
+        [open uri persistent] is called before a disk is attached to a VM.
+        If persistent is true then care should be taken to persist all writes
+        to the disk. If persistent is false then the implementation should
+        configure a temporary location for writes so they can be thrown away
+        on [close].
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -543,63 +530,63 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">attach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Blkback"</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """</span>
+        [attach uri domain] prepares a connection between the storage named by
+        [uri] and the Xen domain with id [domain]. The return value is the
+        information needed by the Xen toolstack to setup the shared-memory
+        blkfront protocol. Note that the same volume may be simultaneously
+        attached to multiple hosts for example over a migrate. If an
+        implementation needs to perform an explicit handover, then it should
+        implement [activate] and [deactivate]. This function is idempotent.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementation"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">]}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -653,12 +640,12 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">activate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -672,42 +659,20 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """</span>
+        [activate uri domain] is called just before a VM needs to read or write
+        its disk. This is an opportunity for an implementation which needs to
+        perform an explicit volume handover to do it. This function is called
+        in the migration downtime window so delays here will be noticeable to
+        users and should be minimised. This function is idempotent.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -756,12 +721,12 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">deactivate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -775,42 +740,20 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">deactivate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """</span>
+        [deactivate uri domain] is called as soon as a VM has finished reading
+        or writing its disk. This is an opportunity for an implementation which
+        needs to perform an explicit volume handover to do it. This function is
+        called in the migration downtime window so delays here will be
+        noticeable to users and should be minimised. This function is idempotent.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -859,12 +802,12 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">detach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -878,42 +821,23 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">detach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """</span>
+        [detach uri domain] is called sometime after a VM has finished reading
+        or writing its disk. This is an opportunity to clean up any resources
+        associated with the disk. This function is called outside the migration
+        downtime window so can be slow without affecting users. This function is
+        idempotent. This function should never fail. If an implementation is
+        unable to perform some cleanup right away then it should queue the
+        action internally. Any error result represents a bug in the
+        implementation.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -962,12 +886,12 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">close</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -981,42 +905,17 @@ Volumes must be attached via the following sequence of calls:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
         <span class="s">"""
-Xapi will call the functions here on VM start / shutdown /
-suspend / resume / migrate. Every function is idempotent. Every
-function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
-
-Volumes must be attached via the following sequence of calls:
-
-1. [open url persistent] must be called first and is used to declare
-   that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
-   more than once host at once. The call returns `unit` or an
-   error.
-
-2. [attach url domain] is then called. The `domain` parameter is
-   advisory. Note that this call is currently only ever called once.
-   In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
-   attach the disk to a VM. This call is again, not exclusive. The
-   volume may be attached to more than one host concurrently.
-
-3. [activate url domain] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
-   it is acceptible for this to be an exclusive operation, such that
-   it is an error for a volume to be activated on more than one host
-   simultaneously.
-      """</span>
+        [close uri] is called after a disk is detached and a VM shutdown. This
+        is an opportunity to throw away writes if the disk is not persistent.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1101,13 +1000,13 @@ disk will be a perfect mirror of the source.</p></li>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">copy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">:</span> <span class="p">{</span> <span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[</span> <span class="p">[],</span> <span class="p">[]</span> <span class="p">]</span> <span class="p">}</span> <span class="p">})</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">copy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">:</span> <span class="p">{</span><span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[[]]}</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
@@ -1120,54 +1019,22 @@ disk will be a perfect mirror of the source.</p></li>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">):</span>
         <span class="s">"""
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """</span>
+        [copy uri domain remotes blocks] copies [blocks] from the local disk
+        to a remote URI. This may be called as part of a Volume Mirroring
+        operation, and hence may need to cooperate with whatever process is
+        currently mirroring writes to ensure data integrity is maintained.
+        The [remote] parameter is a remotely accessible URI, for example,
+        `nbd://root:pass@foo.com/path/to/disk` that must contain all necessary
+        authentication tokens
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">result</span><span class="p">[</span><span class="s">"operation"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">return</span> <span class="n">result</span>
@@ -1237,12 +1104,12 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">mirror</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1256,54 +1123,18 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
         <span class="s">"""
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """</span>
+        [mirror uri domain remote] starts mirroring new writes to the volume
+        to a remote URI (usually NBD). This is called as part of a volume
+        mirroring process
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">result</span><span class="p">[</span><span class="s">"operation"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">return</span> <span class="n">result</span>
@@ -1367,12 +1198,12 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1386,56 +1217,19 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
         <span class="s">"""
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """</span>
+        [stat operation] returns the current status of [operation]. For a
+        copy operation, this will contain progress information.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"failed"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"progress"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"failed"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"progress"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -1485,12 +1279,12 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">cancel</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1504,54 +1298,17 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
         <span class="s">"""
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """</span>
+        [cancel operation] cancels a long-running operation. Note that the
+        call may return before the operation has finished.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1596,12 +1353,12 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1615,54 +1372,18 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
         <span class="s">"""
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """</span>
+        [destroy operation] destroys the information about a long-running
+        operation. This should fail when run against an operation that is
+        still in progress.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1701,12 +1422,12 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1720,56 +1441,18 @@ To mirror a VDI a sequence of these API calls is required:
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
         <span class="s">"""
-This interface is used for long-running data operations such as
-copying the contents of volumes or mirroring volumes to remote
-destinations.
-
-These operations are asynchronous and rely on the Tasks API to
-report results and errors.
-
-To mirror a VDI a sequence of these API calls is required:
-
-1. Create a destination VDI using the Volume API on the destination
-   SR. This must be the same size as the source. To minimize copying
-   the destination VDI may be cloned from one that has been previously
-   copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
-
-2. Arrange for the destination disk to be accessible on the source
-   host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
-   other URL.
-
-3. Start mirroring all new writes to the destination disk via the
-   `Data.mirror` API call.
-
-4. Find the list of blocks to copy via the CBT API call. Note that if
-   the destination volume has not been 'prezeroed' then all of the
-   blocks must be copied to the destination.
-
-5. Start the background copy of the disk via a call to `DATA.copy`,
-   passing in the list of blocks to copy. The plugin must ensure that
-   the copy does not conflict with the mirror operation - ie., all
-   writes from the mirror operation must not be overwritten by writes
-   of old data from the copy operation.
-
-6. The progress of the copy operation may be queried via the `Data.stat`
-   call.
-
-7. Once the copy operation has succesfully completed the destination
-   disk will be a perfect mirror of the source.
-
-     """</span>
+        [ls] returns a list of all current operations
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span> <span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -1796,7 +1479,7 @@ To mirror a VDI a sequence of these API calls is required:
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exnt</code> = variant { ... }</p>
+<p>type <code>exnt</code> = <code>variant { Unimplemented }</code></p>
 <h4 id='constructors-2'>Constructors</h4>
 <table><thead>
 <tr>
@@ -1813,7 +1496,7 @@ To mirror a VDI a sequence of these API calls is required:
 </tbody></table>
 <h3 id='exnt-2'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exnt</code> = variant { ... }</p>
+<p>type <code>exnt</code> = <code>variant { Unimplemented }</code></p>
 <h4 id='constructors-3'>Constructors</h4>
 <table><thead>
 <tr>

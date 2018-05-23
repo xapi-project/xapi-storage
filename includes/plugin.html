@@ -263,7 +263,7 @@
   </span><span class="s2">"plugin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>query_result</code> = struct  { ... }
+<p>type <code>query_result</code> = <code>struct { &quot;plugin&quot;: string, &quot;name&quot;: string, &quot;description&quot;: string, &quot;vendor&quot;: string, &quot;copyright&quot;: string, &quot;version&quot;: string, &quot;required_api_version&quot;: string, &quot;features&quot;: string list, &quot;configuration&quot;: (string * string) list, &quot;required_cluster_stack&quot;: string list }</code>
 Properties of this implementation</p>
 <h4 id='members'>Members</h4>
 <table><thead>
@@ -327,7 +327,7 @@ Properties of this implementation</p>
 <h3 id='srs'>srs</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"srs"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>srs</code> = string list</p>
+<p>type <code>srs</code> = <code>string list</code></p>
 <h2 id='interface-plugin'>Interface: <code>Plugin</code></h2>
 <p>Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi.</p>
 <h2 id='method-query'>Method: <code>query</code></h2>
@@ -343,12 +343,12 @@ Properties of this implementation</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">query</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -375,17 +375,20 @@ Properties of this implementation</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Plugin_myimplementation</span><span class="p">(</span><span class="n">Plugin_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
-        <span class="s">"""Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""</span>
+        <span class="s">"""
+        Query this implementation and return its properties. This is
+        called by xapi to determine whether it is compatible with xapi
+        and to discover the supported features.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"plugin"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"vendor"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"required_api_version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"features"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">},</span> <span class="s">"required_cluster_stack"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">]</span> <span class="p">}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"plugin"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"vendor"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"required_api_version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"features"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="s">"required_cluster_stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -423,12 +426,12 @@ Properties of this implementation</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -442,17 +445,18 @@ Properties of this implementation</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Plugin_myimplementation</span><span class="p">(</span><span class="n">Plugin_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
-        <span class="s">"""Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""</span>
+        <span class="s">"""
+        [ls dbg]: returns a list of attached SRs
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"srs"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">]</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"srs"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -490,12 +494,12 @@ Properties of this implementation</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">diagnostics</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -509,15 +513,20 @@ Properties of this implementation</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Plugin_myimplementation</span><span class="p">(</span><span class="n">Plugin_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
-        <span class="s">"""Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi."""</span>
+        <span class="s">"""
+        Returns a printable set of backend diagnostic information.
+        Implementations are encouraged to include any data which will
+        be useful to diagnose problems. Note this data should not
+        include personally-identifiable data as it is intended to be
+        automatically included in bug reports.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">result</span><span class="p">[</span><span class="s">"diagnostics"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"string"</span>
         <span class="k">return</span> <span class="n">result</span>
@@ -546,7 +555,7 @@ Properties of this implementation</p>
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exnt</code> = variant { ... }</p>
+<p>type <code>exnt</code> = <code>variant { Unimplemented }</code></p>
 <h4 id='constructors'>Constructors</h4>
 <table><thead>
 <tr>

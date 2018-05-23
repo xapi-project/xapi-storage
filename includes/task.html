@@ -255,7 +255,7 @@
 <p>The Task interface is required if the backend supports long-running  tasks.</p>
 <h2 id='type-definitions'>Type definitions</h2><h3 id='id'>id</h3><pre class="highlight json tab-json"><code><span class="s2">"id"</span><span class="w">
 </span></code></pre>
-<p>type <code>id</code> = string
+<p>type <code>id</code> = <code>string</code>
 Unique identifier for a task</p>
 <h3 id='task-2'>task</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -264,7 +264,7 @@ Unique identifier for a task</p>
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>task</code> = struct  { ... }</p>
+<p>type <code>task</code> = <code>struct { &quot;id&quot;: string, &quot;debug_info&quot;: string, &quot;ctime&quot;: float, &quot;state&quot;: variant { Pending, Completed, Failed } }</code></p>
 <h4 id='members'>Members</h4>
 <table><thead>
 <tr>
@@ -290,14 +290,14 @@ Unique identifier for a task</p>
 </tr>
 <tr>
 <td>state</td>
-<td>variant { ... }</td>
+<td>variant { Pending, Completed, Failed }</td>
 <td></td>
 </tr>
 </tbody></table>
 <h3 id='task_list'>task_list</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"task_list"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>task_list</code> = string list</p>
+<p>type <code>task_list</code> = <code>string list</code></p>
 <h2 id='interface-task'>Interface: <code>Task</code></h2>
 <p>The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data.</p>
 <h2 id='method-stat'>Method: <code>stat</code></h2>
@@ -317,12 +317,12 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -341,17 +341,18 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="s">"""
+        [stat task_id] returns the status of the task
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"result"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"id"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"debug_info"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ctime"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span> <span class="s">"state"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"result"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"id"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"debug_info"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ctime"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span> <span class="s">"state"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -399,12 +400,12 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">cancel</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -418,15 +419,20 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="s">"""
+        [cancel task_id] performs a best-effort cancellation of an ongoing
+        task. The effect of this should leave the system in one of two
+        states: Either that the task has completed successfully, or that it
+        had never been made at all. The call should return immediately and
+        the status of the task can the be queried via the [stat] call.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -469,12 +475,12 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -488,15 +494,17 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="s">"""
+        [destroy task_id] should remove all traces of the task_id. This call
+        should fail if the task is currently in progress.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -535,12 +543,12 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -554,17 +562,18 @@ Unique identifier for a task</p>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Task_myimplementation</span><span class="p">(</span><span class="n">Task_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
-        <span class="s">"""The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data."""</span>
+        <span class="s">"""
+        [ls] should return a list of all of the tasks the plugin is aware of.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -591,7 +600,7 @@ Unique identifier for a task</p>
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exnt</code> = variant { ... }</p>
+<p>type <code>exnt</code> = <code>variant { Unimplemented }</code></p>
 <h4 id='constructors'>Constructors</h4>
 <table><thead>
 <tr>

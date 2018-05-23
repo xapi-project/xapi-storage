@@ -339,10 +339,10 @@
 </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>probe_results</code> = struct  { ... } list</p>
+<p>type <code>probe_results</code> = <code>struct { &quot;configuration&quot;: (string * string) list, &quot;complete&quot;: bool, &quot;sr&quot;: struct { &quot;sr&quot;: string, &quot;name&quot;: string, &quot;uuid&quot;: string option, &quot;description&quot;: string, &quot;free_space&quot;: int64, &quot;total_space&quot;: int64, &quot;datasources&quot;: string list, &quot;clustered&quot;: bool, &quot;health&quot;: variant { Healthy, Recovering } } option, &quot;extra_info&quot;: (string * string) list } list</code></p>
 <h3 id='configuration'>configuration</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>configuration</code> = (string * string) list
+<p>type <code>configuration</code> = <code>(string * string) list</code>
 Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.</p>
 <h3 id='sr_stat'>sr_stat</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"health"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -356,7 +356,7 @@ Plugin-specific configuration which describes where and; how to locate the stora
   </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>sr_stat</code> = struct  { ... }
+<p>type <code>sr_stat</code> = <code>struct { &quot;sr&quot;: string, &quot;name&quot;: string, &quot;uuid&quot;: string option, &quot;description&quot;: string, &quot;free_space&quot;: int64, &quot;total_space&quot;: int64, &quot;datasources&quot;: string list, &quot;clustered&quot;: bool, &quot;health&quot;: variant { Healthy, Recovering } }</code>
 A set of high-level properties associated with an SR. These properties can change dynamically and can be queried by a SR.stat call.</p>
 <h4 id='members'>Members</h4>
 <table><thead>
@@ -408,7 +408,7 @@ A set of high-level properties associated with an SR. These properties can chang
 </tr>
 <tr>
 <td>health</td>
-<td>variant { ... }</td>
+<td>variant { Healthy, Recovering }</td>
 <td>The health status of the SR.</td>
 </tr>
 </tbody></table>
@@ -428,11 +428,11 @@ A set of high-level properties associated with an SR. These properties can chang
 </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>volumes</code> = struct  { ... } list
+<p>type <code>volumes</code> = <code>struct { &quot;key&quot;: string, &quot;uuid&quot;: string option, &quot;name&quot;: string, &quot;description&quot;: string, &quot;read_write&quot;: bool, &quot;sharable&quot;: bool, &quot;virtual_size&quot;: int64, &quot;physical_utilisation&quot;: int64, &quot;uri&quot;: string list, &quot;keys&quot;: (string * string) list } list</code>
 A list of volumes</p>
 <h3 id='key'>key</h3><pre class="highlight json tab-json"><code><span class="s2">"key"</span><span class="w">
 </span></code></pre>
-<p>type <code>key</code> = string
+<p>type <code>key</code> = <code>string</code>
 Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract.</p>
 <h3 id='volume-2'>volume</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
@@ -447,7 +447,7 @@ Primary key for a volume. This can be any string which is meaningful to the impl
   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>volume</code> = struct  { ... }
+<p>type <code>volume</code> = <code>struct { &quot;key&quot;: string, &quot;uuid&quot;: string option, &quot;name&quot;: string, &quot;description&quot;: string, &quot;read_write&quot;: bool, &quot;sharable&quot;: bool, &quot;virtual_size&quot;: int64, &quot;physical_utilisation&quot;: int64, &quot;uri&quot;: string list, &quot;keys&quot;: (string * string) list }</code>
 A set of properties associated with a volume. These properties can change dynamically and can be queried by the Volume.stat call.</p>
 <h4 id='members-2'>Members</h4>
 <table><thead>
@@ -510,7 +510,7 @@ A set of properties associated with a volume. These properties can change dynami
 </tbody></table>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>blocklist</code> = struct  { ... }
+<p>type <code>blocklist</code> = <code>struct { &quot;blocksize&quot;: int, &quot;ranges&quot;: int64 * int64 list }</code>
 List of blocks for copying</p>
 <h4 id='members-3'>Members</h4>
 <table><thead>
@@ -534,7 +534,29 @@ List of blocks for copying</p>
 <h3 id='key_list'>key_list</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"key_list"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>key_list</code> = string list</p>
+<p>type <code>key_list</code> = <code>string list</code></p>
+<h3 id='changed_blocks'>changed_blocks</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"granularity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>changed_blocks</code> = <code>struct { &quot;granularity&quot;: int, &quot;bitmap&quot;: string }</code></p>
+<h4 id='members-4'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>granularity</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>bitmap</td>
+<td>string</td>
+<td>The changed blocks between two volumes as a base64-encoded string</td>
+</tr>
+</tbody></table>
 <h2 id='interface-sr'>Interface: <code>SR</code></h2>
 <p>Operations which act on Storage Repositories</p>
 <h2 id='method-probe'>Method: <code>probe</code></h2>
@@ -564,13 +586,13 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">probe</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">})</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">probe</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
@@ -621,17 +643,19 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">probe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">configuration</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [probe configuration]: can be used iteratively to narrow down configurations
+        to use with SR.create, or to find existing SRs on the backing storage
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"probe_result"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">},</span> <span class="s">"complete"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sr"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"extra_info"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">},</span> <span class="p">{</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">},</span> <span class="s">"complete"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sr"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"extra_info"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">]</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"probe_result"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="s">"complete"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sr"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"extra_info"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}]</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -692,13 +716,13 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">create</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uuid</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">},</span> <span class="n">name</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">create</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uuid</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="n">name</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
@@ -716,17 +740,18 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uuid</span><span class="p">,</span> <span class="n">configuration</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [create uuid configuration name description]: creates a fresh SR
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"configuration"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"configuration"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -802,13 +827,13 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">attach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">})</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">attach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
@@ -826,15 +851,17 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">configuration</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [attach configuration]: attaches the SR to the local host. Once an SR is
+        attached then volumes may be manipulated.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">result</span><span class="p">[</span><span class="s">"sr"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"string"</span>
         <span class="k">return</span> <span class="n">result</span>
@@ -889,12 +916,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">detach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -913,15 +940,17 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">detach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [detach sr]: detaches the SR, clearing up any associated resources.
+        Once the SR is detached then volumes may not be manipulated.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -969,12 +998,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -993,15 +1022,18 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [destroy sr]: destroys the [sr] and deletes any volumes associated
+        with it. Note that an SR must be attached to be destroyed; otherwise
+        Sr_not_attached is thrown.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1045,12 +1077,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1079,17 +1111,19 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [stat sr] returns summary metadata associated with [sr]. Note this
+        call does not return details of sub-volumes, see SR.ls.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"sr"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"sr"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"free_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"total_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"datasources"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"clustered"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"health"</span><span class="p">:</span> <span class="bp">None</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"sr"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"sr"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"free_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"total_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"datasources"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"clustered"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"health"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -1142,12 +1176,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">set_name</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1166,15 +1200,16 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [set_name sr new_name] changes the name of [sr]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1230,12 +1265,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">set_description</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">new_description</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1254,15 +1289,16 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">set_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">new_description</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [set_description sr new_description] changes the description of [sr]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1312,12 +1348,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">SR</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1361,17 +1397,18 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">SR_myimplementation</span><span class="p">(</span><span class="n">SR_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">):</span>
-        <span class="s">"""Operations which act on Storage Repositories"""</span>
+        <span class="s">"""
+        [ls sr] returns a list of volumes contained within an attached SR.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volumes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span> <span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">},</span> <span class="p">{</span> <span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">]</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"volumes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}]</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -1435,12 +1472,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">create</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="n">sharable</span><span class="p">:</span> <span class="bp">True</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1470,17 +1507,21 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">sharable</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [create sr name description size] creates a new volume in [sr] with
+        [name] and [description]. The volume will have size &gt;= [size] i.e. it
+        is always permissable for an implementation to round-up the volume to
+        the nearest convenient block size
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -1557,12 +1598,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">snapshot</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1592,17 +1633,25 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [snapshot sr volume] creates a new volue which is a  snapshot of
+        [volume] in [sr]. Snapshots should never be written to; they are
+        intended for backup/restore only. Note the name and description are
+        copied but any extra metadata associated by [set] is not copied.
+        This can raise Activated_on_another_host(host_installation_uuid)
+        if the VDI is already active on another host and snapshots
+        can only be taken on the host that has the VDI active (if any).
+        XAPI will take care of redirecting the request to the proper host
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -1661,12 +1710,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">clone</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1696,17 +1745,20 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [clone sr volume] creates a new volume which is a writable clone of
+        [volume] in [sr]. Note the name and description are copied but any
+        extra metadata associated by [set] is not copied.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -1765,12 +1817,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1789,15 +1841,16 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [destroy sr volume] removes [volume] from [sr]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1853,12 +1906,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">set_name</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1877,15 +1930,16 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [set_name sr volume new_name] changes the name of [volume]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -1952,12 +2006,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">set_description</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">new_description</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -1976,15 +2030,17 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">set_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_description</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [set_description sr volume new_description] changes the description
+        of [volume]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -2046,12 +2102,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="nb">set</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2070,15 +2126,18 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [set sr volume key value] associates [key] with [value] in the
+        metadata of [volume] Note these keys and values are not interpreted
+        by the plugin; they are intended for the higher-level software only.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -2144,12 +2203,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">unset</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2168,15 +2227,19 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">unset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [unset sr volume key] removes [key] and any value associated with it
+        from the metadata of [volume] Note these keys and values are not
+        interpreted by the plugin; they are intended for the higher-level
+        software only.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -2236,12 +2299,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">resize</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">new_size</span><span class="p">:</span> <span class="il">0L</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2260,15 +2323,17 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_size</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [resize sr volume new_size] enlarges [volume] to be at least
+        [new_size].
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -2328,12 +2393,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2363,17 +2428,18 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [stat sr volume] returns metadata associated with [volume].
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span> <span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -2432,12 +2498,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">compare</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key2</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2456,17 +2522,24 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [compare sr volume1 volume2] compares the two volumes and returns a
+        result of type blocklist that describes the differences between the
+        two volumes. If the two volumes are unrelated, or the second volume
+        does not exist, the result will be a list of the blocks that are
+        non-empty in volume1. If this information is not available to the
+        plugin, it should return a result indicating that all blocks are in
+        use.
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[</span> <span class="p">[],</span> <span class="p">[]</span> <span class="p">]</span> <span class="p">}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[[]]}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -2531,12 +2604,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">similar_content</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2555,17 +2628,19 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">similar_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [similar_content sr volume] returns a list of VDIs which have similar
+        content to [vdi]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"key list"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"string"</span> <span class="p">]</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"key list"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -2624,12 +2699,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">enable_cbt</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2648,15 +2723,16 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">enable_cbt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [enable_cbt sr volume] enables Changed Block Tracking for [volume]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -2710,12 +2786,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">disable_cbt</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2734,15 +2810,16 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">disable_cbt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [disable_cbt sr volume] disables Changed Block Tracking for [volume]
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -2796,12 +2873,12 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">data_destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
@@ -2820,15 +2897,17 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
+
     <span class="k">def</span> <span class="nf">data_destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+        <span class="s">"""
+        [data_destroy sr volume] deletes the data of the snapshot [volume]
+        without deleting its changed block tracking metadata
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
@@ -2868,11 +2947,20 @@ List of blocks for copying</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Volume.list_changed_blocks"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="p">,</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"length"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"offset"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key2"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="n">offset</span> <span class="n">length</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Sr_not_attached</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">SR_does_not_exist</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
@@ -2882,21 +2970,21 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import necessary libraries if needed</span>
+<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
+<span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">xapi</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">list_changed_blocks</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key2</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">list_changed_blocks</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">sr</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">key2</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="il">0L</span> <span class="p">})</span>
     <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
 </code></pre>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="s2">"changed_blocks"</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"granularity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">changed_blocks</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">list_changed_blocks</span> <span class="n">dbg</span> <span class="n">sr</span> <span class="n">key</span> <span class="n">key2</span> <span class="n">offset</span> <span class="n">length</span> <span class="k">in</span>
     <span class="o">...</span>
 <span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Sr_not_attached</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">SR_does_not_exist</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
@@ -2906,17 +2994,20 @@ List of blocks for copying</p>
 <span class="p">|</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Activated_on_another_host</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
 
 </code></pre><pre class="highlight python tab-python"><code>
-<span class="kn">import</span> <span class="nn">xmlrpclib</span>
-<span class="kn">import</span> <span class="nn">xapi</span>
-<span class="kn">from</span> <span class="nn">storage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c"># import additional libraries if needed</span>
 
 <span class="k">class</span> <span class="nc">Volume_myimplementation</span><span class="p">(</span><span class="n">Volume_skeleton</span><span class="p">):</span>
     <span class="c"># by default each method will return a Not_implemented error</span>
     <span class="c"># ...</span>
-    <span class="k">def</span> <span class="nf">list_changed_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">):</span>
-        <span class="s">"""Operations which operate on volumes (also known as  Virtual Disk Images)"""</span>
+
+    <span class="k">def</span> <span class="nf">list_changed_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="s">"""
+        [list_changed_blocks sr volume1 volume2] returns the blocks that
+        have changed between [volume1] and [volume2] as a base64-encoded
+        bitmap string
+        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"changed_blocks"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"string"</span>
+        <span class="n">result</span><span class="p">[</span><span class="s">"changed_blocks"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"granularity"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"bitmap"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
@@ -2953,10 +3044,22 @@ List of blocks for copying</p>
 <td>The volume key</td>
 </tr>
 <tr>
+<td>offset</td>
+<td>in</td>
+<td>int64</td>
+<td>The offset of the extent for which changed blocks should be computed</td>
+</tr>
+<tr>
+<td>length</td>
+<td>in</td>
+<td>int</td>
+<td>The length of the extent for which changed blocks should be computed</td>
+</tr>
+<tr>
 <td>changed_blocks</td>
 <td>out</td>
-<td>string</td>
-<td>The changed blocks between two volumes as a base64-encoded string</td>
+<td>changed_blocks</td>
+<td>The changed blocks between two volumes in the specified extent</td>
 </tr>
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exns'>exns</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Sr_not_attached"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
@@ -2966,7 +3069,7 @@ List of blocks for copying</p>
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Cancelled"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Activated_on_another_host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exns</code> = variant { ... }</p>
+<p>type <code>exns</code> = <code>variant { Sr_not_attached, SR_does_not_exist, Volume_does_not_exist, Unimplemented, Cancelled, Activated_on_another_host }</code></p>
 <h4 id='constructors'>Constructors</h4>
 <table><thead>
 <tr>
@@ -3013,7 +3116,7 @@ List of blocks for copying</p>
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Cancelled"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Activated_on_another_host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exns</code> = variant { ... }</p>
+<p>type <code>exns</code> = <code>variant { Sr_not_attached, SR_does_not_exist, Volume_does_not_exist, Unimplemented, Cancelled, Activated_on_another_host }</code></p>
 <h4 id='constructors-2'>Constructors</h4>
 <table><thead>
 <tr>
