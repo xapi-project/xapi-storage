@@ -22,7 +22,7 @@
 
 open Xapi_storage
 
-let base_path = "../../../../rpc-light/"
+let base_path = "../../rpc-light/"
 
 let readfile filename =
   let fd = Unix.openfile filename [ Unix.O_RDONLY ] 0o0 in
