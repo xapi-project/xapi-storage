@@ -257,6 +257,167 @@
 </span></code></pre>
 <p>type <code>id</code> = <code>string</code>
 Unique identifier for a task</p>
+<h3 id='volume'>volume</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"physical_utilisation"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"virtual_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"sharable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"read_write"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>volume</code> = <code>struct { ... }</code></p>
+<h4 id='members'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>key</td>
+<td>string</td>
+<td>A primary key for this volume. The key must be unique within the enclosing Storage Repository (SR). A typical value would be a filename or an LVM volume name.</td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>string option</td>
+<td>A uuid (or guid) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Short, human-readable label for the volume. Names are commonly used by when displaying short lists of volumes.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>Longer, human-readable description of the volume. Descriptions are generally only displayed by clients when the user is examining volumes individually.</td>
+</tr>
+<tr>
+<td>read_write</td>
+<td>bool</td>
+<td>True means the VDI may be written to, false means the volume is read-only. Some storage media is read-only so all volumes are read-only; for example .iso disk images on an NFS share. Some volume are created read-only; for example because they are snapshots of some other VDI.</td>
+</tr>
+<tr>
+<td>sharable</td>
+<td>bool</td>
+<td>Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.</td>
+</tr>
+<tr>
+<td>virtual_size</td>
+<td>int64</td>
+<td>Size of the volume from the perspective of a VM (in bytes)</td>
+</tr>
+<tr>
+<td>physical_utilisation</td>
+<td>int64</td>
+<td>Amount of space currently used on the backing storage (in bytes)</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>string list</td>
+<td>A list of URIs which can be opened and used for I/O. A URI could reference a local block device, a remote NFS share, iSCSI LUN or RBD volume. In cases where the data may be accessed over several protocols, he list should be sorted into descending order of desirability. Xapi will open the most desirable URI for which it has an available datapath plugin.</td>
+</tr>
+<tr>
+<td>keys</td>
+<td>(string * string) list</td>
+<td>A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.</td>
+</tr>
+</tbody></table>
+<h3 id='async_result_t'>async_result_t</h3><pre class="highlight json tab-json"><code><span class="s2">"UnitResult"</span><span class="w">
+</span><span class="p">[</span><span class="w">
+  </span><span class="s2">"Volume"</span><span class="p">,</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"physical_utilisation"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"virtual_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"sharable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"read_write"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>type <code>async_result_t</code> = <code>variant { ... }</code></p>
+<h4 id='constructors'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>UnitResult</td>
+<td>unit</td>
+<td></td>
+</tr>
+<tr>
+<td>Volume</td>
+<td>volume</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='completion_t'>completion_t</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UnitResult"</span><span class="p">,</span><span class="w"> </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>completion_t</code> = <code>struct { ... }</code></p>
+<h4 id='members-2'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>duration</td>
+<td>float</td>
+<td></td>
+</tr>
+<tr>
+<td>result</td>
+<td>async_result_t option</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='state'>state</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"Completed"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UnitResult"</span><span class="p">,</span><span class="w"> </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"Failed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"state"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>type <code>state</code> = <code>variant { ... }</code></p>
+<h4 id='constructors-2'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Pending</td>
+<td>float</td>
+<td>the task is in progress, with progress info from 0..1</td>
+</tr>
+<tr>
+<td>Completed</td>
+<td>completion_t</td>
+<td></td>
+</tr>
+<tr>
+<td>Failed</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody></table>
 <h3 id='task-2'>task</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="s2">"ctime"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
@@ -264,8 +425,8 @@ Unique identifier for a task</p>
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>task</code> = <code>struct { &quot;id&quot;: string, &quot;debug_info&quot;: string, &quot;ctime&quot;: float, &quot;state&quot;: variant { Pending, Completed, Failed } }</code></p>
-<h4 id='members'>Members</h4>
+<p>type <code>task</code> = <code>struct { ... }</code></p>
+<h4 id='members-3'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -290,7 +451,7 @@ Unique identifier for a task</p>
 </tr>
 <tr>
 <td>state</td>
-<td>variant { Pending, Completed, Failed }</td>
+<td>state</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -600,8 +761,8 @@ Unique identifier for a task</p>
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exnt</code> = <code>variant { Unimplemented }</code></p>
-<h4 id='constructors'>Constructors</h4>
+<p>type <code>exnt</code> = <code>variant { ... }</code></p>
+<h4 id='constructors-3'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>

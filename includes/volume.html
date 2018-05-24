@@ -319,31 +319,29 @@
       <div class="content">
         <h1 id='volume'>volume</h1>
 <p>The xapi toolstack delegates all storage control-plane functions to  &quot;Volume plugins&quot;.These plugins allow the toolstack to  create/destroy/snapshot/clone volumes which are organised into groups  called Storage Repositories (SR). Volumes have a set of URIs which  can be used by the &quot;Datapath plugins&quot; to connect the disk data to  VMs.</p>
-<h2 id='type-definitions'>Type definitions</h2><h3 id='probe_results'>probe_results</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"extra_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra_info"</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"health"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"clustered"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"datasources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"datasources"</span><span class="w"> </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"total_space"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"free_space"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span><span class="p">[]</span><span class="w">
+<h2 id='type-definitions'>Type definitions</h2><h3 id='health'>health</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"Recovering"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>probe_results</code> = <code>struct { &quot;configuration&quot;: (string * string) list, &quot;complete&quot;: bool, &quot;sr&quot;: struct { &quot;sr&quot;: string, &quot;name&quot;: string, &quot;uuid&quot;: string option, &quot;description&quot;: string, &quot;free_space&quot;: int64, &quot;total_space&quot;: int64, &quot;datasources&quot;: string list, &quot;clustered&quot;: bool, &quot;health&quot;: variant { Healthy, Recovering } } option, &quot;extra_info&quot;: (string * string) list } list</code></p>
-<h3 id='configuration'>configuration</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>type <code>configuration</code> = <code>(string * string) list</code>
-Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.</p>
+<p>type <code>health</code> = <code>variant { ... }</code></p>
+<h4 id='constructors'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Healthy</td>
+<td>string</td>
+<td>Storage is fully available</td>
+</tr>
+<tr>
+<td>Recovering</td>
+<td>string</td>
+<td>Storage is busy recovering, e.g. rebuilding mirrors</td>
+</tr>
+</tbody></table>
 <h3 id='sr_stat'>sr_stat</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"health"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="s2">"clustered"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -356,8 +354,7 @@ Plugin-specific configuration which describes where and; how to locate the stora
   </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>sr_stat</code> = <code>struct { &quot;sr&quot;: string, &quot;name&quot;: string, &quot;uuid&quot;: string option, &quot;description&quot;: string, &quot;free_space&quot;: int64, &quot;total_space&quot;: int64, &quot;datasources&quot;: string list, &quot;clustered&quot;: bool, &quot;health&quot;: variant { Healthy, Recovering } }</code>
-A set of high-level properties associated with an SR. These properties can change dynamically and can be queried by a SR.stat call.</p>
+<p>type <code>sr_stat</code> = <code>struct { ... }</code></p>
 <h4 id='members'>Members</h4>
 <table><thead>
 <tr>
@@ -408,32 +405,82 @@ A set of high-level properties associated with an SR. These properties can chang
 </tr>
 <tr>
 <td>health</td>
-<td>variant { Healthy, Recovering }</td>
+<td>health</td>
 <td>The health status of the SR.</td>
 </tr>
 </tbody></table>
-<h3 id='volumes'>volumes</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"physical_utilisation"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"virtual_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"sharable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"read_write"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+<h3 id='probe_result'>probe_result</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"extra_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra_info"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"health"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"clustered"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"datasources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"datasources"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"total_space"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"free_space"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>probe_result</code> = <code>struct { ... }</code></p>
+<h4 id='members-2'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>configuration</td>
+<td>(string * string) list</td>
+<td>Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.</td>
+</tr>
+<tr>
+<td>complete</td>
+<td>bool</td>
+<td>True if this configuration is complete and can be used to call SR.create or SR.attach. False if it requires further iterative calls to SR.probe, to potentially narrow down on a configuration that can be used.</td>
+</tr>
+<tr>
+<td>sr</td>
+<td>sr_stat option</td>
+<td>Existing SR found for this configuration</td>
+</tr>
+<tr>
+<td>extra_info</td>
+<td>(string * string) list</td>
+<td>Additional plugin-specific information about this configuration, that might be of use for an API user. This can for example include the LUN or the WWPN.</td>
+</tr>
+</tbody></table>
+<h3 id='probe_results'>probe_results</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"extra_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra_info"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"health"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"clustered"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"datasources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"datasources"</span><span class="w"> </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"total_space"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"free_space"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"sr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sr"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>volumes</code> = <code>struct { &quot;key&quot;: string, &quot;uuid&quot;: string option, &quot;name&quot;: string, &quot;description&quot;: string, &quot;read_write&quot;: bool, &quot;sharable&quot;: bool, &quot;virtual_size&quot;: int64, &quot;physical_utilisation&quot;: int64, &quot;uri&quot;: string list, &quot;keys&quot;: (string * string) list } list</code>
-A list of volumes</p>
-<h3 id='key'>key</h3><pre class="highlight json tab-json"><code><span class="s2">"key"</span><span class="w">
+<p>type <code>probe_results</code> = <code>probe_result list</code></p>
+<h3 id='configuration'>configuration</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>key</code> = <code>string</code>
-Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract.</p>
+<p>type <code>configuration</code> = <code>(string * string) list</code>
+Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.</p>
 <h3 id='volume-2'>volume</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
   </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -447,9 +494,8 @@ Primary key for a volume. This can be any string which is meaningful to the impl
   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>volume</code> = <code>struct { &quot;key&quot;: string, &quot;uuid&quot;: string option, &quot;name&quot;: string, &quot;description&quot;: string, &quot;read_write&quot;: bool, &quot;sharable&quot;: bool, &quot;virtual_size&quot;: int64, &quot;physical_utilisation&quot;: int64, &quot;uri&quot;: string list, &quot;keys&quot;: (string * string) list }</code>
-A set of properties associated with a volume. These properties can change dynamically and can be queried by the Volume.stat call.</p>
-<h4 id='members-2'>Members</h4>
+<p>type <code>volume</code> = <code>struct { ... }</code></p>
+<h4 id='members-3'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -508,11 +554,29 @@ A set of properties associated with a volume. These properties can change dynami
 <td>A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.</td>
 </tr>
 </tbody></table>
+<h3 id='volumes'>volumes</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"physical_utilisation"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"virtual_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"sharable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"read_write"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span><span class="p">[]</span><span class="w">
+</span></code></pre>
+<p>type <code>volumes</code> = <code>volume list</code>
+A list of volumes</p>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>blocklist</code> = <code>struct { &quot;blocksize&quot;: int, &quot;ranges&quot;: int64 * int64 list }</code>
+<p>type <code>blocklist</code> = <code>struct { ... }</code>
 List of blocks for copying</p>
-<h4 id='members-3'>Members</h4>
+<h4 id='members-4'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -537,8 +601,8 @@ List of blocks for copying</p>
 <p>type <code>key_list</code> = <code>string list</code></p>
 <h3 id='changed_blocks'>changed_blocks</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bitmap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"granularity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>changed_blocks</code> = <code>struct { &quot;granularity&quot;: int, &quot;bitmap&quot;: string }</code></p>
-<h4 id='members-4'>Members</h4>
+<p>type <code>changed_blocks</code> = <code>struct { ... }</code></p>
+<h4 id='members-5'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3069,8 +3133,8 @@ List of blocks for copying</p>
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Cancelled"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Activated_on_another_host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exns</code> = <code>variant { Sr_not_attached, SR_does_not_exist, Volume_does_not_exist, Unimplemented, Cancelled, Activated_on_another_host }</code></p>
-<h4 id='constructors'>Constructors</h4>
+<p>type <code>exns</code> = <code>variant { ... }</code></p>
+<h4 id='constructors-2'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3116,8 +3180,8 @@ List of blocks for copying</p>
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Cancelled"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Activated_on_another_host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exns"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exns</code> = <code>variant { Sr_not_attached, SR_does_not_exist, Volume_does_not_exist, Unimplemented, Cancelled, Activated_on_another_host }</code></p>
-<h4 id='constructors-2'>Constructors</h4>
+<p>type <code>exns</code> = <code>variant { ... }</code></p>
+<h4 id='constructors-3'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>

@@ -287,6 +287,145 @@ operations from VMs and the <code>Data</code> interface is used for operations s
 </span></code></pre>
 <p>type <code>persistent</code> = <code>bool</code>
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</p>
+<h3 id='xendisk'>xendisk</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>xendisk</code> = <code>struct { ... }</code></p>
+<h4 id='members'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>params</td>
+<td>string</td>
+<td>Put into the &quot;params&quot; key in xenstore</td>
+</tr>
+<tr>
+<td>extra</td>
+<td>(string * string) list</td>
+<td>Key-value pairs to be put into the &quot;extra&quot; subdirectory underneath the xenstore backend</td>
+</tr>
+<tr>
+<td>backend_type</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>block_device</code> = <code>struct { ... }</code></p>
+<h4 id='members-2'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>path</td>
+<td>string</td>
+<td>Path to the block device</td>
+</tr>
+<tr>
+<td>dummy</td>
+<td>unit</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='file'>file</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>file</code> = <code>struct { ... }</code></p>
+<h4 id='members-3'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>path</td>
+<td>string</td>
+<td>Path to the raw file</td>
+</tr>
+<tr>
+<td>dummy</td>
+<td>unit</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='nbd'>nbd</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>nbd</code> = <code>struct { ... }</code></p>
+<h4 id='members-4'>Members</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uri</td>
+<td>string</td>
+<td>NBD URI of the form nbd:unix:<domain-socket>:exportname=<NAME> (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html)</td>
+</tr>
+<tr>
+<td>dummy</td>
+<td>unit</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='implementation'>implementation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"BlockDevice"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"File"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"Nbd"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>type <code>implementation</code> = <code>variant { ... }</code></p>
+<h4 id='constructors'>Constructors</h4>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>XenDisk</td>
+<td>xendisk</td>
+<td></td>
+</tr>
+<tr>
+<td>BlockDevice</td>
+<td>block_device</td>
+<td></td>
+</tr>
+<tr>
+<td>File</td>
+<td>file</td>
+<td></td>
+</tr>
+<tr>
+<td>Nbd</td>
+<td>nbd</td>
+<td></td>
+</tr>
+</tbody></table>
 <h3 id='backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">[</span><span class="w">
@@ -301,9 +440,9 @@ True means the disk data is persistent and should be preserved when the datapath
   </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>backend</code> = <code>struct { &quot;domain_uuid&quot;: string, &quot;implementations&quot;: variant { XenDisk, BlockDevice, File, Nbd } list }</code>
+<p>type <code>backend</code> = <code>struct { ... }</code>
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</p>
-<h4 id='members'>Members</h4>
+<h4 id='members-5'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -318,15 +457,15 @@ A description of which Xen block backend to use. The toolstack needs this to set
 </tr>
 <tr>
 <td>implementations</td>
-<td>variant { XenDisk, BlockDevice, File, Nbd } list</td>
+<td>implementation list</td>
 <td>choice of implementation technologies</td>
 </tr>
 </tbody></table>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>blocklist</code> = <code>struct { &quot;blocksize&quot;: int, &quot;ranges&quot;: int64 * int64 list }</code>
+<p>type <code>blocklist</code> = <code>struct { ... }</code>
 List of blocks for copying</p>
-<h4 id='members-2'>Members</h4>
+<h4 id='members-6'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -349,16 +488,12 @@ List of blocks for copying</p>
 </span></code></pre>
 <p>type <code>domain</code> = <code>string</code>
 A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p>
-<h3 id='uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
-</span></code></pre>
-<p>type <code>uri</code> = <code>string</code>
-A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.</p>
 <h3 id='operation'>operation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Mirror"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>operation</code> = <code>variant { Copy, Mirror }</code>
+<p>type <code>operation</code> = <code>variant { ... }</code>
 The primary key for referring to a long-running operation</p>
-<h4 id='constructors'>Constructors</h4>
+<h4 id='constructors-2'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -379,9 +514,9 @@ The primary key for referring to a long-running operation</p>
 </tbody></table>
 <h3 id='status'>status</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>type <code>status</code> = <code>struct { &quot;failed&quot;: bool, &quot;progress&quot;: float option }</code>
+<p>type <code>status</code> = <code>struct { ... }</code>
 Status information for on-going tasks</p>
-<h4 id='members-3'>Members</h4>
+<h4 id='members-7'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -403,7 +538,7 @@ Status information for on-going tasks</p>
 <h3 id='operations'>operations</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operations"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
-<p>type <code>operations</code> = <code>variant { Copy, Mirror } list</code>
+<p>type <code>operations</code> = <code>operation list</code>
 A list of operations</p>
 <h2 id='interface-datapath'>Interface: <code>Datapath</code></h2>
 <p>Xapi will call the functions here on VM start / shutdown /
@@ -1479,8 +1614,8 @@ disk will be a perfect mirror of the source.</p></li>
 </tbody></table>
 <h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exnt</code> = <code>variant { Unimplemented }</code></p>
-<h4 id='constructors-2'>Constructors</h4>
+<p>type <code>exnt</code> = <code>variant { ... }</code></p>
+<h4 id='constructors-3'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1496,8 +1631,8 @@ disk will be a perfect mirror of the source.</p></li>
 </tbody></table>
 <h3 id='exnt-2'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>type <code>exnt</code> = <code>variant { Unimplemented }</code></p>
-<h4 id='constructors-3'>Constructors</h4>
+<p>type <code>exnt</code> = <code>variant { ... }</code></p>
+<h4 id='constructors-4'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
