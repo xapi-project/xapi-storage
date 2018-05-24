@@ -22,6 +22,78 @@ false
 ```
 type `persistent` = `bool`
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.
+### xendisk
+```json
+{
+  "backend_type": "backend_type",
+  "extra": { "extra": "extra" },
+  "params": "params"
+}
+```
+type `xendisk` = `struct { ... }`
+
+#### Members
+ Name         | Type                   | Description                                                                             
+--------------|------------------------|-----------------------------------------------------------------------------------------
+ params       | string                 | Put into the "params" key in xenstore                                                   
+ extra        | (string * string) list | Key-value pairs to be put into the "extra" subdirectory underneath the xenstore backend 
+ backend_type | string                 |                                                                                         
+### block_device
+```json
+{ "dummy": null, "path": "path" }
+```
+type `block_device` = `struct { ... }`
+
+#### Members
+ Name  | Type   | Description              
+-------|--------|--------------------------
+ path  | string | Path to the block device 
+ dummy | unit   |                          
+### file
+```json
+{ "dummy": null, "path": "path" }
+```
+type `file` = `struct { ... }`
+
+#### Members
+ Name  | Type   | Description          
+-------|--------|----------------------
+ path  | string | Path to the raw file 
+ dummy | unit   |                      
+### nbd
+```json
+{ "dummy": null, "uri": "uri" }
+```
+type `nbd` = `struct { ... }`
+
+#### Members
+ Name  | Type   | Description                                                                                                                                                                           
+-------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ uri   | string | NBD URI of the form nbd:unix:<domain-socket>:exportname=<NAME> (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html) 
+ dummy | unit   |                                                                                                                                                                                       
+### implementation
+```json
+[
+  "XenDisk",
+  {
+    "backend_type": "backend_type",
+    "extra": { "extra": "extra" },
+    "params": "params"
+  }
+]
+[ "BlockDevice", { "dummy": null, "path": "path" } ]
+[ "File", { "dummy": null, "path": "path" } ]
+[ "Nbd", { "dummy": null, "uri": "uri" } ]
+```
+type `implementation` = `variant { ... }`
+
+#### Constructors
+ Name        | Type         | Description 
+-------------|--------------|-------------
+ XenDisk     | xendisk      |             
+ BlockDevice | block_device |             
+ File        | file         |             
+ Nbd         | nbd          |             
 ### backend
 ```json
 {
@@ -38,18 +110,18 @@ True means the disk data is persistent and should be preserved when the datapath
   "domain_uuid": "domain_uuid"
 }
 ```
-type `backend` = `struct { "domain_uuid": string, "implementations": variant { XenDisk, BlockDevice, File, Nbd } list }`
+type `backend` = `struct { ... }`
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.
 #### Members
- Name            | Type                                             | Description                            
------------------|--------------------------------------------------|----------------------------------------
- domain_uuid     | string                                           | UUID of the domain hosting the backend 
- implementations | variant { XenDisk, BlockDevice, File, Nbd } list | choice of implementation technologies  
+ Name            | Type                | Description                            
+-----------------|---------------------|----------------------------------------
+ domain_uuid     | string              | UUID of the domain hosting the backend 
+ implementations | implementation list | choice of implementation technologies  
 ### blocklist
 ```json
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
 ```
-type `blocklist` = `struct { "blocksize": int, "ranges": int64 * int64 list }`
+type `blocklist` = `struct { ... }`
 List of blocks for copying
 #### Members
  Name      | Type               | Description                                                                                    
@@ -62,18 +134,12 @@ List of blocks for copying
 ```
 type `domain` = `string`
 A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.
-### uri
-```json
-"uri"
-```
-type `uri` = `string`
-A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.
 ### operation
 ```json
 [ "Copy", [ "operation", "operation" ] ]
 [ "Mirror", [ "operation", "operation" ] ]
 ```
-type `operation` = `variant { Copy, Mirror }`
+type `operation` = `variant { ... }`
 The primary key for referring to a long-running operation
 #### Constructors
  Name   | Type            | Description                                                                                   
@@ -84,7 +150,7 @@ The primary key for referring to a long-running operation
 ```json
 { "progress": 0.0, "failed": true }
 ```
-type `status` = `struct { "failed": bool, "progress": float option }`
+type `status` = `struct { ... }`
 Status information for on-going tasks
 #### Members
  Name     | Type         | Description                                                                   
@@ -96,7 +162,7 @@ Status information for on-going tasks
 [ [ "Copy", [ "operations", "operations" ] ] ]
 []
 ```
-type `operations` = `variant { Copy, Mirror } list`
+type `operations` = `operation list`
 A list of operations
 ## Interface: `Datapath`
 
@@ -1090,7 +1156,7 @@ class Data_myimplementation(Data_skeleton):
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = `variant { Unimplemented }`
+type `exnt` = `variant { ... }`
 
 #### Constructors
  Name          | Type   | Description 
@@ -1100,7 +1166,7 @@ type `exnt` = `variant { Unimplemented }`
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = `variant { Unimplemented }`
+type `exnt` = `variant { ... }`
 
 #### Constructors
  Name          | Type   | Description 

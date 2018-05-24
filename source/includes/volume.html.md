@@ -11,6 +11,74 @@ search: true
 # volume
 The xapi toolstack delegates all storage control-plane functions to  "Volume plugins".These plugins allow the toolstack to  create/destroy/snapshot/clone volumes which are organised into groups  called Storage Repositories (SR). Volumes have a set of URIs which  can be used by the "Datapath plugins" to connect the disk data to  VMs.
 ## Type definitions
+### health
+```json
+[ "Healthy", "health" ]
+[ "Recovering", "health" ]
+```
+type `health` = `variant { ... }`
+
+#### Constructors
+ Name       | Type   | Description                                         
+------------|--------|-----------------------------------------------------
+ Healthy    | string | Storage is fully available                          
+ Recovering | string | Storage is busy recovering, e.g. rebuilding mirrors 
+### sr_stat
+```json
+{
+  "health": [ "Healthy", "health" ],
+  "clustered": true,
+  "datasources": [ "datasources" ],
+  "total_space": 0,
+  "free_space": 0,
+  "description": "description",
+  "uuid": "uuid",
+  "name": "name",
+  "sr": "sr"
+}
+```
+type `sr_stat` = `struct { ... }`
+
+#### Members
+ Name        | Type          | Description                                                                                                                                                                         
+-------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ sr          | string        | The URI identifying this volume. A typical value would be a file:// URI pointing to a directory or block device                                                                     
+ name        | string        | Short, human-readable label for the SR.                                                                                                                                             
+ uuid        | string option | Uuid that uniquely identifies this SR, if one is available. For SRs that are created by SR.create, this should be the value passed into that call, if it is possible to persist it. 
+ description | string        | Longer, human-readable description of the SR. Descriptions are generally only displayed by clients when the user is examining SRs in detail.                                        
+ free_space  | int64         | Number of bytes free on the backing storage (in bytes)                                                                                                                              
+ total_space | int64         | Total physical size of the backing storage (in bytes)                                                                                                                               
+ datasources | string list   | URIs naming datasources: time-varying quantities representing anything from disk access latency to free space. The entities named by these URIs are self-describing.                
+ clustered   | bool          | Indicates whether the SR uses clustered local storage.                                                                                                                              
+ health      | health        | The health status of the SR.                                                                                                                                                        
+### probe_result
+```json
+{
+  "extra_info": { "extra_info": "extra_info" },
+  "sr": {
+    "health": [ "Healthy", "health" ],
+    "clustered": true,
+    "datasources": [ "datasources" ],
+    "total_space": 0,
+    "free_space": 0,
+    "description": "description",
+    "uuid": "uuid",
+    "name": "name",
+    "sr": "sr"
+  },
+  "complete": true,
+  "configuration": { "configuration": "configuration" }
+}
+```
+type `probe_result` = `struct { ... }`
+
+#### Members
+ Name          | Type                   | Description                                                                                                                                                                                                      
+---------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ configuration | (string * string) list | Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.              
+ complete      | bool                   | True if this configuration is complete and can be used to call SR.create or SR.attach. False if it requires further iterative calls to SR.probe, to potentially narrow down on a configuration that can be used. 
+ sr            | sr_stat option         | Existing SR found for this configuration                                                                                                                                                                         
+ extra_info    | (string * string) list | Additional plugin-specific information about this configuration, that might be of use for an API user. This can for example include the LUN or the WWPN.                                                         
 ### probe_results
 ```json
 [
@@ -33,7 +101,7 @@ The xapi toolstack delegates all storage control-plane functions to  "Volume plu
 ]
 []
 ```
-type `probe_results` = `struct { "configuration": (string * string) list, "complete": bool, "sr": struct { "sr": string, "name": string, "uuid": string option, "description": string, "free_space": int64, "total_space": int64, "datasources": string list, "clustered": bool, "health": variant { Healthy, Recovering } } option, "extra_info": (string * string) list } list`
+type `probe_results` = `probe_result list`
 
 ### configuration
 ```json
@@ -41,34 +109,36 @@ type `probe_results` = `struct { "configuration": (string * string) list, "compl
 ```
 type `configuration` = `(string * string) list`
 Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.
-### sr_stat
+### volume
 ```json
 {
-  "health": [ "Healthy", "health" ],
-  "clustered": true,
-  "datasources": [ "datasources" ],
-  "total_space": 0,
-  "free_space": 0,
+  "keys": { "keys": "keys" },
+  "uri": [ "uri" ],
+  "physical_utilisation": 0,
+  "virtual_size": 0,
+  "sharable": true,
+  "read_write": true,
   "description": "description",
-  "uuid": "uuid",
   "name": "name",
-  "sr": "sr"
+  "uuid": "uuid",
+  "key": "key"
 }
 ```
-type `sr_stat` = `struct { "sr": string, "name": string, "uuid": string option, "description": string, "free_space": int64, "total_space": int64, "datasources": string list, "clustered": bool, "health": variant { Healthy, Recovering } }`
-A set of high-level properties associated with an SR. These properties can change dynamically and can be queried by a SR.stat call.
+type `volume` = `struct { ... }`
+
 #### Members
- Name        | Type                            | Description                                                                                                                                                                         
--------------|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- sr          | string                          | The URI identifying this volume. A typical value would be a file:// URI pointing to a directory or block device                                                                     
- name        | string                          | Short, human-readable label for the SR.                                                                                                                                             
- uuid        | string option                   | Uuid that uniquely identifies this SR, if one is available. For SRs that are created by SR.create, this should be the value passed into that call, if it is possible to persist it. 
- description | string                          | Longer, human-readable description of the SR. Descriptions are generally only displayed by clients when the user is examining SRs in detail.                                        
- free_space  | int64                           | Number of bytes free on the backing storage (in bytes)                                                                                                                              
- total_space | int64                           | Total physical size of the backing storage (in bytes)                                                                                                                               
- datasources | string list                     | URIs naming datasources: time-varying quantities representing anything from disk access latency to free space. The entities named by these URIs are self-describing.                
- clustered   | bool                            | Indicates whether the SR uses clustered local storage.                                                                                                                              
- health      | variant { Healthy, Recovering } | The health status of the SR.                                                                                                                                                        
+ Name                 | Type                   | Description                                                                                                                                                                                                                                                                                                                                                        
+----------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ key                  | string                 | A primary key for this volume. The key must be unique within the enclosing Storage Repository (SR). A typical value would be a filename or an LVM volume name.                                                                                                                                                                                                     
+ uuid                 | string option          | A uuid (or guid) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.                                                                                                                                                                                                                          
+ name                 | string                 | Short, human-readable label for the volume. Names are commonly used by when displaying short lists of volumes.                                                                                                                                                                                                                                                     
+ description          | string                 | Longer, human-readable description of the volume. Descriptions are generally only displayed by clients when the user is examining volumes individually.                                                                                                                                                                                                            
+ read_write           | bool                   | True means the VDI may be written to, false means the volume is read-only. Some storage media is read-only so all volumes are read-only; for example .iso disk images on an NFS share. Some volume are created read-only; for example because they are snapshots of some other VDI.                                                                                
+ sharable             | bool                   | Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.                                                                                                                                                                                                                               
+ virtual_size         | int64                  | Size of the volume from the perspective of a VM (in bytes)                                                                                                                                                                                                                                                                                                         
+ physical_utilisation | int64                  | Amount of space currently used on the backing storage (in bytes)                                                                                                                                                                                                                                                                                                   
+ uri                  | string list            | A list of URIs which can be opened and used for I/O. A URI could reference a local block device, a remote NFS share, iSCSI LUN or RBD volume. In cases where the data may be accessed over several protocols, he list should be sorted into descending order of desirability. Xapi will open the most desirable URI for which it has an available datapath plugin. 
+ keys                 | (string * string) list | A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.                                                                                                                                                                                                                                     
 ### volumes
 ```json
 [
@@ -87,49 +157,13 @@ A set of high-level properties associated with an SR. These properties can chang
 ]
 []
 ```
-type `volumes` = `struct { "key": string, "uuid": string option, "name": string, "description": string, "read_write": bool, "sharable": bool, "virtual_size": int64, "physical_utilisation": int64, "uri": string list, "keys": (string * string) list } list`
+type `volumes` = `volume list`
 A list of volumes
-### key
-```json
-"key"
-```
-type `key` = `string`
-Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract.
-### volume
-```json
-{
-  "keys": { "keys": "keys" },
-  "uri": [ "uri" ],
-  "physical_utilisation": 0,
-  "virtual_size": 0,
-  "sharable": true,
-  "read_write": true,
-  "description": "description",
-  "name": "name",
-  "uuid": "uuid",
-  "key": "key"
-}
-```
-type `volume` = `struct { "key": string, "uuid": string option, "name": string, "description": string, "read_write": bool, "sharable": bool, "virtual_size": int64, "physical_utilisation": int64, "uri": string list, "keys": (string * string) list }`
-A set of properties associated with a volume. These properties can change dynamically and can be queried by the Volume.stat call.
-#### Members
- Name                 | Type                   | Description                                                                                                                                                                                                                                                                                                                                                        
-----------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- key                  | string                 | A primary key for this volume. The key must be unique within the enclosing Storage Repository (SR). A typical value would be a filename or an LVM volume name.                                                                                                                                                                                                     
- uuid                 | string option          | A uuid (or guid) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.                                                                                                                                                                                                                          
- name                 | string                 | Short, human-readable label for the volume. Names are commonly used by when displaying short lists of volumes.                                                                                                                                                                                                                                                     
- description          | string                 | Longer, human-readable description of the volume. Descriptions are generally only displayed by clients when the user is examining volumes individually.                                                                                                                                                                                                            
- read_write           | bool                   | True means the VDI may be written to, false means the volume is read-only. Some storage media is read-only so all volumes are read-only; for example .iso disk images on an NFS share. Some volume are created read-only; for example because they are snapshots of some other VDI.                                                                                
- sharable             | bool                   | Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.                                                                                                                                                                                                                               
- virtual_size         | int64                  | Size of the volume from the perspective of a VM (in bytes)                                                                                                                                                                                                                                                                                                         
- physical_utilisation | int64                  | Amount of space currently used on the backing storage (in bytes)                                                                                                                                                                                                                                                                                                   
- uri                  | string list            | A list of URIs which can be opened and used for I/O. A URI could reference a local block device, a remote NFS share, iSCSI LUN or RBD volume. In cases where the data may be accessed over several protocols, he list should be sorted into descending order of desirability. Xapi will open the most desirable URI for which it has an available datapath plugin. 
- keys                 | (string * string) list | A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.                                                                                                                                                                                                                                     
 ### blocklist
 ```json
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
 ```
-type `blocklist` = `struct { "blocksize": int, "ranges": int64 * int64 list }`
+type `blocklist` = `struct { ... }`
 List of blocks for copying
 #### Members
  Name      | Type               | Description                                                                                    
@@ -147,7 +181,7 @@ type `key_list` = `string list`
 ```json
 { "bitmap": "bitmap", "granularity": 0 }
 ```
-type `changed_blocks` = `struct { "granularity": int, "bitmap": string }`
+type `changed_blocks` = `struct { ... }`
 
 #### Members
  Name        | Type   | Description                                                       
@@ -2389,7 +2423,7 @@ class Volume_myimplementation(Volume_skeleton):
 [ "Cancelled", "exns" ]
 [ "Activated_on_another_host", "exns" ]
 ```
-type `exns` = `variant { Sr_not_attached, SR_does_not_exist, Volume_does_not_exist, Unimplemented, Cancelled, Activated_on_another_host }`
+type `exns` = `variant { ... }`
 
 #### Constructors
  Name                      | Type   | Description                                       
@@ -2409,7 +2443,7 @@ type `exns` = `variant { Sr_not_attached, SR_does_not_exist, Volume_does_not_exi
 [ "Cancelled", "exns" ]
 [ "Activated_on_another_host", "exns" ]
 ```
-type `exns` = `variant { Sr_not_attached, SR_does_not_exist, Volume_does_not_exist, Unimplemented, Cancelled, Activated_on_another_host }`
+type `exns` = `variant { ... }`
 
 #### Constructors
  Name                      | Type   | Description                                       

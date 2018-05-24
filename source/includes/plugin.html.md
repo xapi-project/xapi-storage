@@ -26,7 +26,7 @@ The Datapath plugin takes a URI which points to virtual disk data  and chooses a
   "plugin": "plugin"
 }
 ```
-type `query_result` = `struct { "plugin": string, "name": string, "description": string, "vendor": string, "copyright": string, "version": string, "required_api_version": string, "features": string list, "configuration": (string * string) list, "required_cluster_stack": string list }`
+type `query_result` = `struct { ... }`
 Properties of this implementation
 #### Members
  Name                   | Type                   | Description                                                               
@@ -272,7 +272,7 @@ class Plugin_myimplementation(Plugin_skeleton):
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = `variant { Unimplemented }`
+type `exnt` = `variant { ... }`
 
 #### Constructors
  Name          | Type   | Description 

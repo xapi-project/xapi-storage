@@ -17,6 +17,87 @@ The Task interface is required if the backend supports long-running  tasks.
 ```
 type `id` = `string`
 Unique identifier for a task
+### volume
+```json
+{
+  "keys": { "keys": "keys" },
+  "uri": [ "uri" ],
+  "physical_utilisation": 0,
+  "virtual_size": 0,
+  "sharable": true,
+  "read_write": true,
+  "description": "description",
+  "name": "name",
+  "uuid": "uuid",
+  "key": "key"
+}
+```
+type `volume` = `struct { ... }`
+
+#### Members
+ Name                 | Type                   | Description                                                                                                                                                                                                                                                                                                                                                        
+----------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ key                  | string                 | A primary key for this volume. The key must be unique within the enclosing Storage Repository (SR). A typical value would be a filename or an LVM volume name.                                                                                                                                                                                                     
+ uuid                 | string option          | A uuid (or guid) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.                                                                                                                                                                                                                          
+ name                 | string                 | Short, human-readable label for the volume. Names are commonly used by when displaying short lists of volumes.                                                                                                                                                                                                                                                     
+ description          | string                 | Longer, human-readable description of the volume. Descriptions are generally only displayed by clients when the user is examining volumes individually.                                                                                                                                                                                                            
+ read_write           | bool                   | True means the VDI may be written to, false means the volume is read-only. Some storage media is read-only so all volumes are read-only; for example .iso disk images on an NFS share. Some volume are created read-only; for example because they are snapshots of some other VDI.                                                                                
+ sharable             | bool                   | Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.                                                                                                                                                                                                                               
+ virtual_size         | int64                  | Size of the volume from the perspective of a VM (in bytes)                                                                                                                                                                                                                                                                                                         
+ physical_utilisation | int64                  | Amount of space currently used on the backing storage (in bytes)                                                                                                                                                                                                                                                                                                   
+ uri                  | string list            | A list of URIs which can be opened and used for I/O. A URI could reference a local block device, a remote NFS share, iSCSI LUN or RBD volume. In cases where the data may be accessed over several protocols, he list should be sorted into descending order of desirability. Xapi will open the most desirable URI for which it has an available datapath plugin. 
+ keys                 | (string * string) list | A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.                                                                                                                                                                                                                                     
+### async_result_t
+```json
+"UnitResult"
+[
+  "Volume",
+  {
+    "keys": { "keys": "keys" },
+    "uri": [ "uri" ],
+    "physical_utilisation": 0,
+    "virtual_size": 0,
+    "sharable": true,
+    "read_write": true,
+    "description": "description",
+    "name": "name",
+    "uuid": "uuid",
+    "key": "key"
+  }
+]
+```
+type `async_result_t` = `variant { ... }`
+
+#### Constructors
+ Name       | Type   | Description 
+------------|--------|-------------
+ UnitResult | unit   |             
+ Volume     | volume |             
+### completion_t
+```json
+{ "result": "UnitResult", "duration": 0.0 }
+```
+type `completion_t` = `struct { ... }`
+
+#### Members
+ Name     | Type                  | Description 
+----------|-----------------------|-------------
+ duration | float                 |             
+ result   | async_result_t option |             
+### state
+```json
+[ "Pending", 0.0 ]
+[ "Completed", { "result": "UnitResult", "duration": 0.0 } ]
+[ "Failed", "state" ]
+```
+type `state` = `variant { ... }`
+
+#### Constructors
+ Name      | Type         | Description                                           
+-----------|--------------|-------------------------------------------------------
+ Pending   | float        | the task is in progress, with progress info from 0..1 
+ Completed | completion_t |                                                       
+ Failed    | string       |                                                       
 ### task
 ```json
 {
@@ -26,15 +107,15 @@ Unique identifier for a task
   "id": "id"
 }
 ```
-type `task` = `struct { "id": string, "debug_info": string, "ctime": float, "state": variant { Pending, Completed, Failed } }`
+type `task` = `struct { ... }`
 
 #### Members
- Name       | Type                                   | Description 
-------------|----------------------------------------|-------------
- id         | string                                 |             
- debug_info | string                                 |             
- ctime      | float                                  |             
- state      | variant { Pending, Completed, Failed } |             
+ Name       | Type   | Description 
+------------|--------|-------------
+ id         | string |             
+ debug_info | string |             
+ ctime      | float  |             
+ state      | state  |             
 ### task_list
 ```json
 [ "task_list" ]
@@ -334,7 +415,7 @@ class Task_myimplementation(Task_skeleton):
 ```json
 [ "Unimplemented", "exnt" ]
 ```
-type `exnt` = `variant { Unimplemented }`
+type `exnt` = `variant { ... }`
 
 #### Constructors
  Name          | Type   | Description 
