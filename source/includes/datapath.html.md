@@ -67,10 +67,10 @@ type `file` = `struct { ... }`
 type `nbd` = `struct { ... }`
 
 #### Members
- Name  | Type   | Description                                                                                                                                                                           
--------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- uri   | string | NBD URI of the form nbd:unix:<domain-socket>:exportname=<NAME> (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html) 
- dummy | unit   |                                                                                                                                                                                       
+ Name  | Type   | Description                                                                                                                                                                             
+-------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ uri   | string | NBD URI of the form [nbd:unix:<domain-socket>:exportname=<NAME>] (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html) 
+ dummy | unit   |                                                                                                                                                                                         
 ### implementation
 ```json
 [
