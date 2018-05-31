@@ -22,7 +22,8 @@ type xendisk = {
 } [@@deriving rpcty]
 
 type block_device = {
-  path: string; (** Path to the block device *)
+  path: string;
+  (** Path to the system local block device. This is equivalent to the SMAPIv1 params. *)
   dummy: unit;
 } [@@deriving rpcty]
 
@@ -41,7 +42,9 @@ type nbd = {
 
 type implementation =
   | XenDisk of xendisk
+  (** This value can be used for ring connection. *)
   | BlockDevice of block_device
+  (** This value can be used for Domain0 block device access. *)
   | File of file
   | Nbd of nbd
 [@@deriving rpcty]
