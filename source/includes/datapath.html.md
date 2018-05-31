@@ -45,11 +45,11 @@ type `xendisk` = `struct { ... }`
 type `block_device` = `struct { ... }`
 
 #### Members
- Name    | Type                   | Description                                               
----------|------------------------|-----------------------------------------------------------
- path    | string                 | Path to the block device                                  
- dummy   | unit                   |                                                           
- sm_data | (string * string) list | Key-value pairs to be put into the "sm-data" subdirectory 
+ Name    | Type                   | Description                                                                      
+---------|------------------------|----------------------------------------------------------------------------------
+ path    | string                 | Path to the system local block device. This is equivalent to the SMAPIv1 params. 
+ dummy   | unit                   |                                                                                  
+ sm_data | (string * string) list | Key-value pairs to be put into the "sm-data" subdirectory                        
 ### file
 ```json
 { "dummy": null, "path": "path" }
@@ -92,12 +92,12 @@ type `nbd` = `struct { ... }`
 type `implementation` = `variant { ... }`
 
 #### Constructors
- Name        | Type         | Description 
--------------|--------------|-------------
- XenDisk     | xendisk      |             
- BlockDevice | block_device |             
- File        | file         |             
- Nbd         | nbd          |             
+ Name        | Type         | Description                                                                                    
+-------------|--------------|------------------------------------------------------------------------------------------------
+ XenDisk     | xendisk      |                                                                                                
+ BlockDevice | block_device | As in SMAPIv1 this value can be used both for Domain0 block device access and ring connection. 
+ File        | file         |                                                                                                
+ Nbd         | nbd          |                                                                                                
 ### backend
 ```json
 {
