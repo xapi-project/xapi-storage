@@ -9,7 +9,7 @@ language_tabs:
 search: true
 ---
 # volume
-The xapi toolstack delegates all storage control-plane functions to  "Volume plugins".These plugins allow the toolstack to  create/destroy/snapshot/clone volumes which are organised into groups  called Storage Repositories (SR). Volumes have a set of URIs which  can be used by the "Datapath plugins" to connect the disk data to  VMs.
+The xapi toolstack delegates all storage control-plane functions to  "Volume plugins".These plugins allow the toolstack to  create/destroy/snapshot/clone volumes which are organised into groups  called Storage Repositories \(SR\). Volumes have a set of URIs which  can be used by the "Datapath plugins" to connect the disk data to  VMs.
 ## Type definitions
 ### health
 ```json
@@ -46,8 +46,8 @@ type `sr_stat` = `struct { ... }`
  name        | string        | Short, human-readable label for the SR.                                                                                                                                             
  uuid        | string option | Uuid that uniquely identifies this SR, if one is available. For SRs that are created by SR.create, this should be the value passed into that call, if it is possible to persist it. 
  description | string        | Longer, human-readable description of the SR. Descriptions are generally only displayed by clients when the user is examining SRs in detail.                                        
- free_space  | int64         | Number of bytes free on the backing storage (in bytes)                                                                                                                              
- total_space | int64         | Total physical size of the backing storage (in bytes)                                                                                                                               
+ free_space  | int64         | Number of bytes free on the backing storage \(in bytes\)                                                                                                                            
+ total_space | int64         | Total physical size of the backing storage \(in bytes\)                                                                                                                             
  datasources | string list   | URIs naming datasources: time-varying quantities representing anything from disk access latency to free space. The entities named by these URIs are self-describing.                
  clustered   | bool          | Indicates whether the SR uses clustered local storage.                                                                                                                              
  health      | health        | The health status of the SR.                                                                                                                                                        
@@ -129,14 +129,14 @@ type `volume` = `struct { ... }`
 #### Members
  Name                 | Type                   | Description                                                                                                                                                                                                                                                                                                                                                        
 ----------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- key                  | string                 | A primary key for this volume. The key must be unique within the enclosing Storage Repository (SR). A typical value would be a filename or an LVM volume name.                                                                                                                                                                                                     
- uuid                 | string option          | A uuid (or guid) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.                                                                                                                                                                                                                          
+ key                  | string                 | A primary key for this volume. The key must be unique within the enclosing Storage Repository \(SR\). A typical value would be a filename or an LVM volume name.                                                                                                                                                                                                   
+ uuid                 | string option          | A uuid \(or guid\) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.                                                                                                                                                                                                                        
  name                 | string                 | Short, human-readable label for the volume. Names are commonly used by when displaying short lists of volumes.                                                                                                                                                                                                                                                     
  description          | string                 | Longer, human-readable description of the volume. Descriptions are generally only displayed by clients when the user is examining volumes individually.                                                                                                                                                                                                            
  read_write           | bool                   | True means the VDI may be written to, false means the volume is read-only. Some storage media is read-only so all volumes are read-only; for example .iso disk images on an NFS share. Some volume are created read-only; for example because they are snapshots of some other VDI.                                                                                
  sharable             | bool                   | Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.                                                                                                                                                                                                                               
- virtual_size         | int64                  | Size of the volume from the perspective of a VM (in bytes)                                                                                                                                                                                                                                                                                                         
- physical_utilisation | int64                  | Amount of space currently used on the backing storage (in bytes)                                                                                                                                                                                                                                                                                                   
+ virtual_size         | int64                  | Size of the volume from the perspective of a VM \(in bytes\)                                                                                                                                                                                                                                                                                                       
+ physical_utilisation | int64                  | Amount of space currently used on the backing storage \(in bytes\)                                                                                                                                                                                                                                                                                                 
  uri                  | string list            | A list of URIs which can be opened and used for I/O. A URI could reference a local block device, a remote NFS share, iSCSI LUN or RBD volume. In cases where the data may be accessed over several protocols, he list should be sorted into descending order of desirability. Xapi will open the most desirable URI for which it has an available datapath plugin. 
  keys                 | (string * string) list | A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.                                                                                                                                                                                                                                     
 ### volumes
@@ -159,6 +159,12 @@ type `volume` = `struct { ... }`
 ```
 type `volumes` = `volume list`
 A list of volumes
+### key
+```json
+"key"
+```
+type `key` = `string`
+Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract.
 ### blocklist
 ```json
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
@@ -166,10 +172,10 @@ A list of volumes
 type `blocklist` = `struct { ... }`
 List of blocks for copying
 #### Members
- Name      | Type               | Description                                                                                    
------------|--------------------|------------------------------------------------------------------------------------------------
- blocksize | int                | size of the individual blocks                                                                  
- ranges    | int64 * int64 list | list of block ranges, where a range is a (start,length) pair, measured in units of [blocksize] 
+ Name      | Type               | Description                                                                                        
+-----------|--------------------|----------------------------------------------------------------------------------------------------
+ blocksize | int                | size of the individual blocks                                                                      
+ ranges    | int64 * int64 list | list of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
 ### key_list
 ```json
 [ "key_list" ]
@@ -191,7 +197,7 @@ type `changed_blocks` = `struct { ... }`
 ## Interface: `SR`
 Operations which act on Storage Repositories
 ## Method: `probe`
-[probe configuration]: can be used iteratively to narrow down configurations to use with SR.create, or to find existing SRs on the backing storage
+\[probe configuration\]: can be used iteratively to narrow down configurations to use with SR.create, or to find existing SRs on the backing storage
 
 > Client
 
@@ -311,7 +317,7 @@ class SR_myimplementation(SR_skeleton):
  configuration | in        | configuration | Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool. 
  probe_result  | out       | probe_results | Contents of the storage device                                                                                                                                                                      
 ## Method: `create`
-[create uuid configuration name description]: creates a fresh SR
+\[create uuid configuration name description\]: creates a fresh SR
 
 > Client
 
@@ -403,7 +409,7 @@ class SR_myimplementation(SR_skeleton):
  description   | in        | string        | Human-readable description for the SR                                                                                                                                                               
  configuration | out       | configuration | Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool. 
 ## Method: `attach`
-[attach configuration]: attaches the SR to the local host. Once an SR is  attached then volumes may be manipulated.
+\[attach configuration\]: attaches the SR to the local host. Once an SR is  attached then volumes may be manipulated.
 
 > Client
 
@@ -490,7 +496,7 @@ class SR_myimplementation(SR_skeleton):
  configuration | in        | configuration | Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool. 
  sr            | out       | string        | The Storage Repository                                                                                                                                                                              
 ## Method: `detach`
-[detach sr]: detaches the SR, clearing up any associated resources.  Once the SR is detached then volumes may not be manipulated.
+\[detach sr\]: detaches the SR, clearing up any associated resources.  Once the SR is detached then volumes may not be manipulated.
 
 > Client
 
@@ -570,7 +576,7 @@ class SR_myimplementation(SR_skeleton):
  dbg  | in        | string | Debug context from the caller 
  sr   | in        | string | The Storage Repository        
 ## Method: `destroy`
-[destroy sr]: destroys the [sr] and deletes any volumes associated  with it. Note that an SR must be attached to be destroyed; otherwise  Sr_not_attached is thrown.
+\[destroy sr\]: destroys the \[sr\] and deletes any volumes associated  with it. Note that an SR must be attached to be destroyed; otherwise  Sr\_not\_attached is thrown.
 
 > Client
 
@@ -651,7 +657,7 @@ class SR_myimplementation(SR_skeleton):
  dbg  | in        | string | Debug context from the caller 
  sr   | in        | string | The Storage Repository        
 ## Method: `stat`
-[stat sr] returns summary metadata associated with [sr]. Note this  call does not return details of sub-volumes, see SR.ls.
+\[stat sr\] returns summary metadata associated with \[sr\]. Note this  call does not return details of sub-volumes, see SR.ls.
 
 > Client
 
@@ -739,7 +745,7 @@ class SR_myimplementation(SR_skeleton):
  sr   | in        | string  | The Storage Repository        
  sr   | out       | sr_stat | SR metadata                   
 ## Method: `set_name`
-[set_name sr new_name] changes the name of [sr]
+\[set\_name sr new\_name\] changes the name of \[sr\]
 
 > Client
 
@@ -819,7 +825,7 @@ class SR_myimplementation(SR_skeleton):
  sr       | in        | string | The Storage Repository        
  new_name | in        | string | The new name of the SR        
 ## Method: `set_description`
-[set_description sr new_description] changes the description of [sr]
+\[set\_description sr new\_description\] changes the description of \[sr\]
 
 > Client
 
@@ -901,7 +907,7 @@ class SR_myimplementation(SR_skeleton):
  sr              | in        | string | The Storage Repository         
  new_description | in        | string | The new description for the SR 
 ## Method: `ls`
-[ls sr] returns a list of volumes contained within an attached SR.
+\[ls sr\] returns a list of volumes contained within an attached SR.
 
 > Client
 
@@ -1003,9 +1009,9 @@ class SR_myimplementation(SR_skeleton):
  sr      | in        | string  | The Storage Repository        
  volumes | out       | volumes | A list of volumes             
 ## Interface: `Volume`
-Operations which operate on volumes (also known as  Virtual Disk Images)
+Operations which operate on volumes \(also known as  Virtual Disk Images\)
 ## Method: `create`
-[create sr name description size] creates a new volume in [sr] with  [name] and [description]. The volume will have size >= [size] i.e. it  is always permissable for an implementation to round-up the volume to  the nearest convenient block size
+\[create sr name description size\] creates a new volume in \[sr\] with  \[name\] and \[description\]. The volume will have size &gt;= \[size\] i.e. it  is always permissable for an implementation to round-up the volume to  the nearest convenient block size
 
 > Client
 
@@ -1103,17 +1109,17 @@ class Volume_myimplementation(Volume_skeleton):
 ```
 
 
- Name        | Direction | Type   | Description                                                                                                                                                                                                                       
--------------|-----------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- dbg         | in        | string | Debug context from the caller                                                                                                                                                                                                     
- sr          | in        | string | The Storage Repository                                                                                                                                                                                                            
- name        | in        | string | A human-readable name to associate with the new disk. This name is  intended to be short, to be a good summary of the disk.                                                                                                       
- description | in        | string | A human-readable description to associate with the new disk. This can  be arbitrarily long, up to the general string size limit.                                                                                                  
- size        | in        | int64  | A minimum size (in bytes) for the disk. Depending on the  characteristics of the implementation this may be rounded up to  (for example) the nearest convenient block size. The created disk  will not be smaller than this size. 
- sharable    | in        | bool   | Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.                                                                                              
- volume      | out       | volume | Properties of the volume                                                                                                                                                                                                          
+ Name        | Direction | Type   | Description                                                                                                                                                                                                                           
+-------------|-----------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ dbg         | in        | string | Debug context from the caller                                                                                                                                                                                                         
+ sr          | in        | string | The Storage Repository                                                                                                                                                                                                                
+ name        | in        | string | A human-readable name to associate with the new disk. This name is  intended to be short, to be a good summary of the disk.                                                                                                           
+ description | in        | string | A human-readable description to associate with the new disk. This can  be arbitrarily long, up to the general string size limit.                                                                                                      
+ size        | in        | int64  | A minimum size \(in bytes\) for the disk. Depending on the  characteristics of the implementation this may be rounded up to  \(for example\) the nearest convenient block size. The created disk  will not be smaller than this size. 
+ sharable    | in        | bool   | Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.                                                                                                  
+ volume      | out       | volume | Properties of the volume                                                                                                                                                                                                              
 ## Method: `snapshot`
-[snapshot sr volume] creates a new volue which is a  snapshot of  [volume] in [sr]. Snapshots should never be written to; they are  intended for backup/restore only. Note the name and description are  copied but any extra metadata associated by [set] is not copied. This can raise Activated_on_another_host(host_installation_uuid) if the VDI is already active on another host and snapshots can only be taken on the host that has the VDI active (if any). XAPI will take care of redirecting the request to the proper host
+\[snapshot sr volume\] creates a new volue which is a  snapshot of  \[volume\] in \[sr\]. Snapshots should never be written to; they are  intended for backup/restore only. Note the name and description are  copied but any extra metadata associated by \[set\] is not copied. This can raise Activated\_on\_another\_host\(host\_installation\_uuid\) if the VDI is already active on another host and snapshots can only be taken on the host that has the VDI active \(if any\). XAPI will take care of redirecting the request to the proper host
 
 > Client
 
@@ -1213,7 +1219,7 @@ class Volume_myimplementation(Volume_skeleton):
  key    | in        | key    | The volume key                
  volume | out       | volume | Properties of the volume      
 ## Method: `clone`
-[clone sr volume] creates a new volume which is a writable clone of  [volume] in [sr]. Note the name and description are copied but any  extra metadata associated by [set] is not copied.
+\[clone sr volume\] creates a new volume which is a writable clone of  \[volume\] in \[sr\]. Note the name and description are copied but any  extra metadata associated by \[set\] is not copied.
 
 > Client
 
@@ -1308,7 +1314,7 @@ class Volume_myimplementation(Volume_skeleton):
  key    | in        | key    | The volume key                
  volume | out       | volume | Properties of the volume      
 ## Method: `destroy`
-[destroy sr volume] removes [volume] from [sr]
+\[destroy sr volume\] removes \[volume\] from \[sr\]
 
 > Client
 
@@ -1388,7 +1394,7 @@ class Volume_myimplementation(Volume_skeleton):
  sr   | in        | string | The Storage Repository        
  key  | in        | key    | The volume key                
 ## Method: `set_name`
-[set_name sr volume new_name] changes the name of [volume]
+\[set\_name sr volume new\_name\] changes the name of \[volume\]
 
 > Client
 
@@ -1471,7 +1477,7 @@ class Volume_myimplementation(Volume_skeleton):
  key      | in        | key    | The volume key                
  new_name | in        | string | New name                      
 ## Method: `set_description`
-[set_description sr volume new_description] changes the description  of [volume]
+\[set\_description sr volume new\_description\] changes the description  of \[volume\]
 
 > Client
 
@@ -1560,7 +1566,7 @@ class Volume_myimplementation(Volume_skeleton):
  key             | in        | key    | The volume key                
  new_description | in        | string | New description               
 ## Method: `set`
-[set sr volume key value] associates [key] with [value] in the  metadata of [volume] Note these keys and values are not interpreted  by the plugin; they are intended for the higher-level software only.
+\[set sr volume key value\] associates \[key\] with \[value\] in the  metadata of \[volume\] Note these keys and values are not interpreted  by the plugin; they are intended for the higher-level software only.
 
 > Client
 
@@ -1646,7 +1652,7 @@ class Volume_myimplementation(Volume_skeleton):
  k    | in        | string | Key                           
  v    | in        | string | Value                         
 ## Method: `unset`
-[unset sr volume key] removes [key] and any value associated with it  from the metadata of [volume] Note these keys and values are not  interpreted by the plugin; they are intended for the higher-level  software only.
+\[unset sr volume key\] removes \[key\] and any value associated with it  from the metadata of \[volume\] Note these keys and values are not  interpreted by the plugin; they are intended for the higher-level  software only.
 
 > Client
 
@@ -1730,7 +1736,7 @@ class Volume_myimplementation(Volume_skeleton):
  key  | in        | key    | The volume key                
  k    | in        | string | Key                           
 ## Method: `resize`
-[resize sr volume new_size] enlarges [volume] to be at least  [new_size].
+\[resize sr volume new\_size\] enlarges \[volume\] to be at least  \[new\_size\].
 
 > Client
 
@@ -1812,7 +1818,7 @@ class Volume_myimplementation(Volume_skeleton):
  key      | in        | key    | The volume key                
  new_size | in        | int64  | New disk size                 
 ## Method: `stat`
-[stat sr volume] returns metadata associated with [volume].
+\[stat sr volume\] returns metadata associated with \[volume\].
 
 > Client
 
@@ -1905,7 +1911,7 @@ class Volume_myimplementation(Volume_skeleton):
  key    | in        | key    | The volume key                
  volume | out       | volume | Properties of the volume      
 ## Method: `compare`
-[compare sr volume1 volume2] compares the two volumes and returns a  result of type blocklist that describes the differences between the  two volumes. If the two volumes are unrelated, or the second volume  does not exist, the result will be a list of the blocks that are  non-empty in volume1. If this information is not available to the  plugin, it should return a result indicating that all blocks are in  use.
+\[compare sr volume1 volume2\] compares the two volumes and returns a  result of type blocklist that describes the differences between the  two volumes. If the two volumes are unrelated, or the second volume  does not exist, the result will be a list of the blocks that are  non-empty in volume1. If this information is not available to the  plugin, it should return a result indicating that all blocks are in  use.
 
 > Client
 
@@ -1994,7 +2000,7 @@ class Volume_myimplementation(Volume_skeleton):
  key2    | in        | key       | The volume key                
  unnamed | out       | blocklist | List of blocks for copying    
 ## Method: `similar_content`
-[similar_content sr volume] returns a list of VDIs which have similar content to [vdi]
+\[similar\_content sr volume\] returns a list of VDIs which have similar content to \[vdi\]
 
 > Client
 
@@ -2077,7 +2083,7 @@ class Volume_myimplementation(Volume_skeleton):
  key      | in        | key      | The volume key                
  key list | out       | key_list | List of volume keys           
 ## Method: `enable_cbt`
-[enable_cbt sr volume] enables Changed Block Tracking for [volume]
+\[enable\_cbt sr volume\] enables Changed Block Tracking for \[volume\]
 
 > Client
 
@@ -2157,7 +2163,7 @@ class Volume_myimplementation(Volume_skeleton):
  sr   | in        | string | The Storage Repository        
  key  | in        | key    | The volume key                
 ## Method: `disable_cbt`
-[disable_cbt sr volume] disables Changed Block Tracking for [volume]
+\[disable\_cbt sr volume\] disables Changed Block Tracking for \[volume\]
 
 > Client
 
@@ -2237,7 +2243,7 @@ class Volume_myimplementation(Volume_skeleton):
  sr   | in        | string | The Storage Repository        
  key  | in        | key    | The volume key                
 ## Method: `data_destroy`
-[data_destroy sr volume] deletes the data of the snapshot [volume] without deleting its changed block tracking metadata
+\[data\_destroy sr volume\] deletes the data of the snapshot \[volume\] without deleting its changed block tracking metadata
 
 > Client
 
@@ -2318,7 +2324,7 @@ class Volume_myimplementation(Volume_skeleton):
  sr   | in        | string | The Storage Repository        
  key  | in        | key    | The volume key                
 ## Method: `list_changed_blocks`
-[list_changed_blocks sr volume1 volume2] returns the blocks that have changed between [volume1] and [volume2] as a base64-encoded bitmap string
+\[list\_changed\_blocks sr volume1 volume2\] returns the blocks that have changed between \[volume1\] and \[volume2\] as a base64-encoded bitmap string
 
 > Client
 

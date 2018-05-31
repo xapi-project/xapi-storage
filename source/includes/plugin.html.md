@@ -29,18 +29,18 @@ The Datapath plugin takes a URI which points to virtual disk data  and chooses a
 type `query_result` = `struct { ... }`
 Properties of this implementation
 #### Members
- Name                   | Type                   | Description                                                               
-------------------------|------------------------|---------------------------------------------------------------------------
- plugin                 | string                 | plugin name, used in the XenAPI as SR.type                                
- name                   | string                 | short name                                                                
- description            | string                 | description                                                               
- vendor                 | string                 | entity (e.g. company, project, group) which produced this  implementation 
- copyright              | string                 | copyright                                                                 
- version                | string                 | version                                                                   
- required_api_version   | string                 | minimum required API version                                              
- features               | string list            | features supported by this plugin                                         
- configuration          | (string * string) list | key/description pairs describing required device_config parameters        
- required_cluster_stack | string list            | the plugin requires one of these cluster stacks to be active              
+ Name                   | Type                   | Description                                                                 
+------------------------|------------------------|-----------------------------------------------------------------------------
+ plugin                 | string                 | plugin name, used in the XenAPI as SR.type                                  
+ name                   | string                 | short name                                                                  
+ description            | string                 | description                                                                 
+ vendor                 | string                 | entity \(e.g. company, project, group\) which produced this  implementation 
+ copyright              | string                 | copyright                                                                   
+ version                | string                 | version                                                                     
+ required_api_version   | string                 | minimum required API version                                                
+ features               | string list            | features supported by this plugin                                           
+ configuration          | (string * string) list | key/description pairs describing required device\_config parameters         
+ required_cluster_stack | string list            | the plugin requires one of these cluster stacks to be active                
 ### srs
 ```json
 [ "srs" ]
@@ -132,7 +132,7 @@ class Plugin_myimplementation(Plugin_skeleton):
  dbg     | in        | string       | Debug context from the caller     
  unnamed | out       | query_result | Properties of this implementation 
 ## Method: `ls`
-[ls dbg]: returns a list of attached SRs
+\[ls dbg\]: returns a list of attached SRs
 
 > Client
 

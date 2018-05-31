@@ -37,14 +37,14 @@ type `volume` = `struct { ... }`
 #### Members
  Name                 | Type                   | Description                                                                                                                                                                                                                                                                                                                                                        
 ----------------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- key                  | string                 | A primary key for this volume. The key must be unique within the enclosing Storage Repository (SR). A typical value would be a filename or an LVM volume name.                                                                                                                                                                                                     
- uuid                 | string option          | A uuid (or guid) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.                                                                                                                                                                                                                          
+ key                  | string                 | A primary key for this volume. The key must be unique within the enclosing Storage Repository \(SR\). A typical value would be a filename or an LVM volume name.                                                                                                                                                                                                   
+ uuid                 | string option          | A uuid \(or guid\) for the volume, if one is available. If a storage system has a built-in notion of a guid, then it will be returned here.                                                                                                                                                                                                                        
  name                 | string                 | Short, human-readable label for the volume. Names are commonly used by when displaying short lists of volumes.                                                                                                                                                                                                                                                     
  description          | string                 | Longer, human-readable description of the volume. Descriptions are generally only displayed by clients when the user is examining volumes individually.                                                                                                                                                                                                            
  read_write           | bool                   | True means the VDI may be written to, false means the volume is read-only. Some storage media is read-only so all volumes are read-only; for example .iso disk images on an NFS share. Some volume are created read-only; for example because they are snapshots of some other VDI.                                                                                
  sharable             | bool                   | Indicates whether the VDI can be attached by multiple hosts at once. This is used for example by the HA statefile and XAPI redo log.                                                                                                                                                                                                                               
- virtual_size         | int64                  | Size of the volume from the perspective of a VM (in bytes)                                                                                                                                                                                                                                                                                                         
- physical_utilisation | int64                  | Amount of space currently used on the backing storage (in bytes)                                                                                                                                                                                                                                                                                                   
+ virtual_size         | int64                  | Size of the volume from the perspective of a VM \(in bytes\)                                                                                                                                                                                                                                                                                                       
+ physical_utilisation | int64                  | Amount of space currently used on the backing storage \(in bytes\)                                                                                                                                                                                                                                                                                                 
  uri                  | string list            | A list of URIs which can be opened and used for I/O. A URI could reference a local block device, a remote NFS share, iSCSI LUN or RBD volume. In cases where the data may be accessed over several protocols, he list should be sorted into descending order of desirability. Xapi will open the most desirable URI for which it has an available datapath plugin. 
  keys                 | (string * string) list | A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.                                                                                                                                                                                                                                     
 ### async_result_t
@@ -126,7 +126,7 @@ type `task_list` = `string list`
 ## Interface: `Task`
 The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data.
 ## Method: `stat`
-[stat task_id] returns the status of the task
+\[stat task\_id\] returns the status of the task
 
 > Client
 
@@ -202,7 +202,7 @@ class Task_myimplementation(Task_skeleton):
  id     | in        | id     | Unique identifier for a task  
  result | out       | task   |                               
 ## Method: `cancel`
-[cancel task_id] performs a best-effort cancellation of an ongoing  task. The effect of this should leave the system in one of two  states: Either that the task has completed successfully, or that it  had never been made at all. The call should return immediately and  the status of the task can the be queried via the [stat] call.
+\[cancel task\_id\] performs a best-effort cancellation of an ongoing  task. The effect of this should leave the system in one of two  states: Either that the task has completed successfully, or that it  had never been made at all. The call should return immediately and  the status of the task can the be queried via the \[stat\] call.
 
 > Client
 
@@ -275,7 +275,7 @@ class Task_myimplementation(Task_skeleton):
  dbg  | in        | string | Debug context from the caller 
  id   | in        | id     | Unique identifier for a task  
 ## Method: `destroy`
-[destroy task_id] should remove all traces of the task_id. This call  should fail if the task is currently in progress.
+\[destroy task\_id\] should remove all traces of the task\_id. This call  should fail if the task is currently in progress.
 
 > Client
 
@@ -345,7 +345,7 @@ class Task_myimplementation(Task_skeleton):
  dbg  | in        | string | Debug context from the caller 
  id   | in        | id     | Unique identifier for a task  
 ## Method: `ls`
-[ls] should return a list of all of the tasks the plugin is aware of.
+\[ls\] should return a list of all of the tasks the plugin is aware of.
 
 > Client
 

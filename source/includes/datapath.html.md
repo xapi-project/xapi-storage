@@ -40,15 +40,16 @@ type `xendisk` = `struct { ... }`
  backend_type | string                 |                                                                                         
 ### block_device
 ```json
-{ "dummy": null, "path": "path" }
+{ "sm_data": { "sm_data": "sm_data" }, "dummy": null, "path": "path" }
 ```
 type `block_device` = `struct { ... }`
 
 #### Members
- Name  | Type   | Description              
--------|--------|--------------------------
- path  | string | Path to the block device 
- dummy | unit   |                          
+ Name    | Type                   | Description                                               
+---------|------------------------|-----------------------------------------------------------
+ path    | string                 | Path to the block device                                  
+ dummy   | unit                   |                                                           
+ sm_data | (string * string) list | Key-value pairs to be put into the "sm-data" subdirectory 
 ### file
 ```json
 { "dummy": null, "path": "path" }
@@ -67,10 +68,10 @@ type `file` = `struct { ... }`
 type `nbd` = `struct { ... }`
 
 #### Members
- Name  | Type   | Description                                                                                                                                                                           
--------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- uri   | string | NBD URI of the form nbd:unix:<domain-socket>:exportname=<NAME> (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html) 
- dummy | unit   |                                                                                                                                                                                       
+ Name  | Type   | Description                                                                                                                                                                                          
+-------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ uri   | string | NBD URI of the form nbd:unix:&lt;domain-socket&gt;:exportname=&lt;NAME&gt; \(this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86\_64.1.en.html\) 
+ dummy | unit   |                                                                                                                                                                                                      
 ### implementation
 ```json
 [
@@ -81,7 +82,10 @@ type `nbd` = `struct { ... }`
     "params": "params"
   }
 ]
-[ "BlockDevice", { "dummy": null, "path": "path" } ]
+[
+  "BlockDevice",
+  { "sm_data": { "sm_data": "sm_data" }, "dummy": null, "path": "path" }
+]
 [ "File", { "dummy": null, "path": "path" } ]
 [ "Nbd", { "dummy": null, "uri": "uri" } ]
 ```
@@ -124,16 +128,22 @@ A description of which Xen block backend to use. The toolstack needs this to set
 type `blocklist` = `struct { ... }`
 List of blocks for copying
 #### Members
- Name      | Type               | Description                                                                                    
------------|--------------------|------------------------------------------------------------------------------------------------
- blocksize | int                | size of the individual blocks                                                                  
- ranges    | int64 * int64 list | list of block ranges, where a range is a (start,length) pair, measured in units of [blocksize] 
+ Name      | Type               | Description                                                                                        
+-----------|--------------------|----------------------------------------------------------------------------------------------------
+ blocksize | int                | size of the individual blocks                                                                      
+ ranges    | int64 * int64 list | list of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
 ### domain
 ```json
 "domain"
 ```
 type `domain` = `string`
-A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.
+A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may \(for example\) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.
+### uri
+```json
+"uri"
+```
+type `uri` = `string`
+A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.
 ### operation
 ```json
 [ "Copy", [ "operation", "operation" ] ]
@@ -142,10 +152,10 @@ A string representing a Xen domain on the local host. The string is guaranteed t
 type `operation` = `variant { ... }`
 The primary key for referring to a long-running operation
 #### Constructors
- Name   | Type            | Description                                                                                   
---------|-----------------|-----------------------------------------------------------------------------------------------
- Copy   | string * string | Copy (src,dst) represents an on-going copy operation from the [src] URI to the [dst] URI      
- Mirror | string * string | Mirror (src,dst) represents an on-going mirror  operation from the [src] URI to the [dst] URI 
+ Name   | Type            | Description                                                                                         
+--------|-----------------|-----------------------------------------------------------------------------------------------------
+ Copy   | string * string | Copy \(src,dst\) represents an on-going copy operation from the \[src\] URI to the \[dst\] URI      
+ Mirror | string * string | Mirror \(src,dst\) represents an on-going mirror  operation from the \[src\] URI to the \[dst\] URI 
 ### status
 ```json
 { "progress": 0.0, "failed": true }
@@ -153,10 +163,10 @@ The primary key for referring to a long-running operation
 type `status` = `struct { ... }`
 Status information for on-going tasks
 #### Members
- Name     | Type         | Description                                                                   
-----------|--------------|-------------------------------------------------------------------------------
- failed   | bool         | [failed] will be set to true if the operation has failed for some  reason     
- progress | float option | [progress] will be returned for a copy operation, and ranges  between 0 and 1 
+ Name     | Type         | Description                                                                     
+----------|--------------|---------------------------------------------------------------------------------
+ failed   | bool         | \[failed\] will be set to true if the operation has failed for some  reason     
+ progress | float option | \[progress\] will be returned for a copy operation, and ranges  between 0 and 1 
 ### operations
 ```json
 [ [ "Copy", [ "operations", "operations" ] ] ]
@@ -173,28 +183,28 @@ to track how many domains are currently using the volume.
 
 Volumes must be attached via the following sequence of calls:
 
-1. [open url persistent] must be called first and is used to declare
+1. \[open url persistent\] must be called first and is used to declare
    that the writes to the disks must either be persisted or not.
-   [open] is not an exclusive operation - a disk may be opened on
+   \[open\] is not an exclusive operation - a disk may be opened on
    more than once host at once. The call returns `unit` or an
    error.
 
-2. [attach url domain] is then called. The `domain` parameter is
+2. \[attach url domain\] is then called. The `domain` parameter is
    advisory. Note that this call is currently only ever called once.
    In the future the call may be made multiple times with different
-   [domain] parameters if the disk is attached to multiple domains.
+   \[domain\] parameters if the disk is attached to multiple domains.
    The return value from this call is the information required to 
    attach the disk to a VM. This call is again, not exclusive. The
    volume may be attached to more than one host concurrently.
 
-3. [activate url domain] is called to activate the datapath. This
+3. \[activate url domain\] is called to activate the datapath. This
    must be called before the volume is to be used by the VM, and 
    it is acceptible for this to be an exclusive operation, such that
    it is an error for a volume to be activated on more than one host
    simultaneously.
       
 ## Method: `open`
-[open uri persistent] is called before a disk is attached to a VM. If persistent is true then care should be taken to persist all writes to the disk. If persistent is false then the implementation should configure a temporary location for writes so they can be thrown away on [close].
+\[open uri persistent\] is called before a disk is attached to a VM. If persistent is true then care should be taken to persist all writes to the disk. If persistent is false then the implementation should configure a temporary location for writes so they can be thrown away on \[close\].
 
 > Client
 
@@ -268,7 +278,7 @@ class Datapath_myimplementation(Datapath_skeleton):
  uri        | in        | uri        | A URI which represents how to access the volume disk data.                                                                                                                                                         
  persistent | in        | persistent | True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted. 
 ## Method: `attach`
-[attach uri domain] prepares a connection between the storage named by [uri] and the Xen domain with id [domain]. The return value is the information needed by the Xen toolstack to setup the shared-memory blkfront protocol. Note that the same volume may be simultaneously attached to multiple hosts for example over a migrate. If an implementation needs to perform an explicit handover, then it should implement [activate] and [deactivate]. This function is idempotent.
+\[attach uri domain\] prepares a connection between the storage named by \[uri\] and the Xen domain with id \[domain\]. The return value is the information needed by the Xen toolstack to setup the shared-memory blkfront protocol. Note that the same volume may be simultaneously attached to multiple hosts for example over a migrate. If an implementation needs to perform an explicit handover, then it should implement \[activate\] and \[deactivate\]. This function is idempotent.
 
 > Client
 
@@ -366,7 +376,7 @@ class Datapath_myimplementation(Datapath_skeleton):
  domain  | in        | domain  | An opaque string which represents the Xen domain.                                                                                      
  backend | out       | backend | A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM. 
 ## Method: `activate`
-[activate uri domain] is called just before a VM needs to read or write its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.
+\[activate uri domain\] is called just before a VM needs to read or write its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.
 
 > Client
 
@@ -440,7 +450,7 @@ class Datapath_myimplementation(Datapath_skeleton):
  uri    | in        | uri    | A URI which represents how to access the volume disk data. 
  domain | in        | domain | An opaque string which represents the Xen domain.          
 ## Method: `deactivate`
-[deactivate uri domain] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.
+\[deactivate uri domain\] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.
 
 > Client
 
@@ -514,7 +524,7 @@ class Datapath_myimplementation(Datapath_skeleton):
  uri    | in        | uri    | A URI which represents how to access the volume disk data. 
  domain | in        | domain | An opaque string which represents the Xen domain.          
 ## Method: `detach`
-[detach uri domain] is called sometime after a VM has finished reading or writing its disk. This is an opportunity to clean up any resources associated with the disk. This function is called outside the migration downtime window so can be slow without affecting users. This function is idempotent. This function should never fail. If an implementation is unable to perform some cleanup right away then it should queue the action internally. Any error result represents a bug in the implementation.
+\[detach uri domain\] is called sometime after a VM has finished reading or writing its disk. This is an opportunity to clean up any resources associated with the disk. This function is called outside the migration downtime window so can be slow without affecting users. This function is idempotent. This function should never fail. If an implementation is unable to perform some cleanup right away then it should queue the action internally. Any error result represents a bug in the implementation.
 
 > Client
 
@@ -591,7 +601,7 @@ class Datapath_myimplementation(Datapath_skeleton):
  uri    | in        | uri    | A URI which represents how to access the volume disk data. 
  domain | in        | domain | An opaque string which represents the Xen domain.          
 ## Method: `close`
-[close uri] is called after a disk is detached and a VM shutdown. This is an opportunity to throw away writes if the disk is not persistent.
+\[close uri\] is called after a disk is detached and a VM shutdown. This is an opportunity to throw away writes if the disk is not persistent.
 
 > Client
 
@@ -675,7 +685,7 @@ To mirror a VDI a sequence of these API calls is required:
    SR. This must be the same size as the source. To minimize copying
    the destination VDI may be cloned from one that has been previously
    copied, as long as a disk from which the copy was made is still
-   present on the source (even as a metadata-only disk)
+   present on the source \(even as a metadata-only disk\)
 
 2. Arrange for the destination disk to be accessible on the source
    host by suitable URL. This may be `nbd`, `iscsi`, `nfs` or
@@ -702,7 +712,7 @@ To mirror a VDI a sequence of these API calls is required:
 
      
 ## Method: `copy`
-[copy uri domain remotes blocks] copies [blocks] from the local disk  to a remote URI. This may be called as part of a Volume Mirroring  operation, and hence may need to cooperate with whatever process is  currently mirroring writes to ensure data integrity is maintained. The [remote] parameter is a remotely accessible URI, for example, `nbd://root:pass@foo.com/path/to/disk` that must contain all necessary authentication tokens
+\[copy uri domain remotes blocks\] copies \[blocks\] from the local disk  to a remote URI. This may be called as part of a Volume Mirroring  operation, and hence may need to cooperate with whatever process is  currently mirroring writes to ensure data integrity is maintained. The \[remote\] parameter is a remotely accessible URI, for example, `nbd://root:pass@foo.com/path/to/disk` that must contain all necessary authentication tokens
 
 > Client
 
@@ -790,7 +800,7 @@ class Data_myimplementation(Data_skeleton):
  blocklist | in        | blocklist | List of blocks for copying                                      
  operation | out       | operation | The primary key for referring to a long-running operation       
 ## Method: `mirror`
-[mirror uri domain remote] starts mirroring new writes to the volume  to a remote URI (usually NBD). This is called as part of a volume  mirroring process
+\[mirror uri domain remote\] starts mirroring new writes to the volume  to a remote URI \(usually NBD\). This is called as part of a volume  mirroring process
 
 > Client
 
@@ -867,7 +877,7 @@ class Data_myimplementation(Data_skeleton):
  remote    | in        | uri       | A URI which represents how to access a remote volume disk data. 
  operation | out       | operation | The primary key for referring to a long-running operation       
 ## Method: `stat`
-[stat operation] returns the current status of [operation]. For a  copy operation, this will contain progress information.
+\[stat operation\] returns the current status of \[operation\]. For a  copy operation, this will contain progress information.
 
 > Client
 
@@ -941,7 +951,7 @@ class Data_myimplementation(Data_skeleton):
  operation | in        | operation | The primary key for referring to a long-running operation 
  unnamed   | out       | status    | Status information for on-going tasks                     
 ## Method: `cancel`
-[cancel operation] cancels a long-running operation. Note that the  call may return before the operation has finished.
+\[cancel operation\] cancels a long-running operation. Note that the  call may return before the operation has finished.
 
 > Client
 
@@ -1013,7 +1023,7 @@ class Data_myimplementation(Data_skeleton):
  dbg       | in        | string    | Debug context from the caller                             
  operation | in        | operation | The primary key for referring to a long-running operation 
 ## Method: `destroy`
-[destroy operation] destroys the information about a long-running  operation. This should fail when run against an operation that is  still in progress.
+\[destroy operation\] destroys the information about a long-running  operation. This should fail when run against an operation that is  still in progress.
 
 > Client
 
@@ -1086,7 +1096,7 @@ class Data_myimplementation(Data_skeleton):
  dbg       | in        | string    | Debug context from the caller                             
  operation | in        | operation | The primary key for referring to a long-running operation 
 ## Method: `ls`
-[ls] returns a list of all current operations
+\[ls\] returns a list of all current operations
 
 > Client
 
