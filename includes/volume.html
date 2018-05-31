@@ -572,6 +572,10 @@ Plugin-specific configuration which describes where and; how to locate the stora
 </span></code></pre>
 <p>type <code>volumes</code> = <code>volume list</code>
 A list of volumes</p>
+<h3 id='key'>key</h3><pre class="highlight json tab-json"><code><span class="s2">"key"</span><span class="w">
+</span></code></pre>
+<p>type <code>key</code> = <code>string</code>
+Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract.</p>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>blocklist</code> = <code>struct { ... }</code>
