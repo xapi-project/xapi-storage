@@ -15,7 +15,7 @@ type xendisk = {
   params: string; (** Put into the "params" key in xenstore *)
 
   extra: (string * string) list;
-  (** Key-value pairs to be put into the "extra" subdirectory underneath the
+  (** Key-value pairs to be put into the "sm-data" subdirectory underneath the
       xenstore backend *)
 
   backend_type: string;
