@@ -722,9 +722,7 @@ List of blocks for copying</p>
         [probe configuration]: can be used iteratively to narrow down configurations
         to use with SR.create, or to find existing SRs on the backing storage
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"probe_result"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="s">"complete"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sr"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"extra_info"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}]</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">[{</span><span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="s">"complete"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sr"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"extra_info"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}]</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -818,9 +816,7 @@ List of blocks for copying</p>
         <span class="s">"""
         [create uuid configuration name description]: creates a fresh SR
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"configuration"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -930,9 +926,7 @@ List of blocks for copying</p>
         [attach configuration]: attaches the SR to the local host. Once an SR is
         attached then volumes may be manipulated.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"sr"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"string"</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="s">"string"</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1019,8 +1013,6 @@ List of blocks for copying</p>
         [detach sr]: detaches the SR, clearing up any associated resources.
         Once the SR is detached then volumes may not be manipulated.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1102,8 +1094,6 @@ List of blocks for copying</p>
         with it. Note that an SR must be attached to be destroyed; otherwise
         Sr_not_attached is thrown.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1190,9 +1180,7 @@ List of blocks for copying</p>
         [stat sr] returns summary metadata associated with [sr]. Note this
         call does not return details of sub-volumes, see SR.ls.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"sr"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"sr"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"free_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"total_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"datasources"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"clustered"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"health"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"sr"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"free_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"total_space"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"datasources"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"clustered"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"health"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1278,8 +1266,6 @@ List of blocks for copying</p>
         <span class="s">"""
         [set_name sr new_name] changes the name of [sr]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1367,8 +1353,6 @@ List of blocks for copying</p>
         <span class="s">"""
         [set_description sr new_description] changes the description of [sr]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1475,9 +1459,7 @@ List of blocks for copying</p>
         <span class="s">"""
         [ls sr] returns a list of volumes contained within an attached SR.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volumes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}]</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">[{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}]</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1588,9 +1570,7 @@ List of blocks for copying</p>
         is always permissable for an implementation to round-up the volume to
         the nearest convenient block size
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1718,9 +1698,7 @@ List of blocks for copying</p>
         can only be taken on the host that has the VDI active (if any).
         XAPI will take care of redirecting the request to the proper host
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1825,9 +1803,7 @@ List of blocks for copying</p>
         [volume] in [sr]. Note the name and description are copied but any
         extra metadata associated by [set] is not copied.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1919,8 +1895,6 @@ List of blocks for copying</p>
         <span class="s">"""
         [destroy sr volume] removes [volume] from [sr]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2008,8 +1982,6 @@ List of blocks for copying</p>
         <span class="s">"""
         [set_name sr volume new_name] changes the name of [volume]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2109,8 +2081,6 @@ List of blocks for copying</p>
         [set_description sr volume new_description] changes the description
         of [volume]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2206,8 +2176,6 @@ List of blocks for copying</p>
         metadata of [volume] Note these keys and values are not interpreted
         by the plugin; they are intended for the higher-level software only.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2308,8 +2276,6 @@ List of blocks for copying</p>
         interpreted by the plugin; they are intended for the higher-level
         software only.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2402,8 +2368,6 @@ List of blocks for copying</p>
         [resize sr volume new_size] enlarges [volume] to be at least
         [new_size].
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2506,9 +2470,7 @@ List of blocks for copying</p>
         <span class="s">"""
         [stat sr volume] returns metadata associated with [volume].
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"uuid"</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"read_write"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"sharable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"virtual_size"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"physical_utilisation"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"uri"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"keys"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2606,9 +2568,7 @@ List of blocks for copying</p>
         plugin, it should return a result indicating that all blocks are in
         use.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[[]]}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[[]]}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2707,9 +2667,7 @@ List of blocks for copying</p>
         [similar_content sr volume] returns a list of VDIs which have similar
         content to [vdi]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"key list"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2801,8 +2759,6 @@ List of blocks for copying</p>
         <span class="s">"""
         [enable_cbt sr volume] enables Changed Block Tracking for [volume]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2888,8 +2844,6 @@ List of blocks for copying</p>
         <span class="s">"""
         [disable_cbt sr volume] disables Changed Block Tracking for [volume]
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -2976,8 +2930,6 @@ List of blocks for copying</p>
         [data_destroy sr volume] deletes the data of the snapshot [volume]
         without deleting its changed block tracking metadata
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -3074,9 +3026,7 @@ List of blocks for copying</p>
         have changed between [volume1] and [volume2] as a base64-encoded
         bitmap string
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"changed_blocks"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"granularity"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"bitmap"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"granularity"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"bitmap"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>

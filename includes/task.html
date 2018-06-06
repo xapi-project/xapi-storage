@@ -512,9 +512,7 @@ Unique identifier for a task</p>
         <span class="s">"""
         [stat task_id] returns the status of the task
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"result"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"id"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"debug_info"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ctime"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span> <span class="s">"state"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"id"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"debug_info"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ctime"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span> <span class="s">"state"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -594,8 +592,6 @@ Unique identifier for a task</p>
         had never been made at all. The call should return immediately and
         the status of the task can the be queried via the [stat] call.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -666,8 +662,6 @@ Unique identifier for a task</p>
         [destroy task_id] should remove all traces of the task_id. This call
         should fail if the task is currently in progress.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -733,9 +727,7 @@ Unique identifier for a task</p>
         <span class="s">"""
         [ls] should return a list of all of the tasks the plugin is aware of.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>

@@ -387,9 +387,7 @@ Properties of this implementation</p>
         called by xapi to determine whether it is compatible with xapi
         and to discover the supported features.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"plugin"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"vendor"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"required_api_version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"features"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="s">"required_cluster_stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"plugin"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"vendor"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"required_api_version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"features"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="s">"required_cluster_stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -455,9 +453,7 @@ Properties of this implementation</p>
         <span class="s">"""
         [ls dbg]: returns a list of attached SRs
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"srs"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -527,9 +523,7 @@ Properties of this implementation</p>
         include personally-identifiable data as it is intended to be
         automatically included in bug reports.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"diagnostics"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"string"</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="s">"string"</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>

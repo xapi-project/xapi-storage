@@ -310,7 +310,7 @@ True means the disk data is persistent and should be preserved when the datapath
 <tr>
 <td>extra</td>
 <td>(string * string) list</td>
-<td>Key-value pairs to be put into the &quot;extra&quot; subdirectory underneath the xenstore backend</td>
+<td>Key-value pairs to be put into the &quot;sm-data&quot; subdirectory underneath the xenstore backend</td>
 </tr>
 <tr>
 <td>backend_type</td>
@@ -318,7 +318,7 @@ True means the disk data is persistent and should be preserved when the datapath
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"sm_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"sm_data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sm_data"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>block_device</code> = <code>struct { ... }</code></p>
 <h4 id='members-2'>Members</h4>
@@ -338,11 +338,6 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>dummy</td>
 <td>unit</td>
 <td></td>
-</tr>
-<tr>
-<td>sm_data</td>
-<td>(string * string) list</td>
-<td>Key-value pairs to be put into the &quot;sm-data&quot; subdirectory</td>
 </tr>
 </tbody></table>
 <h3 id='file'>file</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
@@ -397,10 +392,7 @@ True means the disk data is persistent and should be preserved when the datapath
     </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span><span class="p">[</span><span class="w">
-  </span><span class="s2">"BlockDevice"</span><span class="p">,</span><span class="w">
-  </span><span class="p">{</span><span class="w"> </span><span class="s2">"sm_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"sm_data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sm_data"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"BlockDevice"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"File"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Nbd"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -416,12 +408,12 @@ True means the disk data is persistent and should be preserved when the datapath
 <tr>
 <td>XenDisk</td>
 <td>xendisk</td>
-<td></td>
+<td>This value can be used for ring connection.</td>
 </tr>
 <tr>
 <td>BlockDevice</td>
 <td>block_device</td>
-<td>As in SMAPIv1 this value can be used both for Domain0 block device access and ring connection.</td>
+<td>This value can be used for Domain0 block device access.</td>
 </tr>
 <tr>
 <td>File</td>
@@ -629,8 +621,6 @@ simultaneously.</p></li>
         configure a temporary location for writes so they can be thrown away
         on [close].
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -732,9 +722,7 @@ simultaneously.</p></li>
         implementation needs to perform an explicit handover, then it should
         implement [activate] and [deactivate]. This function is idempotent.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"backend"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">]}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">]}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -820,8 +808,6 @@ simultaneously.</p></li>
         in the migration downtime window so delays here will be noticeable to
         users and should be minimised. This function is idempotent.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -901,8 +887,6 @@ simultaneously.</p></li>
         called in the migration downtime window so delays here will be
         noticeable to users and should be minimised. This function is idempotent.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -985,8 +969,6 @@ simultaneously.</p></li>
         action internally. Any error result represents a bug in the
         implementation.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1063,8 +1045,6 @@ simultaneously.</p></li>
         [close uri] is called after a disk is detached and a VM shutdown. This
         is an opportunity to throw away writes if the disk is not persistent.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1182,9 +1162,7 @@ disk will be a perfect mirror of the source.</p></li>
         `nbd://root:pass@foo.com/path/to/disk` that must contain all necessary
         authentication tokens
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"operation"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="bp">None</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1282,9 +1260,7 @@ disk will be a perfect mirror of the source.</p></li>
         to a remote URI (usually NBD). This is called as part of a volume
         mirroring process
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span><span class="p">[</span><span class="s">"operation"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="bp">None</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1375,9 +1351,7 @@ disk will be a perfect mirror of the source.</p></li>
         [stat operation] returns the current status of [operation]. For a
         copy operation, this will contain progress information.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"failed"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"progress"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"failed"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"progress"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1456,8 +1430,6 @@ disk will be a perfect mirror of the source.</p></li>
         [cancel operation] cancels a long-running operation. Note that the
         call may return before the operation has finished.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1531,8 +1503,6 @@ disk will be a perfect mirror of the source.</p></li>
         operation. This should fail when run against an operation that is
         still in progress.
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="n">result</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
@@ -1598,9 +1568,7 @@ disk will be a perfect mirror of the source.</p></li>
         <span class="s">"""
         [ls] returns a list of all current operations
         """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
