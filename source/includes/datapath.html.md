@@ -33,23 +33,22 @@ True means the disk data is persistent and should be preserved when the datapath
 type `xendisk` = `struct { ... }`
 
 #### Members
- Name         | Type                   | Description                                                                             
---------------|------------------------|-----------------------------------------------------------------------------------------
- params       | string                 | Put into the "params" key in xenstore                                                   
- extra        | (string * string) list | Key-value pairs to be put into the "extra" subdirectory underneath the xenstore backend 
- backend_type | string                 |                                                                                         
+ Name         | Type                   | Description                                                                               
+--------------|------------------------|-------------------------------------------------------------------------------------------
+ params       | string                 | Put into the "params" key in xenstore                                                     
+ extra        | (string * string) list | Key-value pairs to be put into the "sm-data" subdirectory underneath the xenstore backend 
+ backend_type | string                 |                                                                                           
 ### block_device
 ```json
-{ "sm_data": { "sm_data": "sm_data" }, "dummy": null, "path": "path" }
+{ "dummy": null, "path": "path" }
 ```
 type `block_device` = `struct { ... }`
 
 #### Members
- Name    | Type                   | Description                                                                      
----------|------------------------|----------------------------------------------------------------------------------
- path    | string                 | Path to the system local block device. This is equivalent to the SMAPIv1 params. 
- dummy   | unit                   |                                                                                  
- sm_data | (string * string) list | Key-value pairs to be put into the "sm-data" subdirectory                        
+ Name  | Type   | Description                                                                      
+-------|--------|----------------------------------------------------------------------------------
+ path  | string | Path to the system local block device. This is equivalent to the SMAPIv1 params. 
+ dummy | unit   |                                                                                  
 ### file
 ```json
 { "dummy": null, "path": "path" }
@@ -82,22 +81,19 @@ type `nbd` = `struct { ... }`
     "params": "params"
   }
 ]
-[
-  "BlockDevice",
-  { "sm_data": { "sm_data": "sm_data" }, "dummy": null, "path": "path" }
-]
+[ "BlockDevice", { "dummy": null, "path": "path" } ]
 [ "File", { "dummy": null, "path": "path" } ]
 [ "Nbd", { "dummy": null, "uri": "uri" } ]
 ```
 type `implementation` = `variant { ... }`
 
 #### Constructors
- Name        | Type         | Description                                                                                    
--------------|--------------|------------------------------------------------------------------------------------------------
- XenDisk     | xendisk      |                                                                                                
- BlockDevice | block_device | As in SMAPIv1 this value can be used both for Domain0 block device access and ring connection. 
- File        | file         |                                                                                                
- Nbd         | nbd          |                                                                                                
+ Name        | Type         | Description                                             
+-------------|--------------|---------------------------------------------------------
+ XenDisk     | xendisk      | This value can be used for ring connection.             
+ BlockDevice | block_device | This value can be used for Domain0 block device access. 
+ File        | file         |                                                         
+ Nbd         | nbd          |                                                         
 ### backend
 ```json
 {
@@ -266,8 +262,6 @@ class Datapath_myimplementation(Datapath_skeleton):
         configure a temporary location for writes so they can be thrown away
         on [close].
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -362,9 +356,7 @@ class Datapath_myimplementation(Datapath_skeleton):
         implementation needs to perform an explicit handover, then it should
         implement [activate] and [deactivate]. This function is idempotent.
         """
-        result = {}
-        result["backend"] = {"domain_uuid": "string", "implementations": [None]}
-        return result
+        return {"domain_uuid": "string", "implementations": [None]}
     # ...
 ```
 
@@ -438,8 +430,6 @@ class Datapath_myimplementation(Datapath_skeleton):
         in the migration downtime window so delays here will be noticeable to
         users and should be minimised. This function is idempotent.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -512,8 +502,6 @@ class Datapath_myimplementation(Datapath_skeleton):
         called in the migration downtime window so delays here will be
         noticeable to users and should be minimised. This function is idempotent.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -589,8 +577,6 @@ class Datapath_myimplementation(Datapath_skeleton):
         action internally. Any error result represents a bug in the
         implementation.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -660,8 +646,6 @@ class Datapath_myimplementation(Datapath_skeleton):
         [close uri] is called after a disk is detached and a VM shutdown. This
         is an opportunity to throw away writes if the disk is not persistent.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -784,9 +768,7 @@ class Data_myimplementation(Data_skeleton):
         `nbd://root:pass@foo.com/path/to/disk` that must contain all necessary
         authentication tokens
         """
-        result = {}
-        result["operation"] = None
-        return result
+        return None
     # ...
 ```
 
@@ -862,9 +844,7 @@ class Data_myimplementation(Data_skeleton):
         to a remote URI (usually NBD). This is called as part of a volume
         mirroring process
         """
-        result = {}
-        result["operation"] = None
-        return result
+        return None
     # ...
 ```
 
@@ -938,9 +918,7 @@ class Data_myimplementation(Data_skeleton):
         [stat operation] returns the current status of [operation]. For a
         copy operation, this will contain progress information.
         """
-        result = {}
-        result = {"failed": True, "progress": None}
-        return result
+        return {"failed": True, "progress": None}
     # ...
 ```
 
@@ -1012,8 +990,6 @@ class Data_myimplementation(Data_skeleton):
         [cancel operation] cancels a long-running operation. Note that the
         call may return before the operation has finished.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1085,8 +1061,6 @@ class Data_myimplementation(Data_skeleton):
         operation. This should fail when run against an operation that is
         still in progress.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1150,9 +1124,7 @@ class Data_myimplementation(Data_skeleton):
         """
         [ls] returns a list of all current operations
         """
-        result = {}
-        result = [None]
-        return result
+        return [None]
     # ...
 ```
 

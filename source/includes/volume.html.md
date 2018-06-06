@@ -304,9 +304,7 @@ class SR_myimplementation(SR_skeleton):
         [probe configuration]: can be used iteratively to narrow down configurations
         to use with SR.create, or to find existing SRs on the backing storage
         """
-        result = {}
-        result["probe_result"] = [{"configuration": {"string": "string"}, "complete": True, "sr": None, "extra_info": {"string": "string"}}]
-        return result
+        return [{"configuration": {"string": "string"}, "complete": True, "sr": None, "extra_info": {"string": "string"}}]
     # ...
 ```
 
@@ -393,9 +391,7 @@ class SR_myimplementation(SR_skeleton):
         """
         [create uuid configuration name description]: creates a fresh SR
         """
-        result = {}
-        result["configuration"] = {"string": "string"}
-        return result
+        return {"string": "string"}
     # ...
 ```
 
@@ -483,9 +479,7 @@ class SR_myimplementation(SR_skeleton):
         [attach configuration]: attaches the SR to the local host. Once an SR is
         attached then volumes may be manipulated.
         """
-        result = {}
-        result["sr"] = "string"
-        return result
+        return "string"
     # ...
 ```
 
@@ -565,8 +559,6 @@ class SR_myimplementation(SR_skeleton):
         [detach sr]: detaches the SR, clearing up any associated resources.
         Once the SR is detached then volumes may not be manipulated.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -646,8 +638,6 @@ class SR_myimplementation(SR_skeleton):
         with it. Note that an SR must be attached to be destroyed; otherwise
         Sr_not_attached is thrown.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -732,9 +722,7 @@ class SR_myimplementation(SR_skeleton):
         [stat sr] returns summary metadata associated with [sr]. Note this
         call does not return details of sub-volumes, see SR.ls.
         """
-        result = {}
-        result["sr"] = {"sr": "string", "name": "string", "uuid": None, "description": "string", "free_space": 0L, "total_space": 0L, "datasources": ["string"], "clustered": True, "health": None}
-        return result
+        return {"sr": "string", "name": "string", "uuid": None, "description": "string", "free_space": 0L, "total_space": 0L, "datasources": ["string"], "clustered": True, "health": None}
     # ...
 ```
 
@@ -813,8 +801,6 @@ class SR_myimplementation(SR_skeleton):
         """
         [set_name sr new_name] changes the name of [sr]
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -895,8 +881,6 @@ class SR_myimplementation(SR_skeleton):
         """
         [set_description sr new_description] changes the description of [sr]
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -996,9 +980,7 @@ class SR_myimplementation(SR_skeleton):
         """
         [ls sr] returns a list of volumes contained within an attached SR.
         """
-        result = {}
-        result["volumes"] = [{"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}]
-        return result
+        return [{"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}]
     # ...
 ```
 
@@ -1102,9 +1084,7 @@ class Volume_myimplementation(Volume_skeleton):
         is always permissable for an implementation to round-up the volume to
         the nearest convenient block size
         """
-        result = {}
-        result["volume"] = {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
-        return result
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1205,9 +1185,7 @@ class Volume_myimplementation(Volume_skeleton):
         can only be taken on the host that has the VDI active (if any).
         XAPI will take care of redirecting the request to the proper host
         """
-        result = {}
-        result["volume"] = {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
-        return result
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1300,9 +1278,7 @@ class Volume_myimplementation(Volume_skeleton):
         [volume] in [sr]. Note the name and description are copied but any
         extra metadata associated by [set] is not copied.
         """
-        result = {}
-        result["volume"] = {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
-        return result
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1382,8 +1358,6 @@ class Volume_myimplementation(Volume_skeleton):
         """
         [destroy sr volume] removes [volume] from [sr]
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1464,8 +1438,6 @@ class Volume_myimplementation(Volume_skeleton):
         """
         [set_name sr volume new_name] changes the name of [volume]
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1553,8 +1525,6 @@ class Volume_myimplementation(Volume_skeleton):
         [set_description sr volume new_description] changes the description
         of [volume]
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1638,8 +1608,6 @@ class Volume_myimplementation(Volume_skeleton):
         metadata of [volume] Note these keys and values are not interpreted
         by the plugin; they are intended for the higher-level software only.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1723,8 +1691,6 @@ class Volume_myimplementation(Volume_skeleton):
         interpreted by the plugin; they are intended for the higher-level
         software only.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1805,8 +1771,6 @@ class Volume_myimplementation(Volume_skeleton):
         [resize sr volume new_size] enlarges [volume] to be at least
         [new_size].
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -1897,9 +1861,7 @@ class Volume_myimplementation(Volume_skeleton):
         """
         [stat sr volume] returns metadata associated with [volume].
         """
-        result = {}
-        result["volume"] = {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
-        return result
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1985,9 +1947,7 @@ class Volume_myimplementation(Volume_skeleton):
         plugin, it should return a result indicating that all blocks are in
         use.
         """
-        result = {}
-        result = {"blocksize": 0L, "ranges": [[]]}
-        return result
+        return {"blocksize": 0L, "ranges": [[]]}
     # ...
 ```
 
@@ -2069,9 +2029,7 @@ class Volume_myimplementation(Volume_skeleton):
         [similar_content sr volume] returns a list of VDIs which have similar
         content to [vdi]
         """
-        result = {}
-        result["key list"] = ["string"]
-        return result
+        return ["string"]
     # ...
 ```
 
@@ -2151,8 +2109,6 @@ class Volume_myimplementation(Volume_skeleton):
         """
         [enable_cbt sr volume] enables Changed Block Tracking for [volume]
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -2231,8 +2187,6 @@ class Volume_myimplementation(Volume_skeleton):
         """
         [disable_cbt sr volume] disables Changed Block Tracking for [volume]
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -2312,8 +2266,6 @@ class Volume_myimplementation(Volume_skeleton):
         [data_destroy sr volume] deletes the data of the snapshot [volume]
         without deleting its changed block tracking metadata
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -2403,9 +2355,7 @@ class Volume_myimplementation(Volume_skeleton):
         have changed between [volume1] and [volume2] as a base64-encoded
         bitmap string
         """
-        result = {}
-        result["changed_blocks"] = {"granularity": 0L, "bitmap": "string"}
-        return result
+        return {"granularity": 0L, "bitmap": "string"}
     # ...
 ```
 

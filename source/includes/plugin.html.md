@@ -120,9 +120,7 @@ class Plugin_myimplementation(Plugin_skeleton):
         called by xapi to determine whether it is compatible with xapi
         and to discover the supported features.
         """
-        result = {}
-        result = {"plugin": "string", "name": "string", "description": "string", "vendor": "string", "copyright": "string", "version": "string", "required_api_version": "string", "features": ["string"], "configuration": {"string": "string"}, "required_cluster_stack": ["string"]}
-        return result
+        return {"plugin": "string", "name": "string", "description": "string", "vendor": "string", "copyright": "string", "version": "string", "required_api_version": "string", "features": ["string"], "configuration": {"string": "string"}, "required_cluster_stack": ["string"]}
     # ...
 ```
 
@@ -186,9 +184,7 @@ class Plugin_myimplementation(Plugin_skeleton):
         """
         [ls dbg]: returns a list of attached SRs
         """
-        result = {}
-        result["srs"] = ["string"]
-        return result
+        return ["string"]
     # ...
 ```
 
@@ -256,9 +252,7 @@ class Plugin_myimplementation(Plugin_skeleton):
         include personally-identifiable data as it is intended to be
         automatically included in bug reports.
         """
-        result = {}
-        result["diagnostics"] = "string"
-        return result
+        return "string"
     # ...
 ```
 

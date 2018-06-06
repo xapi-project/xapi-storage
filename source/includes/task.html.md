@@ -189,9 +189,7 @@ class Task_myimplementation(Task_skeleton):
         """
         [stat task_id] returns the status of the task
         """
-        result = {}
-        result["result"] = {"id": "string", "debug_info": "string", "ctime": 1.1, "state": None}
-        return result
+        return {"id": "string", "debug_info": "string", "ctime": 1.1, "state": None}
     # ...
 ```
 
@@ -264,8 +262,6 @@ class Task_myimplementation(Task_skeleton):
         had never been made at all. The call should return immediately and
         the status of the task can the be queried via the [stat] call.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -334,8 +330,6 @@ class Task_myimplementation(Task_skeleton):
         [destroy task_id] should remove all traces of the task_id. This call
         should fail if the task is currently in progress.
         """
-        result = {}
-        return result
     # ...
 ```
 
@@ -399,9 +393,7 @@ class Task_myimplementation(Task_skeleton):
         """
         [ls] should return a list of all of the tasks the plugin is aware of.
         """
-        result = {}
-        result = ["string"]
-        return result
+        return ["string"]
     # ...
 ```
 
