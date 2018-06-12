@@ -1208,6 +1208,14 @@ A description of which Xen block backend to use. The toolstack needs this to set
 <td>choice of implementation technologies</td>
 </tr>
 </tbody></table>
+<h3 id='uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
+</span></code></pre>
+<p>type <code>uri</code> = <code>string</code>
+A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.</p>
+<h3 id='domain'>domain</h3><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
+</span></code></pre>
+<p>type <code>domain</code> = <code>string</code>
+A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p>
 <h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>blocklist</code> = <code>struct { ... }</code>
@@ -1231,14 +1239,6 @@ List of blocks for copying</p>
 <td>list of block ranges, where a range is a (start,length) pair, measured in units of [blocksize]</td>
 </tr>
 </tbody></table>
-<h3 id='domain'>domain</h3><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
-</span></code></pre>
-<p>type <code>domain</code> = <code>string</code>
-A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p>
-<h3 id='uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
-</span></code></pre>
-<p>type <code>uri</code> = <code>string</code>
-A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.</p>
 <h3 id='operation'>operation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Mirror"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -2375,7 +2375,11 @@ disk will be a perfect mirror of the source.</p></li>
 </tbody></table>
 <h1 id='volume'>volume</h1>
 <p>The xapi toolstack delegates all storage control-plane functions to  &quot;Volume plugins&quot;.These plugins allow the toolstack to  create/destroy/snapshot/clone volumes which are organised into groups  called Storage Repositories (SR). Volumes have a set of URIs which  can be used by the &quot;Datapath plugins&quot; to connect the disk data to  VMs.</p>
-<h2 id='type-definitions-3'>Type definitions</h2><h3 id='health'>health</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h2 id='type-definitions-3'>Type definitions</h2><h3 id='configuration'>configuration</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>type <code>configuration</code> = <code>(string * string) list</code>
+Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.</p>
+<h3 id='health'>health</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Recovering"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>health</code> = <code>variant { ... }</code></p>
@@ -2533,10 +2537,6 @@ disk will be a perfect mirror of the source.</p></li>
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>type <code>probe_results</code> = <code>probe_result list</code></p>
-<h3 id='configuration'>configuration</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>type <code>configuration</code> = <code>(string * string) list</code>
-Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.</p>
 <h3 id='volume-2'>volume</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
   </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">],</span><span class="w">
