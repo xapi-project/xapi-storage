@@ -11,6 +11,12 @@ search: true
 # volume
 The xapi toolstack delegates all storage control-plane functions to  "Volume plugins".These plugins allow the toolstack to  create/destroy/snapshot/clone volumes which are organised into groups  called Storage Repositories \(SR\). Volumes have a set of URIs which  can be used by the "Datapath plugins" to connect the disk data to  VMs.
 ## Type definitions
+### configuration
+```json
+{ "configuration": "configuration" }
+```
+type `configuration` = `(string * string) list`
+Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.
 ### health
 ```json
 [ "Healthy", "health" ]
@@ -103,12 +109,6 @@ type `probe_result` = `struct { ... }`
 ```
 type `probe_results` = `probe_result list`
 
-### configuration
-```json
-{ "configuration": "configuration" }
-```
-type `configuration` = `(string * string) list`
-Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.
 ### volume
 ```json
 {

@@ -117,6 +117,18 @@ A description of which Xen block backend to use. The toolstack needs this to set
 -----------------|---------------------|----------------------------------------
  domain_uuid     | string              | UUID of the domain hosting the backend 
  implementations | implementation list | choice of implementation technologies  
+### uri
+```json
+"uri"
+```
+type `uri` = `string`
+A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.
+### domain
+```json
+"domain"
+```
+type `domain` = `string`
+A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may \(for example\) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.
 ### blocklist
 ```json
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
@@ -128,18 +140,6 @@ List of blocks for copying
 -----------|--------------------|----------------------------------------------------------------------------------------------------
  blocksize | int                | size of the individual blocks                                                                      
  ranges    | int64 * int64 list | list of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
-### domain
-```json
-"domain"
-```
-type `domain` = `string`
-A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may \(for example\) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.
-### uri
-```json
-"uri"
-```
-type `uri` = `string`
-A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.
 ### operation
 ```json
 [ "Copy", [ "operation", "operation" ] ]
