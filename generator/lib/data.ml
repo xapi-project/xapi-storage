@@ -24,12 +24,10 @@ type xendisk = {
 type block_device = {
   path: string;
   (** Path to the system local block device. This is equivalent to the SMAPIv1 params. *)
-  dummy: unit;
 } [@@deriving rpcty]
 
 type file = {
   path: string; (** Path to the raw file *)
-  dummy: unit;
 } [@@deriving rpcty]
 
 type nbd = {
@@ -37,7 +35,6 @@ type nbd = {
   (** NBD URI of the form nbd:unix:<domain-socket>:exportname=<NAME> (this
       format is used by qemu-system:
       https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html) *)
-  dummy: unit;
 } [@@deriving rpcty]
 
 type implementation =
