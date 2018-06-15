@@ -16,7 +16,7 @@ The xapi toolstack delegates all storage control-plane functions to  "Volume plu
 { "configuration": "configuration" }
 ```
 type `configuration` = `(string * string) list`
-Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.
+Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.
 ### health
 ```json
 [ "Healthy", "health" ]

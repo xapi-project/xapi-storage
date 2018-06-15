@@ -40,37 +40,34 @@ type `xendisk` = `struct { ... }`
  backend_type | string                 |                                                                                           
 ### block_device
 ```json
-{ "dummy": null, "path": "path" }
+{ "path": "path" }
 ```
 type `block_device` = `struct { ... }`
 
 #### Members
- Name  | Type   | Description                                                                      
--------|--------|----------------------------------------------------------------------------------
- path  | string | Path to the system local block device. This is equivalent to the SMAPIv1 params. 
- dummy | unit   |                                                                                  
+ Name | Type   | Description                                                                      
+------|--------|----------------------------------------------------------------------------------
+ path | string | Path to the system local block device. This is equivalent to the SMAPIv1 params. 
 ### file
 ```json
-{ "dummy": null, "path": "path" }
+{ "path": "path" }
 ```
 type `file` = `struct { ... }`
 
 #### Members
- Name  | Type   | Description          
--------|--------|----------------------
- path  | string | Path to the raw file 
- dummy | unit   |                      
+ Name | Type   | Description          
+------|--------|----------------------
+ path | string | Path to the raw file 
 ### nbd
 ```json
-{ "dummy": null, "uri": "uri" }
+{ "uri": "uri" }
 ```
 type `nbd` = `struct { ... }`
 
 #### Members
- Name  | Type   | Description                                                                                                                                                                                          
--------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- uri   | string | NBD URI of the form nbd:unix:&lt;domain-socket&gt;:exportname=&lt;NAME&gt; \(this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86\_64.1.en.html\) 
- dummy | unit   |                                                                                                                                                                                                      
+ Name | Type   | Description                                                                                                                                                                                          
+------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ uri  | string | NBD URI of the form nbd:unix:&lt;domain-socket&gt;:exportname=&lt;NAME&gt; \(this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86\_64.1.en.html\) 
 ### implementation
 ```json
 [
@@ -81,9 +78,9 @@ type `nbd` = `struct { ... }`
     "params": "params"
   }
 ]
-[ "BlockDevice", { "dummy": null, "path": "path" } ]
-[ "File", { "dummy": null, "path": "path" } ]
-[ "Nbd", { "dummy": null, "uri": "uri" } ]
+[ "BlockDevice", { "path": "path" } ]
+[ "File", { "path": "path" } ]
+[ "Nbd", { "uri": "uri" } ]
 ```
 type `implementation` = `variant { ... }`
 
