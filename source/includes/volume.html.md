@@ -2388,7 +2388,7 @@ type `exns` = `variant { ... }`
  SR_does_not_exist         | string | The specified SR could not be found               
  Volume_does_not_exist     | string | The specified volume could not be found in the SR 
  Unimplemented             | string | The operation has not been implemented            
- Cancelled                 | string | The operation has not been implemented            
+ Cancelled                 | string | The operation has been cancelled                  
  Activated_on_another_host | string | The Volume is already active on another host      
 ### exns
 ```json
@@ -2408,5 +2408,5 @@ type `exns` = `variant { ... }`
  SR_does_not_exist         | string | The specified SR could not be found               
  Volume_does_not_exist     | string | The specified volume could not be found in the SR 
  Unimplemented             | string | The operation has not been implemented            
- Cancelled                 | string | The operation has not been implemented            
+ Cancelled                 | string | The operation has been cancelled                  
  Activated_on_another_host | string | The Volume is already active on another host      
