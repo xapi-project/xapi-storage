@@ -303,9 +303,9 @@ module Volume(R: RPC) = struct
 end
 
 type configuration = (string * string) list [@@deriving rpcty]
-(** Plugin-specific configuration which describes where and;
-    how to locate the storage repository. This may include; the
-    physical block device name, a remote NFS server and; path
+(** Plugin-specific configuration which describes where and
+    how to locate the storage repository. This may include the
+    physical block device name, a remote NFS server and path
     or an RBD storage pool. *)
 
 
