@@ -1065,7 +1065,7 @@ True means the disk data is persistent and should be preserved when the datapath
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>block_device</code> = <code>struct { ... }</code></p>
 <h4 id='members-3'>Members</h4>
@@ -1081,13 +1081,8 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>string</td>
 <td>Path to the system local block device. This is equivalent to the SMAPIv1 params.</td>
 </tr>
-<tr>
-<td>dummy</td>
-<td>unit</td>
-<td></td>
-</tr>
 </tbody></table>
-<h3 id='file'>file</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='file'>file</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>file</code> = <code>struct { ... }</code></p>
 <h4 id='members-4'>Members</h4>
@@ -1103,13 +1098,8 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>string</td>
 <td>Path to the raw file</td>
 </tr>
-<tr>
-<td>dummy</td>
-<td>unit</td>
-<td></td>
-</tr>
 </tbody></table>
-<h3 id='nbd'>nbd</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='nbd'>nbd</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>nbd</code> = <code>struct { ... }</code></p>
 <h4 id='members-5'>Members</h4>
@@ -1125,11 +1115,6 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>string</td>
 <td>NBD URI of the form nbd:unix:&lt;domain-socket&gt;:exportname=&lt;NAME&gt; (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html)</td>
 </tr>
-<tr>
-<td>dummy</td>
-<td>unit</td>
-<td></td>
-</tr>
 </tbody></table>
 <h3 id='implementation'>implementation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
@@ -1139,9 +1124,9 @@ True means the disk data is persistent and should be preserved when the datapath
     </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span><span class="p">[</span><span class="w"> </span><span class="s2">"BlockDevice"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="p">[</span><span class="w"> </span><span class="s2">"File"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="p">[</span><span class="w"> </span><span class="s2">"Nbd"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dummy"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"BlockDevice"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"File"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"Nbd"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>implementation</code> = <code>variant { ... }</code></p>
 <h4 id='constructors-2'>Constructors</h4>
@@ -2378,7 +2363,7 @@ disk will be a perfect mirror of the source.</p></li>
 <h2 id='type-definitions-3'>Type definitions</h2><h3 id='configuration'>configuration</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>configuration</code> = <code>(string * string) list</code>
-Plugin-specific configuration which describes where and; how to locate the storage repository. This may include; the physical block device name, a remote NFS server and; path or an RBD storage pool.</p>
+Plugin-specific configuration which describes where and how to locate the storage repository. This may include the physical block device name, a remote NFS server and path or an RBD storage pool.</p>
 <h3 id='health'>health</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Recovering"</span><span class="p">,</span><span class="w"> </span><span class="s2">"health"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
