@@ -134,7 +134,10 @@ type changed_blocks = {
       this size, in bytes. *)
 
   bitmap: string;
-  (** The changed blocks between two volumes as a base64-encoded string *)
+  (** The changed blocks between two volumes as a base64-encoded string.
+      The bits in the bitmap indicate the status of consecutive blocks of size
+      [granularity] bytes.
+      Each bit is set if the corresponding area has changed. *)
 } [@@deriving rpcty]
 
 
