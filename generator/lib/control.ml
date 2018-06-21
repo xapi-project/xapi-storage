@@ -130,6 +130,9 @@ type volume = {
 
 type changed_blocks = {
   granularity: int;
+  (** One bit in the changed block bitmap indicates the status of an area of
+      this size, in bytes. *)
+
   bitmap: string;
   (** The changed blocks between two volumes as a base64-encoded string *)
 } [@@deriving rpcty]
