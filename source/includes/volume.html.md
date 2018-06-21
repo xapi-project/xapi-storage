@@ -190,10 +190,10 @@ type `key_list` = `string list`
 type `changed_blocks` = `struct { ... }`
 
 #### Members
- Name        | Type   | Description                                                                                 
--------------|--------|---------------------------------------------------------------------------------------------
- granularity | int    | One bit in the changed block bitmap indicates the status of an area of this size, in bytes. 
- bitmap      | string | The changed blocks between two volumes as a base64-encoded string                           
+ Name        | Type   | Description                                                                                                                                                                                                               
+-------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ granularity | int    | One bit in the changed block bitmap indicates the status of an area of this size, in bytes.                                                                                                                               
+ bitmap      | string | The changed blocks between two volumes as a base64-encoded string. The bits in the bitmap indicate the status of consecutive blocks of size \[granularity\] bytes. Each bit is set if the corresponding area has changed. 
 ## Interface: `SR`
 Operations which act on Storage Repositories
 ## Method: `probe`
