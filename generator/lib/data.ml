@@ -299,7 +299,7 @@ To mirror a VDI a sequence of these API calls is required:
    disk will be a perfect mirror of the source.
 
      |}];
-      version = (1,0,0)
+      version = (5,0,0)
     }
 
 end
