@@ -710,7 +710,7 @@ particular HA cluster stack to be running, this can be declared in the
 <h1 id='develop'>Develop</h1>
 <p>Below you can find the SMAPIv3 API Reference:</p>
 <h1 id='plugin'>plugin</h1>
-<p>The Datapath plugin takes a URI which points to virtual disk data  and chooses a Xen datapath implementation: driver domain, blkback  implementation and caching strategy.</p>
+<p>The xapi toolstack expects all plugins to support a basic query interface.</p>
 <h2 id='type-definitions'>Type definitions</h2><h3 id='query_result'>query_result</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"required_cluster_stack"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"required_cluster_stack"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">},</span><span class="w">
