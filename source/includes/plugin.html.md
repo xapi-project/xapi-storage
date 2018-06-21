@@ -9,7 +9,7 @@ language_tabs:
 search: true
 ---
 # plugin
-The Datapath plugin takes a URI which points to virtual disk data  and chooses a Xen datapath implementation: driver domain, blkback  implementation and caching strategy.
+The xapi toolstack expects all plugins to support a basic query interface.
 ## Type definitions
 ### query_result
 ```json
