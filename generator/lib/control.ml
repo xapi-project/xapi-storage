@@ -127,13 +127,15 @@ type volume = {
       metadata. These should not be interpreted by the Volume plugin. *)
 } [@@deriving rpcty]
 
+type base64 = string [@@deriving rpcty]
+(** Base64-encoded data *)
 
 type changed_blocks = {
   granularity: int;
   (** One bit in the changed block bitmap indicates the status of an area of
       this size, in bytes. *)
 
-  bitmap: string;
+  bitmap: base64;
   (** The changed blocks between two volumes as a base64-encoded string.
       The bits in the bitmap indicate the status of consecutive blocks of size
       [granularity] bytes.
