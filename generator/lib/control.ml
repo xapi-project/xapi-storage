@@ -115,12 +115,12 @@ type volume = {
   (** Amount of space currently used on the backing storage (in bytes) *)
 
   uri : string list;
-  (** A list of URIs which can be opened and used for I/O. A URI could
-      reference a local block device, a remote NFS share, iSCSI LUN or RBD
-      volume. In cases where the data may be accessed over several
-      protocols, he list should be sorted into descending order of
-      desirability. Xapi will open the most desirable URI for which it has
-      an available datapath plugin. *)
+  (** A list of URIs which can be opened and by a datapath plugin for I/O. A
+      URI could reference a local block device, a remote NFS share, iSCSI LUN
+      or RBD volume. In cases where the data may be accessed over several
+      protocols, the list should be sorted into descending order of
+      desirability. Xapi will open the most desirable URI for which it has an
+      available datapath plugin. *)
 
   keys : (string * string) list;
   (** A list of key=value pairs which have been stored in the Volume
