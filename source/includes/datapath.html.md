@@ -37,7 +37,7 @@ type `xendisk` = `struct { ... }`
 --------------|------------------------|-------------------------------------------------------------------------------------------
  params       | string                 | Put into the "params" key in xenstore                                                     
  extra        | (string * string) list | Key-value pairs to be put into the "sm-data" subdirectory underneath the xenstore backend 
- backend_type | string                 |                                                                                           
+ backend_type | string                 | The name of the xenstore directory corresponding to the backend. For example "qdisk".     
 ### block_device
 ```json
 { "path": "path" }
