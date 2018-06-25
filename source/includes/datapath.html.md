@@ -103,17 +103,15 @@ type `implementation` = `variant { ... }`
         "params": "params"
       }
     ]
-  ],
-  "domain_uuid": "domain_uuid"
+  ]
 }
 ```
 type `backend` = `struct { ... }`
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.
 #### Members
- Name            | Type                | Description                            
------------------|---------------------|----------------------------------------
- domain_uuid     | string              | UUID of the domain hosting the backend 
- implementations | implementation list | choice of implementation technologies  
+ Name            | Type                | Description                           
+-----------------|---------------------|---------------------------------------
+ implementations | implementation list | choice of implementation technologies 
 ### uri
 ```json
 "uri"
@@ -322,8 +320,7 @@ if __name__ == "__main__":
         "params": "params"
       }
     ]
-  ],
-  "domain_uuid": "domain_uuid"
+  ]
 }
 ```
 
@@ -353,7 +350,7 @@ class Datapath_myimplementation(Datapath_skeleton):
         implementation needs to perform an explicit handover, then it should
         implement [activate] and [deactivate]. This function is idempotent.
         """
-        return {"domain_uuid": "string", "implementations": [None]}
+        return {"implementations": [None]}
     # ...
 ```
 
