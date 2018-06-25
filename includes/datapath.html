@@ -421,8 +421,7 @@ True means the disk data is persistent and should be preserved when the datapath
         </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>backend</code> = <code>struct { ... }</code>
@@ -435,11 +434,6 @@ A description of which Xen block backend to use. The toolstack needs this to set
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>domain_uuid</td>
-<td>string</td>
-<td>UUID of the domain hosting the backend</td>
-</tr>
 <tr>
 <td>implementations</td>
 <td>implementation list</td>
@@ -682,8 +676,7 @@ simultaneously.</p></li>
         </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"domain_uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain_uuid"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
@@ -707,7 +700,7 @@ simultaneously.</p></li>
         implementation needs to perform an explicit handover, then it should
         implement [activate] and [deactivate]. This function is idempotent.
         """</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s">"domain_uuid"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">]}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">]}</span>
     <span class="c"># ...</span>
 </code></pre>
 <table><thead>
