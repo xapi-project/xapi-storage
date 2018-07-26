@@ -2276,7 +2276,7 @@ class Volume_myimplementation(Volume_skeleton):
  sr   | in        | string | The Storage Repository        
  key  | in        | key    | The volume key                
 ## Method: `list_changed_blocks`
-\[list\_changed\_blocks sr volume1 volume2\] returns the blocks that have changed between \[volume1\] and \[volume2\] as a base64-encoded bitmap string
+\[list\_changed\_blocks sr volume1 volume2 offset length\] returns the blocks that have changed between \[volume1\] and \[volume2\] in the extent specified by the given \[offset\] and \[length\] as a base64-encoded bitmap string. If this extent is not aligned to the granularity of the returned bitmap, then the bitmap will cover the area extended to the nearest block boundaries.
 
 > Client
 
@@ -2351,9 +2351,12 @@ class Volume_myimplementation(Volume_skeleton):
 
     def list_changed_blocks(self, dbg, sr, key, key2, offset, length):
         """
-        [list_changed_blocks sr volume1 volume2] returns the blocks that
-        have changed between [volume1] and [volume2] as a base64-encoded
-        bitmap string
+        [list_changed_blocks sr volume1 volume2 offset length] returns the
+        blocks that have changed between [volume1] and [volume2] in the extent
+        specified by the given [offset] and [length] as a base64-encoded
+        bitmap string. If this extent is not aligned to the granularity of the
+        returned bitmap, then the bitmap will cover the area extended to the
+        nearest block boundaries.
         """
         return {"granularity": 0L, "bitmap": "string"}
     # ...
