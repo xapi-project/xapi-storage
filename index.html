@@ -4994,7 +4994,7 @@ List of blocks for copying</p>
 </tr>
 </tbody></table>
 <h2 id='method-list_changed_blocks'>Method: <code>list_changed_blocks</code></h2>
-<p>[list_changed_blocks sr volume1 volume2] returns the blocks that have changed between [volume1] and [volume2] as a base64-encoded bitmap string</p>
+<p>[list_changed_blocks sr volume1 volume2 offset length] returns the blocks that have changed between [volume1] and [volume2] in the extent specified by the given [offset] and [length] as a base64-encoded bitmap string. If this extent is not aligned to the granularity of the returned bitmap, then the bitmap will cover the area extended to the nearest block boundaries.</p>
 
 <blockquote>
 <p>Client</p>
@@ -5056,9 +5056,12 @@ List of blocks for copying</p>
 
     <span class="k">def</span> <span class="nf">list_changed_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
         <span class="s">"""
-        [list_changed_blocks sr volume1 volume2] returns the blocks that
-        have changed between [volume1] and [volume2] as a base64-encoded
-        bitmap string
+        [list_changed_blocks sr volume1 volume2 offset length] returns the
+        blocks that have changed between [volume1] and [volume2] in the extent
+        specified by the given [offset] and [length] as a base64-encoded
+        bitmap string. If this extent is not aligned to the granularity of the
+        returned bitmap, then the bitmap will cover the area extended to the
+        nearest block boundaries.
         """</span>
         <span class="k">return</span> <span class="p">{</span><span class="s">"granularity"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"bitmap"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">}</span>
     <span class="c"># ...</span>
