@@ -219,38 +219,38 @@
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
         <ul class="search-results"></ul>
-      <div id="toc" class="toc-list-h1">
+      <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#plugin" class="toc-h1 toc-link" data-title="plugin">plugin</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#type-definitions" class="toc-h2 toc-link" data-title="type-definitions">Type definitions</a>
+                    <a href="#plugin-type-definitions" class="toc-h2 toc-link" data-title="Type definitions">Type definitions</a>
                   </li>
                   <li>
-                    <a href="#interface-plugin" class="toc-h2 toc-link" data-title="interface-code-plugin-code">Interface: <code>Plugin</code></a>
+                    <a href="#plugin-interface-plugin" class="toc-h2 toc-link" data-title="Interface: Plugin">Interface: <code>Plugin</code></a>
                   </li>
                   <li>
-                    <a href="#method-query" class="toc-h2 toc-link" data-title="method-code-query-code">Method: <code>query</code></a>
+                    <a href="#plugin-method-query" class="toc-h2 toc-link" data-title="Method: query">Method: <code>query</code></a>
                   </li>
                   <li>
-                    <a href="#method-ls" class="toc-h2 toc-link" data-title="method-code-ls-code">Method: <code>ls</code></a>
+                    <a href="#plugin-method-ls" class="toc-h2 toc-link" data-title="Method: ls">Method: <code>ls</code></a>
                   </li>
                   <li>
-                    <a href="#method-diagnostics" class="toc-h2 toc-link" data-title="method-code-diagnostics-code">Method: <code>diagnostics</code></a>
+                    <a href="#plugin-method-diagnostics" class="toc-h2 toc-link" data-title="Method: diagnostics">Method: <code>diagnostics</code></a>
                   </li>
                   <li>
-                    <a href="#errors" class="toc-h2 toc-link" data-title="errors">Errors</a>
+                    <a href="#plugin-errors" class="toc-h2 toc-link" data-title="Errors">Errors</a>
                   </li>
               </ul>
           </li>
-      </div>
+      </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='plugin'>plugin</h1>
 <p>The xapi toolstack expects all plugins to support a basic query interface.</p>
-<h2 id='type-definitions'>Type definitions</h2><h3 id='query_result'>query_result</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h2 id='plugin-type-definitions'>Type definitions</h2><h3 id='plugin-type-definitions-query_result'>query_result</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"required_cluster_stack"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"required_cluster_stack"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">},</span><span class="w">
   </span><span class="s2">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"features"</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -265,7 +265,7 @@
 </span></code></pre>
 <p>type <code>query_result</code> = <code>struct { ... }</code>
 Properties of this implementation</p>
-<h4 id='members'>Members</h4>
+<h4 id='plugin-type-definitions-query_result-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -324,13 +324,13 @@ Properties of this implementation</p>
 <td>the plugin requires one of these cluster stacks to be active</td>
 </tr>
 </tbody></table>
-<h3 id='srs'>srs</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"srs"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='plugin-type-definitions-srs'>srs</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"srs"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>type <code>srs</code> = <code>string list</code></p>
-<h2 id='interface-plugin'>Interface: <code>Plugin</code></h2>
+<h2 id='plugin-interface-plugin'>Interface: <code>Plugin</code></h2>
 <p>Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi.</p>
-<h2 id='method-query'>Method: <code>query</code></h2>
+<h2 id='plugin-method-query'>Method: <code>query</code></h2>
 <p>Query this implementation and return its properties. This is  called by xapi to determine whether it is compatible with xapi  and to discover the supported features.</p>
 
 <blockquote>
@@ -411,7 +411,7 @@ Properties of this implementation</p>
 <td>Properties of this implementation</td>
 </tr>
 </tbody></table>
-<h2 id='method-ls'>Method: <code>ls</code></h2>
+<h2 id='plugin-method-ls'>Method: <code>ls</code></h2>
 <p>[ls dbg]: returns a list of attached SRs</p>
 
 <blockquote>
@@ -477,7 +477,7 @@ Properties of this implementation</p>
 <td>The attached SRs</td>
 </tr>
 </tbody></table>
-<h2 id='method-diagnostics'>Method: <code>diagnostics</code></h2>
+<h2 id='plugin-method-diagnostics'>Method: <code>diagnostics</code></h2>
 <p>Returns a printable set of backend diagnostic information.  Implementations are encouraged to include any data which will  be useful to diagnose problems. Note this data should not  include personally-identifiable data as it is intended to be   automatically included in bug reports.</p>
 
 <blockquote>
@@ -547,10 +547,10 @@ Properties of this implementation</p>
 <td>A string containing loggable human-readable diagnostics information</td>
 </tr>
 </tbody></table>
-<h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h2 id='plugin-errors'>Errors</h2><h3 id='plugin-errors-exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>exnt</code> = <code>variant { ... }</code></p>
-<h4 id='constructors'>Constructors</h4>
+<h4 id='plugin-errors-exnt-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>

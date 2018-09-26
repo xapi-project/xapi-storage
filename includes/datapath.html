@@ -219,61 +219,61 @@
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
         <ul class="search-results"></ul>
-      <div id="toc" class="toc-list-h1">
+      <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#datapath" class="toc-h1 toc-link" data-title="datapath">datapath</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#type-definitions" class="toc-h2 toc-link" data-title="type-definitions">Type definitions</a>
+                    <a href="#datapath-type-definitions" class="toc-h2 toc-link" data-title="Type definitions">Type definitions</a>
                   </li>
                   <li>
-                    <a href="#interface-datapath" class="toc-h2 toc-link" data-title="interface-code-datapath-code">Interface: <code>Datapath</code></a>
+                    <a href="#datapath-interface-datapath" class="toc-h2 toc-link" data-title="Interface: Datapath">Interface: <code>Datapath</code></a>
                   </li>
                   <li>
-                    <a href="#method-open" class="toc-h2 toc-link" data-title="method-code-open-code">Method: <code>open</code></a>
+                    <a href="#datapath-method-open" class="toc-h2 toc-link" data-title="Method: open">Method: <code>open</code></a>
                   </li>
                   <li>
-                    <a href="#method-attach" class="toc-h2 toc-link" data-title="method-code-attach-code">Method: <code>attach</code></a>
+                    <a href="#datapath-method-attach" class="toc-h2 toc-link" data-title="Method: attach">Method: <code>attach</code></a>
                   </li>
                   <li>
-                    <a href="#method-activate" class="toc-h2 toc-link" data-title="method-code-activate-code">Method: <code>activate</code></a>
+                    <a href="#datapath-method-activate" class="toc-h2 toc-link" data-title="Method: activate">Method: <code>activate</code></a>
                   </li>
                   <li>
-                    <a href="#method-deactivate" class="toc-h2 toc-link" data-title="method-code-deactivate-code">Method: <code>deactivate</code></a>
+                    <a href="#datapath-method-deactivate" class="toc-h2 toc-link" data-title="Method: deactivate">Method: <code>deactivate</code></a>
                   </li>
                   <li>
-                    <a href="#method-detach" class="toc-h2 toc-link" data-title="method-code-detach-code">Method: <code>detach</code></a>
+                    <a href="#datapath-method-detach" class="toc-h2 toc-link" data-title="Method: detach">Method: <code>detach</code></a>
                   </li>
                   <li>
-                    <a href="#method-close" class="toc-h2 toc-link" data-title="method-code-close-code">Method: <code>close</code></a>
+                    <a href="#datapath-method-close" class="toc-h2 toc-link" data-title="Method: close">Method: <code>close</code></a>
                   </li>
                   <li>
-                    <a href="#interface-data" class="toc-h2 toc-link" data-title="interface-code-data-code">Interface: <code>Data</code></a>
+                    <a href="#datapath-interface-data" class="toc-h2 toc-link" data-title="Interface: Data">Interface: <code>Data</code></a>
                   </li>
                   <li>
-                    <a href="#method-copy" class="toc-h2 toc-link" data-title="method-code-copy-code">Method: <code>copy</code></a>
+                    <a href="#datapath-method-copy" class="toc-h2 toc-link" data-title="Method: copy">Method: <code>copy</code></a>
                   </li>
                   <li>
-                    <a href="#method-mirror" class="toc-h2 toc-link" data-title="method-code-mirror-code">Method: <code>mirror</code></a>
+                    <a href="#datapath-method-mirror" class="toc-h2 toc-link" data-title="Method: mirror">Method: <code>mirror</code></a>
                   </li>
                   <li>
-                    <a href="#method-stat" class="toc-h2 toc-link" data-title="method-code-stat-code">Method: <code>stat</code></a>
+                    <a href="#datapath-method-stat" class="toc-h2 toc-link" data-title="Method: stat">Method: <code>stat</code></a>
                   </li>
                   <li>
-                    <a href="#method-cancel" class="toc-h2 toc-link" data-title="method-code-cancel-code">Method: <code>cancel</code></a>
+                    <a href="#datapath-method-cancel" class="toc-h2 toc-link" data-title="Method: cancel">Method: <code>cancel</code></a>
                   </li>
                   <li>
-                    <a href="#method-destroy" class="toc-h2 toc-link" data-title="method-code-destroy-code">Method: <code>destroy</code></a>
+                    <a href="#datapath-method-destroy" class="toc-h2 toc-link" data-title="Method: destroy">Method: <code>destroy</code></a>
                   </li>
                   <li>
-                    <a href="#method-ls" class="toc-h2 toc-link" data-title="method-code-ls-code">Method: <code>ls</code></a>
+                    <a href="#datapath-method-ls" class="toc-h2 toc-link" data-title="Method: ls">Method: <code>ls</code></a>
                   </li>
                   <li>
-                    <a href="#errors" class="toc-h2 toc-link" data-title="errors">Errors</a>
+                    <a href="#datapath-errors" class="toc-h2 toc-link" data-title="Errors">Errors</a>
                   </li>
               </ul>
           </li>
-      </div>
+      </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -282,19 +282,19 @@
 <p>The Datapath interfaces are provided to access the data stored
 in the volumes. The <code>Datapath</code> interface is used to open and close the disks for read/write
 operations from VMs and the <code>Data</code> interface is used for operations such as <code>copy</code> and <code>mirror</code></p>
-<h2 id='type-definitions'>Type definitions</h2><h3 id='persistent'>persistent</h3><pre class="highlight json tab-json"><code><span class="kc">true</span><span class="w">
+<h2 id='datapath-type-definitions'>Type definitions</h2><h3 id='datapath-type-definitions-persistent'>persistent</h3><pre class="highlight json tab-json"><code><span class="kc">true</span><span class="w">
 </span><span class="kc">false</span><span class="w">
 </span></code></pre>
 <p>type <code>persistent</code> = <code>bool</code>
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</p>
-<h3 id='xendisk'>xendisk</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h3 id='datapath-type-definitions-xendisk'>xendisk</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
   </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>xendisk</code> = <code>struct { ... }</code></p>
-<h4 id='members'>Members</h4>
+<h4 id='datapath-type-definitions-xendisk-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -318,10 +318,10 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>The name of the xenstore directory corresponding to the backend. For example &quot;qdisk&quot;.</td>
 </tr>
 </tbody></table>
-<h3 id='block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='datapath-type-definitions-block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>block_device</code> = <code>struct { ... }</code></p>
-<h4 id='members-2'>Members</h4>
+<h4 id='datapath-type-definitions-block_device-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -335,10 +335,10 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>Path to the system local block device. This is equivalent to the SMAPIv1 params.</td>
 </tr>
 </tbody></table>
-<h3 id='file'>file</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='datapath-type-definitions-file'>file</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>file</code> = <code>struct { ... }</code></p>
-<h4 id='members-3'>Members</h4>
+<h4 id='datapath-type-definitions-file-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -352,10 +352,10 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>Path to the raw file</td>
 </tr>
 </tbody></table>
-<h3 id='nbd'>nbd</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='datapath-type-definitions-nbd'>nbd</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>nbd</code> = <code>struct { ... }</code></p>
-<h4 id='members-4'>Members</h4>
+<h4 id='datapath-type-definitions-nbd-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -369,7 +369,7 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>NBD URI of the form nbd:unix:&lt;domain-socket&gt;:exportname=&lt;NAME&gt; (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html)</td>
 </tr>
 </tbody></table>
-<h3 id='implementation'>implementation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+<h3 id='datapath-type-definitions-implementation'>implementation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
@@ -382,7 +382,7 @@ True means the disk data is persistent and should be preserved when the datapath
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Nbd"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>implementation</code> = <code>variant { ... }</code></p>
-<h4 id='constructors'>Constructors</h4>
+<h4 id='datapath-type-definitions-implementation-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -411,7 +411,7 @@ True means the disk data is persistent and should be preserved when the datapath
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h3 id='datapath-type-definitions-backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">[</span><span class="w">
       </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
@@ -426,7 +426,7 @@ True means the disk data is persistent and should be preserved when the datapath
 </span></code></pre>
 <p>type <code>backend</code> = <code>struct { ... }</code>
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</p>
-<h4 id='members-5'>Members</h4>
+<h4 id='datapath-type-definitions-backend-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -440,19 +440,19 @@ A description of which Xen block backend to use. The toolstack needs this to set
 <td>choice of implementation technologies</td>
 </tr>
 </tbody></table>
-<h3 id='uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
+<h3 id='datapath-type-definitions-uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
 </span></code></pre>
 <p>type <code>uri</code> = <code>string</code>
 A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.</p>
-<h3 id='domain'>domain</h3><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
+<h3 id='datapath-type-definitions-domain'>domain</h3><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
 </span></code></pre>
 <p>type <code>domain</code> = <code>string</code>
 A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p>
-<h3 id='blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='datapath-type-definitions-blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>blocklist</code> = <code>struct { ... }</code>
 List of blocks for copying</p>
-<h4 id='members-6'>Members</h4>
+<h4 id='datapath-type-definitions-blocklist-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -471,12 +471,12 @@ List of blocks for copying</p>
 <td>list of block ranges, where a range is a (start,length) pair, measured in units of [blocksize]</td>
 </tr>
 </tbody></table>
-<h3 id='operation'>operation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='datapath-type-definitions-operation'>operation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Mirror"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>operation</code> = <code>variant { ... }</code>
 The primary key for referring to a long-running operation</p>
-<h4 id='constructors-2'>Constructors</h4>
+<h4 id='datapath-type-definitions-operation-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -495,11 +495,11 @@ The primary key for referring to a long-running operation</p>
 <td>Mirror (src,dst) represents an on-going mirror  operation from the [src] URI to the [dst] URI</td>
 </tr>
 </tbody></table>
-<h3 id='status'>status</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='datapath-type-definitions-status'>status</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>status</code> = <code>struct { ... }</code>
 Status information for on-going tasks</p>
-<h4 id='members-7'>Members</h4>
+<h4 id='datapath-type-definitions-status-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -518,12 +518,12 @@ Status information for on-going tasks</p>
 <td>[progress] will be returned for a copy operation, and ranges  between 0 and 1</td>
 </tr>
 </tbody></table>
-<h3 id='operations'>operations</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operations"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='datapath-type-definitions-operations'>operations</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operations"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>type <code>operations</code> = <code>operation list</code>
 A list of operations</p>
-<h2 id='interface-datapath'>Interface: <code>Datapath</code></h2>
+<h2 id='datapath-interface-datapath'>Interface: <code>Datapath</code></h2>
 <p>Xapi will call the functions here on VM start / shutdown /
 suspend / resume / migrate. Every function is idempotent. Every
 function takes a domain parameter which allows the implementation
@@ -550,7 +550,7 @@ it is acceptible for this to be an exclusive operation, such that
 it is an error for a volume to be activated on more than one host
 simultaneously.</p></li>
 </ol>
-<h2 id='method-open'>Method: <code>open</code></h2>
+<h2 id='datapath-method-open'>Method: <code>open</code></h2>
 <p>[open uri persistent] is called before a disk is attached to a VM. If persistent is true then care should be taken to persist all writes to the disk. If persistent is false then the implementation should configure a temporary location for writes so they can be thrown away on [close].</p>
 
 <blockquote>
@@ -629,7 +629,7 @@ simultaneously.</p></li>
 <td>True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</td>
 </tr>
 </tbody></table>
-<h2 id='method-attach'>Method: <code>attach</code></h2>
+<h2 id='datapath-method-attach'>Method: <code>attach</code></h2>
 <p>[attach uri domain] prepares a connection between the storage named by [uri] and the Xen domain with id [domain]. The return value is the information needed by the Xen toolstack to setup the shared-memory blkfront protocol. Note that the same volume may be simultaneously attached to multiple hosts for example over a migrate. If an implementation needs to perform an explicit handover, then it should implement [activate] and [deactivate]. This function is idempotent.</p>
 
 <blockquote>
@@ -736,7 +736,7 @@ simultaneously.</p></li>
 <td>A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</td>
 </tr>
 </tbody></table>
-<h2 id='method-activate'>Method: <code>activate</code></h2>
+<h2 id='datapath-method-activate'>Method: <code>activate</code></h2>
 <p>[activate uri domain] is called just before a VM needs to read or write its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p>
 
 <blockquote>
@@ -815,7 +815,7 @@ simultaneously.</p></li>
 <td>An opaque string which represents the Xen domain.</td>
 </tr>
 </tbody></table>
-<h2 id='method-deactivate'>Method: <code>deactivate</code></h2>
+<h2 id='datapath-method-deactivate'>Method: <code>deactivate</code></h2>
 <p>[deactivate uri domain] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p>
 
 <blockquote>
@@ -894,7 +894,7 @@ simultaneously.</p></li>
 <td>An opaque string which represents the Xen domain.</td>
 </tr>
 </tbody></table>
-<h2 id='method-detach'>Method: <code>detach</code></h2>
+<h2 id='datapath-method-detach'>Method: <code>detach</code></h2>
 <p>[detach uri domain] is called sometime after a VM has finished reading or writing its disk. This is an opportunity to clean up any resources associated with the disk. This function is called outside the migration downtime window so can be slow without affecting users. This function is idempotent. This function should never fail. If an implementation is unable to perform some cleanup right away then it should queue the action internally. Any error result represents a bug in the implementation.</p>
 
 <blockquote>
@@ -976,7 +976,7 @@ simultaneously.</p></li>
 <td>An opaque string which represents the Xen domain.</td>
 </tr>
 </tbody></table>
-<h2 id='method-close'>Method: <code>close</code></h2>
+<h2 id='datapath-method-close'>Method: <code>close</code></h2>
 <p>[close uri] is called after a disk is detached and a VM shutdown. This is an opportunity to throw away writes if the disk is not persistent.</p>
 
 <blockquote>
@@ -1046,7 +1046,7 @@ simultaneously.</p></li>
 <td>A URI which represents how to access the volume disk data.</td>
 </tr>
 </tbody></table>
-<h2 id='interface-data'>Interface: <code>Data</code></h2>
+<h2 id='datapath-interface-data'>Interface: <code>Data</code></h2>
 <p>This interface is used for long-running data operations such as
 copying the contents of volumes or mirroring volumes to remote
 destinations.</p>
@@ -1080,7 +1080,7 @@ call.</p></li>
 <li><p>Once the copy operation has succesfully completed the destination
 disk will be a perfect mirror of the source.</p></li>
 </ol>
-<h2 id='method-copy'>Method: <code>copy</code></h2>
+<h2 id='datapath-method-copy'>Method: <code>copy</code></h2>
 <p>[copy uri domain remotes blocks] copies [blocks] from the local disk  to a remote URI. This may be called as part of a Volume Mirroring  operation, and hence may need to cooperate with whatever process is  currently mirroring writes to ensure data integrity is maintained. The [remote] parameter is a remotely accessible URI, for example, <code>nbd://root:pass@foo.com/path/to/disk</code> that must contain all necessary authentication tokens</p>
 
 <blockquote>
@@ -1188,7 +1188,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>The primary key for referring to a long-running operation</td>
 </tr>
 </tbody></table>
-<h2 id='method-mirror'>Method: <code>mirror</code></h2>
+<h2 id='datapath-method-mirror'>Method: <code>mirror</code></h2>
 <p>[mirror uri domain remote] starts mirroring new writes to the volume  to a remote URI (usually NBD). This is called as part of a volume  mirroring process</p>
 
 <blockquote>
@@ -1280,7 +1280,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>The primary key for referring to a long-running operation</td>
 </tr>
 </tbody></table>
-<h2 id='method-stat'>Method: <code>stat</code></h2>
+<h2 id='datapath-method-stat'>Method: <code>stat</code></h2>
 <p>[stat operation] returns the current status of [operation]. For a  copy operation, this will contain progress information.</p>
 
 <blockquote>
@@ -1359,7 +1359,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>Status information for on-going tasks</td>
 </tr>
 </tbody></table>
-<h2 id='method-cancel'>Method: <code>cancel</code></h2>
+<h2 id='datapath-method-cancel'>Method: <code>cancel</code></h2>
 <p>[cancel operation] cancels a long-running operation. Note that the  call may return before the operation has finished.</p>
 
 <blockquote>
@@ -1431,7 +1431,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>The primary key for referring to a long-running operation</td>
 </tr>
 </tbody></table>
-<h2 id='method-destroy'>Method: <code>destroy</code></h2>
+<h2 id='datapath-method-destroy'>Method: <code>destroy</code></h2>
 <p>[destroy operation] destroys the information about a long-running  operation. This should fail when run against an operation that is  still in progress.</p>
 
 <blockquote>
@@ -1504,7 +1504,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>The primary key for referring to a long-running operation</td>
 </tr>
 </tbody></table>
-<h2 id='method-ls'>Method: <code>ls</code></h2>
+<h2 id='datapath-method-ls'>Method: <code>ls</code></h2>
 <p>[ls] returns a list of all current operations</p>
 
 <blockquote>
@@ -1570,10 +1570,10 @@ disk will be a perfect mirror of the source.</p></li>
 <td>A list of operations</td>
 </tr>
 </tbody></table>
-<h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h2 id='datapath-errors'>Errors</h2><h3 id='datapath-errors-exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>exnt</code> = <code>variant { ... }</code></p>
-<h4 id='constructors-3'>Constructors</h4>
+<h4 id='datapath-errors-exnt-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1587,10 +1587,10 @@ disk will be a perfect mirror of the source.</p></li>
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='exnt-2'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='datapath-errors-exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>exnt</code> = <code>variant { ... }</code></p>
-<h4 id='constructors-4'>Constructors</h4>
+<h4 id='datapath-errors-exnt-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>

@@ -219,45 +219,45 @@
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
         <ul class="search-results"></ul>
-      <div id="toc" class="toc-list-h1">
+      <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#task" class="toc-h1 toc-link" data-title="task">task</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#type-definitions" class="toc-h2 toc-link" data-title="type-definitions">Type definitions</a>
+                    <a href="#task-type-definitions" class="toc-h2 toc-link" data-title="Type definitions">Type definitions</a>
                   </li>
                   <li>
-                    <a href="#interface-task" class="toc-h2 toc-link" data-title="interface-code-task-code">Interface: <code>Task</code></a>
+                    <a href="#task-interface-task" class="toc-h2 toc-link" data-title="Interface: Task">Interface: <code>Task</code></a>
                   </li>
                   <li>
-                    <a href="#method-stat" class="toc-h2 toc-link" data-title="method-code-stat-code">Method: <code>stat</code></a>
+                    <a href="#task-method-stat" class="toc-h2 toc-link" data-title="Method: stat">Method: <code>stat</code></a>
                   </li>
                   <li>
-                    <a href="#method-cancel" class="toc-h2 toc-link" data-title="method-code-cancel-code">Method: <code>cancel</code></a>
+                    <a href="#task-method-cancel" class="toc-h2 toc-link" data-title="Method: cancel">Method: <code>cancel</code></a>
                   </li>
                   <li>
-                    <a href="#method-destroy" class="toc-h2 toc-link" data-title="method-code-destroy-code">Method: <code>destroy</code></a>
+                    <a href="#task-method-destroy" class="toc-h2 toc-link" data-title="Method: destroy">Method: <code>destroy</code></a>
                   </li>
                   <li>
-                    <a href="#method-ls" class="toc-h2 toc-link" data-title="method-code-ls-code">Method: <code>ls</code></a>
+                    <a href="#task-method-ls" class="toc-h2 toc-link" data-title="Method: ls">Method: <code>ls</code></a>
                   </li>
                   <li>
-                    <a href="#errors" class="toc-h2 toc-link" data-title="errors">Errors</a>
+                    <a href="#task-errors" class="toc-h2 toc-link" data-title="Errors">Errors</a>
                   </li>
               </ul>
           </li>
-      </div>
+      </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='task'>task</h1>
 <p>The Task interface is required if the backend supports long-running  tasks.</p>
-<h2 id='type-definitions'>Type definitions</h2><h3 id='id'>id</h3><pre class="highlight json tab-json"><code><span class="s2">"id"</span><span class="w">
+<h2 id='task-type-definitions'>Type definitions</h2><h3 id='task-type-definitions-id'>id</h3><pre class="highlight json tab-json"><code><span class="s2">"id"</span><span class="w">
 </span></code></pre>
 <p>type <code>id</code> = <code>string</code>
 Unique identifier for a task</p>
-<h3 id='volume'>volume</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h3 id='task-type-definitions-volume'>volume</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keys"</span><span class="w"> </span><span class="p">},</span><span class="w">
   </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="s2">"physical_utilisation"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -271,7 +271,7 @@ Unique identifier for a task</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>volume</code> = <code>struct { ... }</code></p>
-<h4 id='members'>Members</h4>
+<h4 id='task-type-definitions-volume-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -330,7 +330,7 @@ Unique identifier for a task</p>
 <td>A list of key=value pairs which have been stored in the Volume metadata. These should not be interpreted by the Volume plugin.</td>
 </tr>
 </tbody></table>
-<h3 id='async_result_t'>async_result_t</h3><pre class="highlight json tab-json"><code><span class="s2">"UnitResult"</span><span class="w">
+<h3 id='task-type-definitions-async_result_t'>async_result_t</h3><pre class="highlight json tab-json"><code><span class="s2">"UnitResult"</span><span class="w">
 </span><span class="p">[</span><span class="w">
   </span><span class="s2">"Volume"</span><span class="p">,</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -348,7 +348,7 @@ Unique identifier for a task</p>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>async_result_t</code> = <code>variant { ... }</code></p>
-<h4 id='constructors'>Constructors</h4>
+<h4 id='task-type-definitions-async_result_t-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -367,10 +367,10 @@ Unique identifier for a task</p>
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='completion_t'>completion_t</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UnitResult"</span><span class="p">,</span><span class="w"> </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">}</span><span class="w">
+<h3 id='task-type-definitions-completion_t'>completion_t</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UnitResult"</span><span class="p">,</span><span class="w"> </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>completion_t</code> = <code>struct { ... }</code></p>
-<h4 id='members-2'>Members</h4>
+<h4 id='task-type-definitions-completion_t-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -389,12 +389,12 @@ Unique identifier for a task</p>
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='state'>state</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='task-type-definitions-state'>state</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Completed"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UnitResult"</span><span class="p">,</span><span class="w"> </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Failed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"state"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>state</code> = <code>variant { ... }</code></p>
-<h4 id='constructors-2'>Constructors</h4>
+<h4 id='task-type-definitions-state-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -418,7 +418,7 @@ Unique identifier for a task</p>
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='task-2'>task</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h3 id='task-type-definitions-task'>task</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="s2">"ctime"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
   </span><span class="s2">"debug_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"debug_info"</span><span class="p">,</span><span class="w">
@@ -426,7 +426,7 @@ Unique identifier for a task</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>type <code>task</code> = <code>struct { ... }</code></p>
-<h4 id='members-3'>Members</h4>
+<h4 id='task-type-definitions-task-members'>Members</h4>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -455,13 +455,13 @@ Unique identifier for a task</p>
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='task_list'>task_list</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"task_list"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='task-type-definitions-task_list'>task_list</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"task_list"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>type <code>task_list</code> = <code>string list</code></p>
-<h2 id='interface-task'>Interface: <code>Task</code></h2>
+<h2 id='task-interface-task'>Interface: <code>Task</code></h2>
 <p>The task interface is for querying the status of asynchronous  tasks. All long-running operations are associated with tasks,  including copying and mirroring of data.</p>
-<h2 id='method-stat'>Method: <code>stat</code></h2>
+<h2 id='task-method-stat'>Method: <code>stat</code></h2>
 <p>[stat task_id] returns the status of the task</p>
 
 <blockquote>
@@ -542,7 +542,7 @@ Unique identifier for a task</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='method-cancel'>Method: <code>cancel</code></h2>
+<h2 id='task-method-cancel'>Method: <code>cancel</code></h2>
 <p>[cancel task_id] performs a best-effort cancellation of an ongoing  task. The effect of this should leave the system in one of two  states: Either that the task has completed successfully, or that it  had never been made at all. The call should return immediately and  the status of the task can the be queried via the [stat] call.</p>
 
 <blockquote>
@@ -615,7 +615,7 @@ Unique identifier for a task</p>
 <td>Unique identifier for a task</td>
 </tr>
 </tbody></table>
-<h2 id='method-destroy'>Method: <code>destroy</code></h2>
+<h2 id='task-method-destroy'>Method: <code>destroy</code></h2>
 <p>[destroy task_id] should remove all traces of the task_id. This call  should fail if the task is currently in progress.</p>
 
 <blockquote>
@@ -685,7 +685,7 @@ Unique identifier for a task</p>
 <td>Unique identifier for a task</td>
 </tr>
 </tbody></table>
-<h2 id='method-ls'>Method: <code>ls</code></h2>
+<h2 id='task-method-ls'>Method: <code>ls</code></h2>
 <p>[ls] should return a list of all of the tasks the plugin is aware of.</p>
 
 <blockquote>
@@ -751,10 +751,10 @@ Unique identifier for a task</p>
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='errors'>Errors</h2><h3 id='exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h2 id='task-errors'>Errors</h2><h3 id='task-errors-exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>type <code>exnt</code> = <code>variant { ... }</code></p>
-<h4 id='constructors-3'>Constructors</h4>
+<h4 id='task-errors-exnt-constructors'>Constructors</h4>
 <table><thead>
 <tr>
 <th>Name</th>
