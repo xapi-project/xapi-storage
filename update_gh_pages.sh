@@ -22,7 +22,7 @@ if [ -z "$GH_TOKEN" ]; then
   exit 1
 fi
 
-jbuilder build generator/src/main.exe
+dune build generator/src/main.exe
 
 DOCDIR=.gh-pages
 if [ -n "$KEEP" ]; then trap "rm -rf $DOCDIR" EXIT; fi
@@ -31,7 +31,7 @@ rm -rf $DOCDIR
 # Don't expose GH_TOKEN
 git clone --quiet --branch=slate https://${GH_TOKEN}@github.com/xapi-project/xapi-storage $DOCDIR > /dev/null 2>&1
 rm -rf $DOCDIR/source/includes/*
-jbuilder exec generator/src/main.exe -- gen_markdown --path=$DOCDIR/source/includes
+dune exec generator/src/main.exe -- gen_markdown --path=$DOCDIR/source/includes
 git -C $DOCDIR config user.email "travis@travis-ci.org"
 git -C $DOCDIR config user.name "Travis"
 (cd $DOCDIR; git add *)
