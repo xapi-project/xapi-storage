@@ -16,7 +16,7 @@ The Task interface is required if the backend supports long-running  tasks.
 "id"
 ```
 type `id` = `string`
-Unique identifier for a task
+Unique identifier for a task.
 ### volume
 ```json
 {
@@ -93,11 +93,11 @@ type `completion_t` = `struct { ... }`
 type `state` = `variant { ... }`
 
 #### Constructors
- Name      | Type         | Description                                           
------------|--------------|-------------------------------------------------------
- Pending   | float        | the task is in progress, with progress info from 0..1 
- Completed | completion_t |                                                       
- Failed    | string       |                                                       
+ Name      | Type         | Description                                            
+-----------|--------------|--------------------------------------------------------
+ Pending   | float        | The task is in progress, with progress info from 0..1. 
+ Completed | completion_t |                                                        
+ Failed    | string       |                                                        
 ### task
 ```json
 {
@@ -134,7 +134,7 @@ The task interface is for querying the status of asynchronous  tasks. All long-r
 {
   "method": "Task.stat",
   "params": [ { "id": "id", "dbg": "dbg" } ],
-  "id": 41
+  "id": 42
 }
 ```
 
@@ -155,7 +155,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Task.stat({ dbg: "string", id: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -197,7 +197,7 @@ class Task_myimplementation(Task_skeleton):
  Name   | Direction | Type   | Description                   
 --------|-----------|--------|-------------------------------
  dbg    | in        | string | Debug context from the caller 
- id     | in        | id     | Unique identifier for a task  
+ id     | in        | id     | Unique identifier for a task. 
  result | out       | task   |                               
 ## Method: `cancel`
 \[cancel task\_id\] performs a best-effort cancellation of an ongoing  task. The effect of this should leave the system in one of two  states: Either that the task has completed successfully, or that it  had never been made at all. The call should return immediately and  the status of the task can the be queried via the \[stat\] call.
@@ -208,7 +208,7 @@ class Task_myimplementation(Task_skeleton):
 {
   "method": "Task.cancel",
   "params": [ { "id": "id", "dbg": "dbg" } ],
-  "id": 42
+  "id": 43
 }
 ```
 
@@ -229,7 +229,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Task.cancel({ dbg: "string", id: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -269,7 +269,7 @@ class Task_myimplementation(Task_skeleton):
  Name | Direction | Type   | Description                   
 ------|-----------|--------|-------------------------------
  dbg  | in        | string | Debug context from the caller 
- id   | in        | id     | Unique identifier for a task  
+ id   | in        | id     | Unique identifier for a task. 
 ## Method: `destroy`
 \[destroy task\_id\] should remove all traces of the task\_id. This call  should fail if the task is currently in progress.
 
@@ -279,7 +279,7 @@ class Task_myimplementation(Task_skeleton):
 {
   "method": "Task.destroy",
   "params": [ { "id": "id", "dbg": "dbg" } ],
-  "id": 43
+  "id": 44
 }
 ```
 
@@ -300,7 +300,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Task.destroy({ dbg: "string", id: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -337,14 +337,14 @@ class Task_myimplementation(Task_skeleton):
  Name | Direction | Type   | Description                   
 ------|-----------|--------|-------------------------------
  dbg  | in        | string | Debug context from the caller 
- id   | in        | id     | Unique identifier for a task  
+ id   | in        | id     | Unique identifier for a task. 
 ## Method: `ls`
 \[ls\] should return a list of all of the tasks the plugin is aware of.
 
 > Client
 
 ```json
-{ "method": "Task.ls", "params": [ { "dbg": "dbg" } ], "id": 44 }
+{ "method": "Task.ls", "params": [ { "dbg": "dbg" } ], "id": 45 }
 ```
 
 ```ocaml
@@ -364,7 +364,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Task.ls({ dbg: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server

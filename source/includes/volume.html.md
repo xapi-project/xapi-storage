@@ -170,12 +170,12 @@ Primary key for a volume. This can be any string which is meaningful to the impl
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
 ```
 type `blocklist` = `struct { ... }`
-List of blocks for copying
+List of blocks for copying.
 #### Members
  Name      | Type               | Description                                                                                        
 -----------|--------------------|----------------------------------------------------------------------------------------------------
- blocksize | int                | size of the individual blocks                                                                      
- ranges    | int64 * int64 list | list of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
+ blocksize | int                | Size of the individual blocks.                                                                     
+ ranges    | int64 * int64 list | List of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
 ### key_list
 ```json
 [ "key_list" ]
@@ -236,7 +236,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.probe({ dbg: "string", configuration: {"string": "string"} })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -357,7 +357,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.create({ dbg: "string", uuid: "string", configuration: {"string": "string"}, name: "string", description: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -444,7 +444,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.attach({ dbg: "string", configuration: {"string": "string"} })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -524,7 +524,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.detach({ dbg: "string", sr: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -602,7 +602,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.destroy({ dbg: "string", sr: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -677,7 +677,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.stat({ dbg: "string", sr: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -722,7 +722,7 @@ class SR_myimplementation(SR_skeleton):
         [stat sr] returns summary metadata associated with [sr]. Note this
         call does not return details of sub-volumes, see SR.ls.
         """
-        return {"sr": "string", "name": "string", "uuid": None, "description": "string", "free_space": 0L, "total_space": 0L, "datasources": ["string"], "clustered": True, "health": None}
+        return {"sr": "string", "name": "string", "uuid": None, "description": "string", "free_space": long(0), "total_space": long(0), "datasources": ["string"], "clustered": True, "health": None}
     # ...
 ```
 
@@ -767,7 +767,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.set_name({ dbg: "string", sr: "string", new_name: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -847,7 +847,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.set_description({ dbg: "string", sr: "string", new_description: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -921,7 +921,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.SR.ls({ dbg: "string", sr: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -980,7 +980,7 @@ class SR_myimplementation(SR_skeleton):
         """
         [ls sr] returns a list of volumes contained within an attached SR.
         """
-        return [{"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}]
+        return [{"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": long(0), "physical_utilisation": long(0), "uri": ["string"], "keys": {"string": "string"}}]
     # ...
 ```
 
@@ -1035,8 +1035,8 @@ import myclient
 
 if __name__ == "__main__":
     c = myclient.connect()
-    results = c.Volume.create({ dbg: "string", sr: "string", name: "string", description: "string", size: 0L, sharable: True })
-    print (repr(results))
+    results = c.Volume.create({ dbg: "string", sr: "string", name: "string", description: "string", size: long(0), sharable: True })
+    print(repr(results))
 ```
 
 > Server
@@ -1084,7 +1084,7 @@ class Volume_myimplementation(Volume_skeleton):
         is always permissable for an implementation to round-up the volume to
         the nearest convenient block size
         """
-        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": long(0), "physical_utilisation": long(0), "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1133,7 +1133,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.snapshot({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1185,7 +1185,7 @@ class Volume_myimplementation(Volume_skeleton):
         can only be taken on the host that has the VDI active (if any).
         XAPI will take care of redirecting the request to the proper host
         """
-        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": long(0), "physical_utilisation": long(0), "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1231,7 +1231,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.clone({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1278,7 +1278,7 @@ class Volume_myimplementation(Volume_skeleton):
         [volume] in [sr]. Note the name and description are copied but any
         extra metadata associated by [set] is not copied.
         """
-        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": long(0), "physical_utilisation": long(0), "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1289,6 +1289,108 @@ class Volume_myimplementation(Volume_skeleton):
  sr     | in        | string | The Storage Repository        
  key    | in        | key    | The volume key                
  volume | out       | volume | Properties of the volume      
+## Method: `copy`
+\[copy sr volume dest\_sr\] creates a new volume as a writeable copy of  \[volume\] in \[dest\_sr\]. \[dest\_sr\] may be the same as \[sr\] and the operation  may be rejected if the volume management plugin cannot copy a volume  between different SRs. It is expected that this operation is accelerated  by the implementation and is more efficient than a blockwise replication  through the local host. This operation should only be called if the plugin  declares the VDI\_COPY feature in the query response. If the operation is  rejected then the caller will be expected to fall back to performing a  blockwise copy.
+
+> Client
+
+```json
+{
+  "method": "Volume.copy",
+  "params": [
+    { "dest_sr": "dest_sr", "key": "key", "sr": "sr", "dbg": "dbg" }
+  ],
+  "id": 16
+}
+```
+
+```ocaml
+try
+    let volume = Client.copy dbg sr key dest_sr in
+    ...
+with Exn (Sr_not_attached str) -> ...
+| Exn (SR_does_not_exist str) -> ...
+| Exn (Volume_does_not_exist str) -> ...
+| Exn (Unimplemented str) -> ...
+| Exn (Cancelled str) -> ...
+| Exn (Activated_on_another_host str) -> ...
+
+```
+
+```python
+
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
+
+if __name__ == "__main__":
+    c = myclient.connect()
+    results = c.Volume.copy({ dbg: "string", sr: "string", key: "string", dest_sr: "string" })
+    print(repr(results))
+```
+
+> Server
+
+```json
+{
+  "keys": { "field_1": "value_1", "field_2": "value_2" },
+  "uri": [ "uri_1", "uri_2" ],
+  "physical_utilisation": 0,
+  "virtual_size": 0,
+  "sharable": true,
+  "read_write": true,
+  "description": "description",
+  "name": "name",
+  "uuid": "optional_uuid",
+  "key": "key"
+}
+```
+
+```ocaml
+try
+    let volume = Client.copy dbg sr key dest_sr in
+    ...
+with Exn (Sr_not_attached str) -> ...
+| Exn (SR_does_not_exist str) -> ...
+| Exn (Volume_does_not_exist str) -> ...
+| Exn (Unimplemented str) -> ...
+| Exn (Cancelled str) -> ...
+| Exn (Activated_on_another_host str) -> ...
+
+```
+
+```python
+
+# import additional libraries if needed
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+
+    def copy(self, dbg, sr, key, dest_sr):
+        """
+        [copy sr volume dest_sr] creates a new volume as a writeable copy of
+        [volume] in [dest_sr]. [dest_sr] may be the same as [sr] and the operation
+        may be rejected if the volume management plugin cannot copy a volume
+        between different SRs. It is expected that this operation is accelerated
+        by the implementation and is more efficient than a blockwise replication
+        through the local host. This operation should only be called if the plugin
+        declares the VDI_COPY feature in the query response. If the operation is
+        rejected then the caller will be expected to fall back to performing a
+        blockwise copy.
+        """
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": long(0), "physical_utilisation": long(0), "uri": ["string"], "keys": {"string": "string"}}
+    # ...
+```
+
+
+ Name    | Direction | Type   | Description                        
+---------|-----------|--------|------------------------------------
+ dbg     | in        | string | Debug context from the caller      
+ sr      | in        | string | The Storage Repository             
+ key     | in        | key    | The volume key                     
+ dest_sr | in        | string | The Destination Storage Repository 
+ volume  | out       | volume | Properties of the volume           
 ## Method: `destroy`
 \[destroy sr volume\] removes \[volume\] from \[sr\]
 
@@ -1298,7 +1400,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.destroy",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 16
+  "id": 17
 }
 ```
 
@@ -1324,7 +1426,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.destroy({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1378,7 +1480,7 @@ class Volume_myimplementation(Volume_skeleton):
   "params": [
     { "new_name": "new_name", "key": "key", "sr": "sr", "dbg": "dbg" }
   ],
-  "id": 17
+  "id": 18
 }
 ```
 
@@ -1404,7 +1506,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.set_name({ dbg: "string", sr: "string", key: "string", new_name: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1464,7 +1566,7 @@ class Volume_myimplementation(Volume_skeleton):
       "dbg": "dbg"
     }
   ],
-  "id": 18
+  "id": 19
 }
 ```
 
@@ -1490,7 +1592,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.set_description({ dbg: "string", sr: "string", key: "string", new_description: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1546,7 +1648,7 @@ class Volume_myimplementation(Volume_skeleton):
   "params": [
     { "v": "v", "k": "k", "key": "key", "sr": "sr", "dbg": "dbg" }
   ],
-  "id": 19
+  "id": 20
 }
 ```
 
@@ -1572,7 +1674,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.set({ dbg: "string", sr: "string", key: "string", k: "string", v: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1628,7 +1730,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.unset",
   "params": [ { "k": "k", "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 20
+  "id": 21
 }
 ```
 
@@ -1654,7 +1756,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.unset({ dbg: "string", sr: "string", key: "string", k: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1710,7 +1812,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.resize",
   "params": [ { "new_size": 0, "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 21
+  "id": 22
 }
 ```
 
@@ -1735,8 +1837,8 @@ import myclient
 
 if __name__ == "__main__":
     c = myclient.connect()
-    results = c.Volume.resize({ dbg: "string", sr: "string", key: "string", new_size: 0L })
-    print (repr(results))
+    results = c.Volume.resize({ dbg: "string", sr: "string", key: "string", new_size: long(0) })
+    print(repr(results))
 ```
 
 > Server
@@ -1790,7 +1892,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.stat",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 22
+  "id": 23
 }
 ```
 
@@ -1816,7 +1918,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.stat({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1861,7 +1963,7 @@ class Volume_myimplementation(Volume_skeleton):
         """
         [stat sr volume] returns metadata associated with [volume].
         """
-        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": 0L, "physical_utilisation": 0L, "uri": ["string"], "keys": {"string": "string"}}
+        return {"key": "string", "uuid": None, "name": "string", "description": "string", "read_write": True, "sharable": True, "virtual_size": long(0), "physical_utilisation": long(0), "uri": ["string"], "keys": {"string": "string"}}
     # ...
 ```
 
@@ -1881,7 +1983,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.compare",
   "params": [ { "key2": "key2", "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 23
+  "id": 24
 }
 ```
 
@@ -1907,7 +2009,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.compare({ dbg: "string", sr: "string", key: "string", key2: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1947,7 +2049,7 @@ class Volume_myimplementation(Volume_skeleton):
         plugin, it should return a result indicating that all blocks are in
         use.
         """
-        return {"blocksize": 0L, "ranges": [[]]}
+        return {"blocksize": long(0), "ranges": [[]]}
     # ...
 ```
 
@@ -1958,7 +2060,7 @@ class Volume_myimplementation(Volume_skeleton):
  sr      | in        | string    | The Storage Repository        
  key     | in        | key       | The volume key                
  key2    | in        | key       | The volume key                
- unnamed | out       | blocklist | List of blocks for copying    
+ unnamed | out       | blocklist | List of blocks for copying.   
 ## Method: `similar_content`
 \[similar\_content sr volume\] returns a list of VDIs which have similar content to \[vdi\]
 
@@ -1968,7 +2070,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.similar_content",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 24
+  "id": 25
 }
 ```
 
@@ -1994,7 +2096,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.similar_content({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -2049,7 +2151,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.enable_cbt",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 25
+  "id": 26
 }
 ```
 
@@ -2075,7 +2177,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.enable_cbt({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -2127,7 +2229,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.disable_cbt",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 26
+  "id": 27
 }
 ```
 
@@ -2153,7 +2255,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.disable_cbt({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -2205,7 +2307,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.data_destroy",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 27
+  "id": 28
 }
 ```
 
@@ -2231,7 +2333,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Volume.data_destroy({ dbg: "string", sr: "string", key: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -2293,7 +2395,7 @@ class Volume_myimplementation(Volume_skeleton):
       "dbg": "dbg"
     }
   ],
-  "id": 28
+  "id": 29
 }
 ```
 
@@ -2318,8 +2420,8 @@ import myclient
 
 if __name__ == "__main__":
     c = myclient.connect()
-    results = c.Volume.list_changed_blocks({ dbg: "string", sr: "string", key: "string", key2: "string", offset: 0L, length: 0L })
-    print (repr(results))
+    results = c.Volume.list_changed_blocks({ dbg: "string", sr: "string", key: "string", key2: "string", offset: long(0), length: long(0) })
+    print(repr(results))
 ```
 
 > Server
@@ -2358,7 +2460,7 @@ class Volume_myimplementation(Volume_skeleton):
         returned bitmap, then the bitmap will cover the area extended to the
         nearest block boundaries.
         """
-        return {"granularity": 0L, "bitmap": "string"}
+        return {"granularity": long(0), "bitmap": "string"}
     # ...
 ```
 

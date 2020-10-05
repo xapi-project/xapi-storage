@@ -9,7 +9,7 @@ language_tabs:
 search: true
 ---
 # plugin
-The xapi toolstack expects all plugins to support a basic query interface.
+The xapi toolstack expects all plugins to support a basic query interface. This means that if you plan to implement both, a volume and a datapath plugin, make sure that both implement the query interface.
 ## Type definitions
 ### query_result
 ```json
@@ -27,20 +27,20 @@ The xapi toolstack expects all plugins to support a basic query interface.
 }
 ```
 type `query_result` = `struct { ... }`
-Properties of this implementation
+Properties of this implementation.
 #### Members
  Name                   | Type                   | Description                                                                 
 ------------------------|------------------------|-----------------------------------------------------------------------------
- plugin                 | string                 | plugin name, used in the XenAPI as SR.type                                  
- name                   | string                 | short name                                                                  
- description            | string                 | description                                                                 
- vendor                 | string                 | entity \(e.g. company, project, group\) which produced this  implementation 
- copyright              | string                 | copyright                                                                   
- version                | string                 | version                                                                     
- required_api_version   | string                 | minimum required API version                                                
- features               | string list            | features supported by this plugin                                           
- configuration          | (string * string) list | key/description pairs describing required device\_config parameters         
- required_cluster_stack | string list            | the plugin requires one of these cluster stacks to be active                
+ plugin                 | string                 | Plugin name, used in the XenAPI as SR.type.                                 
+ name                   | string                 | Short name.                                                                 
+ description            | string                 | Description.                                                                
+ vendor                 | string                 | Entity \(e.g. company, project, group\) which produced this implementation. 
+ copyright              | string                 | Copyright.                                                                  
+ version                | string                 | Version.                                                                    
+ required_api_version   | string                 | Minimum required API version.                                               
+ features               | string list            | Features supported by this plugin.                                          
+ configuration          | (string * string) list | Key/description pairs describing required device\_config parameters.        
+ required_cluster_stack | string list            | The plugin requires one of these cluster stacks to be active.               
 ### srs
 ```json
 [ "srs" ]
@@ -76,7 +76,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Plugin.query({ dbg: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -125,10 +125,10 @@ class Plugin_myimplementation(Plugin_skeleton):
 ```
 
 
- Name    | Direction | Type         | Description                       
----------|-----------|--------------|-----------------------------------
- dbg     | in        | string       | Debug context from the caller     
- unnamed | out       | query_result | Properties of this implementation 
+ Name    | Direction | Type         | Description                        
+---------|-----------|--------------|------------------------------------
+ dbg     | in        | string       | Debug context from the caller      
+ unnamed | out       | query_result | Properties of this implementation. 
 ## Method: `ls`
 \[ls dbg\]: returns a list of attached SRs
 
@@ -155,7 +155,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Plugin.ls({ dbg: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -219,7 +219,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Plugin.diagnostics({ dbg: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server

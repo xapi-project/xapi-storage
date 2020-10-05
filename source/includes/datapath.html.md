@@ -109,15 +109,15 @@ type `implementation` = `variant { ... }`
 type `backend` = `struct { ... }`
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.
 #### Members
- Name            | Type                | Description                           
------------------|---------------------|---------------------------------------
- implementations | implementation list | choice of implementation technologies 
+ Name            | Type                | Description                            
+-----------------|---------------------|----------------------------------------
+ implementations | implementation list | Choice of implementation technologies. 
 ### uri
 ```json
 "uri"
 ```
 type `uri` = `string`
-A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.
+A URI representing the means for accessing the volume data. The interpretation of the URI is specific to the implementation. Xapi will choose which implementation to use based on the URI scheme.
 ### domain
 ```json
 "domain"
@@ -129,48 +129,48 @@ A string representing a Xen domain on the local host. The string is guaranteed t
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
 ```
 type `blocklist` = `struct { ... }`
-List of blocks for copying
+List of blocks for copying.
 #### Members
  Name      | Type               | Description                                                                                        
 -----------|--------------------|----------------------------------------------------------------------------------------------------
- blocksize | int                | size of the individual blocks                                                                      
- ranges    | int64 * int64 list | list of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
+ blocksize | int                | Size of the individual blocks.                                                                     
+ ranges    | int64 * int64 list | List of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
 ### operation
 ```json
 [ "Copy", [ "operation", "operation" ] ]
 [ "Mirror", [ "operation", "operation" ] ]
 ```
 type `operation` = `variant { ... }`
-The primary key for referring to a long-running operation
+The primary key for referring to a long-running operation.
 #### Constructors
  Name   | Type            | Description                                                                                         
 --------|-----------------|-----------------------------------------------------------------------------------------------------
- Copy   | string * string | Copy \(src,dst\) represents an on-going copy operation from the \[src\] URI to the \[dst\] URI      
- Mirror | string * string | Mirror \(src,dst\) represents an on-going mirror  operation from the \[src\] URI to the \[dst\] URI 
+ Copy   | string * string | Copy \(src,dst\) represents an on-going copy operation from the \[src\] URI to the \[dst\] URI.     
+ Mirror | string * string | Mirror \(src,dst\) represents an on-going mirror operation from the \[src\] URI to the \[dst\] URI. 
 ### status
 ```json
 { "progress": 0.0, "failed": true }
 ```
 type `status` = `struct { ... }`
-Status information for on-going tasks
+Status information for on-going tasks.
 #### Members
  Name     | Type         | Description                                                                     
 ----------|--------------|---------------------------------------------------------------------------------
- failed   | bool         | \[failed\] will be set to true if the operation has failed for some  reason     
- progress | float option | \[progress\] will be returned for a copy operation, and ranges  between 0 and 1 
+ failed   | bool         | \[failed\] will be set to true if the operation has failed for some reason.     
+ progress | float option | \[progress\] will be returned for a copy operation, and ranges between 0 and 1. 
 ### operations
 ```json
 [ [ "Copy", [ "operations", "operations" ] ] ]
 []
 ```
 type `operations` = `operation list`
-A list of operations
+A list of operations.
 ## Interface: `Datapath`
 
 Xapi will call the functions here on VM start / shutdown /
 suspend / resume / migrate. Every function is idempotent. Every
 function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. 
+to track how many domains are currently using the volume.
 
 Volumes must be attached via the following sequence of calls:
 
@@ -184,12 +184,12 @@ Volumes must be attached via the following sequence of calls:
    advisory. Note that this call is currently only ever called once.
    In the future the call may be made multiple times with different
    \[domain\] parameters if the disk is attached to multiple domains.
-   The return value from this call is the information required to 
+   The return value from this call is the information required to
    attach the disk to a VM. This call is again, not exclusive. The
    volume may be attached to more than one host concurrently.
 
 3. \[activate url domain\] is called to activate the datapath. This
-   must be called before the volume is to be used by the VM, and 
+   must be called before the volume is to be used by the VM, and
    it is acceptible for this to be an exclusive operation, such that
    it is an error for a volume to be activated on more than one host
    simultaneously.
@@ -203,7 +203,7 @@ Volumes must be attached via the following sequence of calls:
 {
   "method": "Datapath.open",
   "params": [ { "persistent": true, "uri": "uri", "dbg": "dbg" } ],
-  "id": 29
+  "id": 30
 }
 ```
 
@@ -224,7 +224,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Datapath.open({ dbg: "string", uri: "string", persistent: True })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -275,7 +275,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.attach",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 30
+  "id": 31
 }
 ```
 
@@ -296,7 +296,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Datapath.attach({ dbg: "string", uri: "string", domain: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -370,7 +370,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.activate",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 31
+  "id": 32
 }
 ```
 
@@ -391,7 +391,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Datapath.activate({ dbg: "string", uri: "string", domain: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -442,7 +442,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.deactivate",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 32
+  "id": 33
 }
 ```
 
@@ -463,7 +463,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Datapath.deactivate({ dbg: "string", uri: "string", domain: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -514,7 +514,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.detach",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 33
+  "id": 34
 }
 ```
 
@@ -535,7 +535,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Datapath.detach({ dbg: "string", uri: "string", domain: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -589,7 +589,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.close",
   "params": [ { "uri": "uri", "dbg": "dbg" } ],
-  "id": 34
+  "id": 35
 }
 ```
 
@@ -610,7 +610,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Datapath.close({ dbg: "string", uri: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -706,7 +706,7 @@ To mirror a VDI a sequence of these API calls is required:
       "dbg": "dbg"
     }
   ],
-  "id": 35
+  "id": 36
 }
 ```
 
@@ -726,8 +726,8 @@ import myclient
 
 if __name__ == "__main__":
     c = myclient.connect()
-    results = c.Data.copy({ dbg: "string", uri: "string", domain: "string", remote: "string", blocklist: {"blocksize": 0L, "ranges": [[]]} })
-    print (repr(results))
+    results = c.Data.copy({ dbg: "string", uri: "string", domain: "string", remote: "string", blocklist: {"blocksize": long(0), "ranges": [[]]} })
+    print(repr(results))
 ```
 
 > Server
@@ -773,8 +773,8 @@ class Data_myimplementation(Data_skeleton):
  uri       | in        | uri       | A URI which represents how to access the volume disk data.      
  domain    | in        | domain    | An opaque string which represents the Xen domain.               
  remote    | in        | uri       | A URI which represents how to access a remote volume disk data. 
- blocklist | in        | blocklist | List of blocks for copying                                      
- operation | out       | operation | The primary key for referring to a long-running operation       
+ blocklist | in        | blocklist | List of blocks for copying.                                     
+ operation | out       | operation | The primary key for referring to a long-running operation.      
 ## Method: `mirror`
 \[mirror uri domain remote\] starts mirroring new writes to the volume  to a remote URI \(usually NBD\). This is called as part of a volume  mirroring process
 
@@ -786,7 +786,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "remote": "remote", "domain": "domain", "uri": "uri", "dbg": "dbg" }
   ],
-  "id": 36
+  "id": 37
 }
 ```
 
@@ -807,7 +807,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Data.mirror({ dbg: "string", uri: "string", domain: "string", remote: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -849,7 +849,7 @@ class Data_myimplementation(Data_skeleton):
  uri       | in        | uri       | A URI which represents how to access the volume disk data.      
  domain    | in        | domain    | An opaque string which represents the Xen domain.               
  remote    | in        | uri       | A URI which represents how to access a remote volume disk data. 
- operation | out       | operation | The primary key for referring to a long-running operation       
+ operation | out       | operation | The primary key for referring to a long-running operation.      
 ## Method: `stat`
 \[stat operation\] returns the current status of \[operation\]. For a  copy operation, this will contain progress information.
 
@@ -861,7 +861,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
   ],
-  "id": 37
+  "id": 38
 }
 ```
 
@@ -882,7 +882,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Data.stat({ dbg: "string", operation: None })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -917,11 +917,11 @@ class Data_myimplementation(Data_skeleton):
 ```
 
 
- Name      | Direction | Type      | Description                                               
------------|-----------|-----------|-----------------------------------------------------------
- dbg       | in        | string    | Debug context from the caller                             
- operation | in        | operation | The primary key for referring to a long-running operation 
- unnamed   | out       | status    | Status information for on-going tasks                     
+ Name      | Direction | Type      | Description                                                
+-----------|-----------|-----------|------------------------------------------------------------
+ dbg       | in        | string    | Debug context from the caller                              
+ operation | in        | operation | The primary key for referring to a long-running operation. 
+ unnamed   | out       | status    | Status information for on-going tasks.                     
 ## Method: `cancel`
 \[cancel operation\] cancels a long-running operation. Note that the  call may return before the operation has finished.
 
@@ -933,7 +933,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
   ],
-  "id": 38
+  "id": 39
 }
 ```
 
@@ -954,7 +954,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Data.cancel({ dbg: "string", operation: None })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -988,10 +988,10 @@ class Data_myimplementation(Data_skeleton):
 ```
 
 
- Name      | Direction | Type      | Description                                               
------------|-----------|-----------|-----------------------------------------------------------
- dbg       | in        | string    | Debug context from the caller                             
- operation | in        | operation | The primary key for referring to a long-running operation 
+ Name      | Direction | Type      | Description                                                
+-----------|-----------|-----------|------------------------------------------------------------
+ dbg       | in        | string    | Debug context from the caller                              
+ operation | in        | operation | The primary key for referring to a long-running operation. 
 ## Method: `destroy`
 \[destroy operation\] destroys the information about a long-running  operation. This should fail when run against an operation that is  still in progress.
 
@@ -1003,7 +1003,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
   ],
-  "id": 39
+  "id": 40
 }
 ```
 
@@ -1024,7 +1024,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Data.destroy({ dbg: "string", operation: None })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1059,17 +1059,17 @@ class Data_myimplementation(Data_skeleton):
 ```
 
 
- Name      | Direction | Type      | Description                                               
------------|-----------|-----------|-----------------------------------------------------------
- dbg       | in        | string    | Debug context from the caller                             
- operation | in        | operation | The primary key for referring to a long-running operation 
+ Name      | Direction | Type      | Description                                                
+-----------|-----------|-----------|------------------------------------------------------------
+ dbg       | in        | string    | Debug context from the caller                              
+ operation | in        | operation | The primary key for referring to a long-running operation. 
 ## Method: `ls`
 \[ls\] returns a list of all current operations
 
 > Client
 
 ```json
-{ "method": "Data.ls", "params": [ { "dbg": "dbg" } ], "id": 40 }
+{ "method": "Data.ls", "params": [ { "dbg": "dbg" } ], "id": 41 }
 ```
 
 ```ocaml
@@ -1089,7 +1089,7 @@ import myclient
 if __name__ == "__main__":
     c = myclient.connect()
     results = c.Data.ls({ dbg: "string" })
-    print (repr(results))
+    print(repr(results))
 ```
 
 > Server
@@ -1126,7 +1126,7 @@ class Data_myimplementation(Data_skeleton):
  Name    | Direction | Type       | Description                   
 ---------|-----------|------------|-------------------------------
  dbg     | in        | string     | Debug context from the caller 
- unnamed | out       | operations | A list of operations          
+ unnamed | out       | operations | A list of operations.         
 ## Errors
 ### exnt
 ```json
