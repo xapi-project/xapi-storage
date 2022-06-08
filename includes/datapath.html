@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>datapath</title>
 
-    <style>
+    <style media="screen">
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
 .highlight .gh {
@@ -42,7 +42,7 @@
 .highlight .cs {
   color: #75715e;
 }
-.highlight .c, .highlight .cd {
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
   color: #75715e;
 }
 .highlight .err {
@@ -126,7 +126,7 @@
 .highlight .s1 {
   color: #e6db74;
 }
-.highlight .s {
+.highlight .s, .highlight .sa, .highlight .dl {
   color: #e6db74;
 }
 .highlight .na {
@@ -141,16 +141,13 @@
 .highlight .ne {
   color: #a6e22e;
 }
-.highlight .nf {
+.highlight .nf, .highlight .fm {
   color: #a6e22e;
 }
 .highlight .vc {
   color: #ffffff;
 }
 .highlight .nn {
-  color: #ffffff;
-}
-.highlight .nl {
   color: #ffffff;
 }
 .highlight .ni {
@@ -165,7 +162,7 @@
 .highlight .vi {
   color: #ffffff;
 }
-.highlight .nv {
+.highlight .nv, .highlight .vm {
   color: #ffffff;
 }
 .highlight .w {
@@ -176,6 +173,9 @@
 }
 .highlight .n, .highlight .py, .highlight .nx {
   color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
 }
 .highlight .ow {
   color: #f92672;
@@ -196,20 +196,107 @@
   color: #f92672;
 }
     </style>
-    <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="../stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="../javascripts/all.js"></script>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="../stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
+    <link href="../stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
+      <script src="../javascripts/all-b12a2749.js"></script>
+
   </head>
 
   <body class="includes includes_datapath" data-languages="[&quot;json&quot;,&quot;ocaml&quot;,&quot;python&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="../images/navbar.png" alt="Navbar" />
+        <img src="../images/navbar-cad8cdcb.png" alt="" />
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="../images/logo.png" class="logo" alt="Logo" />
+      <img src="../images/logo-1e815a84.png" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="json">json</a>
               <a href="#" data-language-name="ocaml">ocaml</a>
@@ -282,17 +369,17 @@
 <p>The Datapath interfaces are provided to access the data stored
 in the volumes. The <code>Datapath</code> interface is used to open and close the disks for read/write
 operations from VMs and the <code>Data</code> interface is used for operations such as <code>copy</code> and <code>mirror</code></p>
-<h2 id='datapath-type-definitions'>Type definitions</h2><h3 id='datapath-type-definitions-persistent'>persistent</h3><pre class="highlight json tab-json"><code><span class="kc">true</span><span class="w">
+<h2 id='datapath-type-definitions'>Type definitions</h2><h3 id='datapath-type-definitions-persistent'>persistent</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">true</span><span class="w">
 </span><span class="kc">false</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>type <code>persistent</code> = <code>bool</code>
 True means the disk data is persistent and should be preserved when the datapath is closed i.e. when a VM is shutdown or rebooted. False means the data should be thrown away when the VM is shutdown or rebooted.</p>
-<h3 id='datapath-type-definitions-xendisk'>xendisk</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+<h3 id='datapath-type-definitions-xendisk'>xendisk</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>type <code>xendisk</code> = <code>struct { ... }</code></p>
 <h4 id='datapath-type-definitions-xendisk-members'>Members</h4>
 <table><thead>
@@ -318,8 +405,8 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>The name of the xenstore directory corresponding to the backend. For example &quot;qdisk&quot;.</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-block_device'>block_device</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
+<h3 id='datapath-type-definitions-block_device'>block_device</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>type <code>block_device</code> = <code>struct { ... }</code></p>
 <h4 id='datapath-type-definitions-block_device-members'>Members</h4>
 <table><thead>
@@ -335,8 +422,8 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>Path to the system local block device. This is equivalent to the SMAPIv1 params.</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-file'>file</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
+<h3 id='datapath-type-definitions-file'>file</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>type <code>file</code> = <code>struct { ... }</code></p>
 <h4 id='datapath-type-definitions-file-members'>Members</h4>
 <table><thead>
@@ -352,8 +439,8 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>Path to the raw file</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-nbd'>nbd</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
+<h3 id='datapath-type-definitions-nbd'>nbd</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>type <code>nbd</code> = <code>struct { ... }</code></p>
 <h4 id='datapath-type-definitions-nbd-members'>Members</h4>
 <table><thead>
@@ -369,18 +456,18 @@ True means the disk data is persistent and should be preserved when the datapath
 <td>NBD URI of the form nbd:unix:&lt;domain-socket&gt;:exportname=&lt;NAME&gt; (this format is used by qemu-system: https://manpages.debian.org/stretch/qemu-system-x86/qemu-system-x86_64.1.en.html)</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-implementation'>implementation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+<h3 id='datapath-type-definitions-implementation'>implementation</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+    </span><span class="nl">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span><span class="p">[</span><span class="w"> </span><span class="s2">"BlockDevice"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="p">[</span><span class="w"> </span><span class="s2">"File"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span><span class="p">[</span><span class="w"> </span><span class="s2">"Nbd"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"BlockDevice"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"File"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="w"> </span><span class="s2">"Nbd"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
 <p>type <code>implementation</code> = <code>variant { ... }</code></p>
 <h4 id='datapath-type-definitions-implementation-constructors'>Constructors</h4>
 <table><thead>
@@ -411,19 +498,19 @@ True means the disk data is persistent and should be preserved when the datapath
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-backend'>backend</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<h3 id='datapath-type-definitions-backend'>backend</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">[</span><span class="w">
       </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
-        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+        </span><span class="nl">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>type <code>backend</code> = <code>struct { ... }</code>
 A description of which Xen block backend to use. The toolstack needs this to setup the shared memory connection to blkfront in the VM.</p>
 <h4 id='datapath-type-definitions-backend-members'>Members</h4>
@@ -437,21 +524,21 @@ A description of which Xen block backend to use. The toolstack needs this to set
 <tr>
 <td>implementations</td>
 <td>implementation list</td>
-<td>choice of implementation technologies</td>
+<td>Choice of implementation technologies.</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-uri'>uri</h3><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
-</span></code></pre>
+<h3 id='datapath-type-definitions-uri'>uri</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="s2">"uri"</span><span class="w">
+</span></code></pre></div>
 <p>type <code>uri</code> = <code>string</code>
-A URI representing the means for accessing the volume data. The interpretation  of the URI is specific to the implementation. Xapi will choose which  implementation to use based on the URI scheme.</p>
-<h3 id='datapath-type-definitions-domain'>domain</h3><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
-</span></code></pre>
+A URI representing the means for accessing the volume data. The interpretation of the URI is specific to the implementation. Xapi will choose which implementation to use based on the URI scheme.</p>
+<h3 id='datapath-type-definitions-domain'>domain</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="s2">"domain"</span><span class="w">
+</span></code></pre></div>
 <p>type <code>domain</code> = <code>string</code>
 A string representing a Xen domain on the local host. The string is guaranteed to be unique per-domain but it is not guaranteed to take any particular form. It may (for example) be a Xen domain id, a Xen VM uuid or a Xenstore path or anything else chosen by the toolstack. Implementations should not assume the string has any meaning.</p>
-<h3 id='datapath-type-definitions-blocklist'>blocklist</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
+<h3 id='datapath-type-definitions-blocklist'>blocklist</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>type <code>blocklist</code> = <code>struct { ... }</code>
-List of blocks for copying</p>
+List of blocks for copying.</p>
 <h4 id='datapath-type-definitions-blocklist-members'>Members</h4>
 <table><thead>
 <tr>
@@ -463,19 +550,19 @@ List of blocks for copying</p>
 <tr>
 <td>blocksize</td>
 <td>int</td>
-<td>size of the individual blocks</td>
+<td>Size of the individual blocks.</td>
 </tr>
 <tr>
 <td>ranges</td>
 <td>int64 * int64 list</td>
-<td>list of block ranges, where a range is a (start,length) pair, measured in units of [blocksize]</td>
+<td>List of block ranges, where a range is a (start,length) pair, measured in units of [blocksize]</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-operation'>operation</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='datapath-type-definitions-operation'>operation</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[</span><span class="w"> </span><span class="s2">"Mirror"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operation"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>type <code>operation</code> = <code>variant { ... }</code>
-The primary key for referring to a long-running operation</p>
+The primary key for referring to a long-running operation.</p>
 <h4 id='datapath-type-definitions-operation-constructors'>Constructors</h4>
 <table><thead>
 <tr>
@@ -487,18 +574,18 @@ The primary key for referring to a long-running operation</p>
 <tr>
 <td>Copy</td>
 <td>string * string</td>
-<td>Copy (src,dst) represents an on-going copy operation from the [src] URI to the [dst] URI</td>
+<td>Copy (src,dst) represents an on-going copy operation from the [src] URI to the [dst] URI.</td>
 </tr>
 <tr>
 <td>Mirror</td>
 <td>string * string</td>
-<td>Mirror (src,dst) represents an on-going mirror  operation from the [src] URI to the [dst] URI</td>
+<td>Mirror (src,dst) represents an on-going mirror operation from the [src] URI to the [dst] URI.</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-status'>status</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre>
+<h3 id='datapath-type-definitions-status'>status</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="nl">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>type <code>status</code> = <code>struct { ... }</code>
-Status information for on-going tasks</p>
+Status information for on-going tasks.</p>
 <h4 id='datapath-type-definitions-status-members'>Members</h4>
 <table><thead>
 <tr>
@@ -510,24 +597,24 @@ Status information for on-going tasks</p>
 <tr>
 <td>failed</td>
 <td>bool</td>
-<td>[failed] will be set to true if the operation has failed for some  reason</td>
+<td>[failed] will be set to true if the operation has failed for some reason.</td>
 </tr>
 <tr>
 <td>progress</td>
 <td>float option</td>
-<td>[progress] will be returned for a copy operation, and ranges  between 0 and 1</td>
+<td>[progress] will be returned for a copy operation, and ranges between 0 and 1.</td>
 </tr>
 </tbody></table>
-<h3 id='datapath-type-definitions-operations'>operations</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operations"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='datapath-type-definitions-operations'>operations</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"operations"</span><span class="p">,</span><span class="w"> </span><span class="s2">"operations"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>type <code>operations</code> = <code>operation list</code>
-A list of operations</p>
+A list of operations.</p>
 <h2 id='datapath-interface-datapath'>Interface: <code>Datapath</code></h2>
 <p>Xapi will call the functions here on VM start / shutdown /
 suspend / resume / migrate. Every function is idempotent. Every
 function takes a domain parameter which allows the implementation
-to track how many domains are currently using the volume. </p>
+to track how many domains are currently using the volume.</p>
 
 <p>Volumes must be attached via the following sequence of calls:</p>
 
@@ -541,11 +628,11 @@ error.</p></li>
 advisory. Note that this call is currently only ever called once.
 In the future the call may be made multiple times with different
 [domain] parameters if the disk is attached to multiple domains.
-The return value from this call is the information required to 
+The return value from this call is the information required to
 attach the disk to a VM. This call is again, not exclusive. The
 volume may be attached to more than one host concurrently.</p></li>
 <li><p>[activate url domain] is called to activate the datapath. This
-must be called before the volume is to be used by the VM, and 
+must be called before the volume is to be used by the VM, and
 it is acceptible for this to be an exclusive operation, such that
 it is an error for a volume to be activated on more than one host
 simultaneously.</p></li>
@@ -556,42 +643,42 @@ simultaneously.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.open"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.open"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">open</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">persistent</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">open</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">persistent</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="nb">open</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">persistent</span><span class="p">:</span> <span class="bp">True</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Datapath</span><span class="p">.</span><span class="nb">open</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">persistent</span><span class="p">:</span> <span class="bp">True</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">open</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">persistent</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">open</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">persistent</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">persistent</span><span class="p">):</span>
         <span class="s">"""
         [open uri persistent] is called before a disk is attached to a VM.
@@ -600,8 +687,8 @@ simultaneously.</p></li>
         configure a temporary location for writes so they can be thrown away
         on [close].
         """</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -635,61 +722,61 @@ simultaneously.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.attach"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.attach"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">backend</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">attach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Datapath</span><span class="p">.</span><span class="n">attach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"implementations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">[</span><span class="w">
       </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
-        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+        </span><span class="nl">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
     </span><span class="p">[</span><span class="w">
       </span><span class="s2">"XenDisk"</span><span class="p">,</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
-        </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
+        </span><span class="nl">"backend_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"backend_type"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">"params"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">backend</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">backend</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">attach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
         [attach uri domain] prepares a connection between the storage named by
@@ -701,8 +788,8 @@ simultaneously.</p></li>
         implement [activate] and [deactivate]. This function is idempotent.
         """</span>
         <span class="k">return</span> <span class="p">{</span><span class="s">"implementations"</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">]}</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -742,42 +829,42 @@ simultaneously.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.activate"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.activate"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">activate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Datapath</span><span class="p">.</span><span class="n">activate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
         [activate uri domain] is called just before a VM needs to read or write
@@ -786,8 +873,8 @@ simultaneously.</p></li>
         in the migration downtime window so delays here will be noticeable to
         users and should be minimised. This function is idempotent.
         """</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -821,42 +908,42 @@ simultaneously.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.deactivate"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.deactivate"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">33</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">deactivate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">deactivate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">deactivate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Datapath</span><span class="p">.</span><span class="n">deactivate</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">deactivate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">deactivate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">deactivate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
         [deactivate uri domain] is called as soon as a VM has finished reading
@@ -865,8 +952,8 @@ simultaneously.</p></li>
         called in the migration downtime window so delays here will be
         noticeable to users and should be minimised. This function is idempotent.
         """</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -900,42 +987,42 @@ simultaneously.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.detach"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">33</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.detach"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">detach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">detach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">detach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Datapath</span><span class="p">.</span><span class="n">detach</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">detach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">detach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">detach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="s">"""
         [detach uri domain] is called sometime after a VM has finished reading
@@ -947,8 +1034,8 @@ simultaneously.</p></li>
         action internally. Any error result represents a bug in the
         implementation.
         """</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -982,49 +1069,49 @@ simultaneously.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.close"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.close"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">close</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">close</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Datapath</span><span class="o">.</span><span class="n">close</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Datapath</span><span class="p">.</span><span class="n">close</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">close</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">close</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
         <span class="s">"""
         [close uri] is called after a disk is detached and a VM shutdown. This
         is an opportunity to throw away writes if the disk is not persistent.
         """</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1086,50 +1173,50 @@ disk will be a perfect mirror of the source.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.copy"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.copy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"blocklist"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span><span class="w">
-      </span><span class="s2">"remote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w">
+      </span><span class="nl">"blocklist"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"remote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">36</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">copy</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="n">blocklist</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">copy</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="n">blocklist</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">copy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">:</span> <span class="p">{</span><span class="s">"blocksize"</span><span class="p">:</span> <span class="il">0L</span><span class="p">,</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[[]]}</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">copy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">:</span> <span class="p">{</span><span class="s">"blocksize"</span><span class="p">:</span> <span class="nb">long</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s">"ranges"</span><span class="p">:</span> <span class="p">[[]]}</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">copy</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="n">blocklist</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">copy</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="n">blocklist</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">blocklist</span><span class="p">):</span>
         <span class="s">"""
         [copy uri domain remotes blocks] copies [blocks] from the local disk
@@ -1141,8 +1228,8 @@ disk will be a perfect mirror of the source.</p></li>
         authentication tokens
         """</span>
         <span class="k">return</span> <span class="bp">None</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1179,13 +1266,13 @@ disk will be a perfect mirror of the source.</p></li>
 <td>blocklist</td>
 <td>in</td>
 <td>blocklist</td>
-<td>List of blocks for copying</td>
+<td>List of blocks for copying.</td>
 </tr>
 <tr>
 <td>operation</td>
 <td>out</td>
 <td>operation</td>
-<td>The primary key for referring to a long-running operation</td>
+<td>The primary key for referring to a long-running operation.</td>
 </tr>
 </tbody></table>
 <h2 id='datapath-method-mirror'>Method: <code>mirror</code></h2>
@@ -1194,44 +1281,44 @@ disk will be a perfect mirror of the source.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.mirror"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">,</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.mirror"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="nl">"remote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">,</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">36</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">mirror</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">mirror</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">mirror</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">mirror</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">operation</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">mirror</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">mirror</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
         <span class="s">"""
         [mirror uri domain remote] starts mirroring new writes to the volume
@@ -1239,8 +1326,8 @@ disk will be a perfect mirror of the source.</p></li>
         mirroring process
         """</span>
         <span class="k">return</span> <span class="bp">None</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1277,7 +1364,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>operation</td>
 <td>out</td>
 <td>operation</td>
-<td>The primary key for referring to a long-running operation</td>
+<td>The primary key for referring to a long-running operation.</td>
 </tr>
 </tbody></table>
 <h2 id='datapath-method-stat'>Method: <code>stat</code></h2>
@@ -1286,52 +1373,52 @@ disk will be a perfect mirror of the source.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.stat"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.stat"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="nl">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">status</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">status</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">stat</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">status</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="nl">"failed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">status</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
         <span class="s">"""
         [stat operation] returns the current status of [operation]. For a
         copy operation, this will contain progress information.
         """</span>
         <span class="k">return</span> <span class="p">{</span><span class="s">"failed"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"progress"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1350,13 +1437,13 @@ disk will be a perfect mirror of the source.</p></li>
 <td>operation</td>
 <td>in</td>
 <td>operation</td>
-<td>The primary key for referring to a long-running operation</td>
+<td>The primary key for referring to a long-running operation.</td>
 </tr>
 <tr>
 <td>unnamed</td>
 <td>out</td>
 <td>status</td>
-<td>Status information for on-going tasks</td>
+<td>Status information for on-going tasks.</td>
 </tr>
 </tbody></table>
 <h2 id='datapath-method-cancel'>Method: <code>cancel</code></h2>
@@ -1365,51 +1452,51 @@ disk will be a perfect mirror of the source.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.cancel"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.cancel"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="nl">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">39</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">cancel</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">cancel</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
         <span class="s">"""
         [cancel operation] cancels a long-running operation. Note that the
         call may return before the operation has finished.
         """</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1428,7 +1515,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>operation</td>
 <td>in</td>
 <td>operation</td>
-<td>The primary key for referring to a long-running operation</td>
+<td>The primary key for referring to a long-running operation.</td>
 </tr>
 </tbody></table>
 <h2 id='datapath-method-destroy'>Method: <code>destroy</code></h2>
@@ -1437,52 +1524,52 @@ disk will be a perfect mirror of the source.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.destroy"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w"> </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.destroy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="nl">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">39</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">destroy</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="bp">None</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="bp">()</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
         <span class="s">"""
         [destroy operation] destroys the information about a long-running
         operation. This should fail when run against an operation that is
         still in progress.
         """</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1501,7 +1588,7 @@ disk will be a perfect mirror of the source.</p></li>
 <td>operation</td>
 <td>in</td>
 <td>operation</td>
-<td>The primary key for referring to a long-running operation</td>
+<td>The primary key for referring to a long-running operation.</td>
 </tr>
 </tbody></table>
 <h2 id='datapath-method-ls'>Method: <code>ls</code></h2>
@@ -1510,45 +1597,45 @@ disk will be a perfect mirror of the source.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.ls"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">operations</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.ls"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operations</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">operations</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">operations</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Data_myimplementation</span><span class="p">(</span><span class="n">Data_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
         <span class="s">"""
         [ls] returns a list of all current operations
         """</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1567,11 +1654,11 @@ disk will be a perfect mirror of the source.</p></li>
 <td>unnamed</td>
 <td>out</td>
 <td>operations</td>
-<td>A list of operations</td>
+<td>A list of operations.</td>
 </tr>
 </tbody></table>
-<h2 id='datapath-errors'>Errors</h2><h3 id='datapath-errors-exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre>
+<h2 id='datapath-errors'>Errors</h2><h3 id='datapath-errors-exnt'>exnt</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
 <p>type <code>exnt</code> = <code>variant { ... }</code></p>
 <h4 id='datapath-errors-exnt-constructors'>Constructors</h4>
 <table><thead>
@@ -1587,8 +1674,8 @@ disk will be a perfect mirror of the source.</p></li>
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='datapath-errors-exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre>
+<h3 id='datapath-errors-exnt'>exnt</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
 <p>type <code>exnt</code> = <code>variant { ... }</code></p>
 <h4 id='datapath-errors-exnt-constructors'>Constructors</h4>
 <table><thead>

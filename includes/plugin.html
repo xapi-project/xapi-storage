@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>plugin</title>
 
-    <style>
+    <style media="screen">
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
 .highlight .gh {
@@ -42,7 +42,7 @@
 .highlight .cs {
   color: #75715e;
 }
-.highlight .c, .highlight .cd {
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
   color: #75715e;
 }
 .highlight .err {
@@ -126,7 +126,7 @@
 .highlight .s1 {
   color: #e6db74;
 }
-.highlight .s {
+.highlight .s, .highlight .sa, .highlight .dl {
   color: #e6db74;
 }
 .highlight .na {
@@ -141,16 +141,13 @@
 .highlight .ne {
   color: #a6e22e;
 }
-.highlight .nf {
+.highlight .nf, .highlight .fm {
   color: #a6e22e;
 }
 .highlight .vc {
   color: #ffffff;
 }
 .highlight .nn {
-  color: #ffffff;
-}
-.highlight .nl {
   color: #ffffff;
 }
 .highlight .ni {
@@ -165,7 +162,7 @@
 .highlight .vi {
   color: #ffffff;
 }
-.highlight .nv {
+.highlight .nv, .highlight .vm {
   color: #ffffff;
 }
 .highlight .w {
@@ -176,6 +173,9 @@
 }
 .highlight .n, .highlight .py, .highlight .nx {
   color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
 }
 .highlight .ow {
   color: #f92672;
@@ -196,20 +196,107 @@
   color: #f92672;
 }
     </style>
-    <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="../stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="../javascripts/all.js"></script>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="../stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
+    <link href="../stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
+      <script src="../javascripts/all-b12a2749.js"></script>
+
   </head>
 
   <body class="includes includes_plugin" data-languages="[&quot;json&quot;,&quot;ocaml&quot;,&quot;python&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="../images/navbar.png" alt="Navbar" />
+        <img src="../images/navbar-cad8cdcb.png" alt="" />
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="../images/logo.png" class="logo" alt="Logo" />
+      <img src="../images/logo-1e815a84.png" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="json">json</a>
               <a href="#" data-language-name="ocaml">ocaml</a>
@@ -249,22 +336,22 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='plugin'>plugin</h1>
-<p>The xapi toolstack expects all plugins to support a basic query interface.</p>
-<h2 id='plugin-type-definitions'>Type definitions</h2><h3 id='plugin-type-definitions-query_result'>query_result</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"required_cluster_stack"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"required_cluster_stack"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"features"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"required_api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"required_api_version"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"version"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"copyright"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vendor"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"plugin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="w">
+<p>The xapi toolstack expects all plugins to support a basic query interface. This means that if you plan to implement both, a volume and a datapath plugin, make sure that both implement the query interface.</p>
+<h2 id='plugin-type-definitions'>Type definitions</h2><h3 id='plugin-type-definitions-query_result'>query_result</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"required_cluster_stack"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"required_cluster_stack"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"features"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"required_api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"required_api_version"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"version"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"copyright"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vendor"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"plugin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>type <code>query_result</code> = <code>struct { ... }</code>
-Properties of this implementation</p>
+Properties of this implementation.</p>
 <h4 id='plugin-type-definitions-query_result-members'>Members</h4>
 <table><thead>
 <tr>
@@ -276,57 +363,57 @@ Properties of this implementation</p>
 <tr>
 <td>plugin</td>
 <td>string</td>
-<td>plugin name, used in the XenAPI as SR.type</td>
+<td>Plugin name, used in the XenAPI as SR.type.</td>
 </tr>
 <tr>
 <td>name</td>
 <td>string</td>
-<td>short name</td>
+<td>Short name.</td>
 </tr>
 <tr>
 <td>description</td>
 <td>string</td>
-<td>description</td>
+<td>Description.</td>
 </tr>
 <tr>
 <td>vendor</td>
 <td>string</td>
-<td>entity (e.g. company, project, group) which produced this  implementation</td>
+<td>Entity (e.g. company, project, group) which produced this implementation.</td>
 </tr>
 <tr>
 <td>copyright</td>
 <td>string</td>
-<td>copyright</td>
+<td>Copyright.</td>
 </tr>
 <tr>
 <td>version</td>
 <td>string</td>
-<td>version</td>
+<td>Version.</td>
 </tr>
 <tr>
 <td>required_api_version</td>
 <td>string</td>
-<td>minimum required API version</td>
+<td>Minimum required API version.</td>
 </tr>
 <tr>
 <td>features</td>
 <td>string list</td>
-<td>features supported by this plugin</td>
+<td>Features supported by this plugin.</td>
 </tr>
 <tr>
 <td>configuration</td>
 <td>(string * string) list</td>
-<td>key/description pairs describing required device_config parameters</td>
+<td>Key/description pairs describing required device_config parameters.</td>
 </tr>
 <tr>
 <td>required_cluster_stack</td>
 <td>string list</td>
-<td>the plugin requires one of these cluster stacks to be active</td>
+<td>The plugin requires one of these cluster stacks to be active.</td>
 </tr>
 </tbody></table>
-<h3 id='plugin-type-definitions-srs'>srs</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"srs"</span><span class="w"> </span><span class="p">]</span><span class="w">
+<h3 id='plugin-type-definitions-srs'>srs</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"srs"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">[]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>type <code>srs</code> = <code>string list</code></p>
 <h2 id='plugin-interface-plugin'>Interface: <code>Plugin</code></h2>
 <p>Discover properties of this implementation. Every implementation must support the query interface or it will not be recognised as a storage plugin by xapi.</p>
@@ -336,51 +423,51 @@ Properties of this implementation</p>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.query"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">query_result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">query</span> <span class="n">dbg</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.query"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">query_result</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">query</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">query</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Plugin</span><span class="p">.</span><span class="n">query</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"required_cluster_stack"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"required_cluster_stack"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"required_cluster_stack_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"required_cluster_stack_2"</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"features_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"features_2"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"required_api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"required_api_version"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"version"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"copyright"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vendor"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"plugin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="w">
+  </span><span class="nl">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"field_1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"field_2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_2"</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"features_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"features_2"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"required_api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"required_api_version"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"version"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"copyright"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vendor"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"plugin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">query_result</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">query</span> <span class="n">dbg</span> <span class="k">in</span>
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">query_result</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">query</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Plugin_myimplementation</span><span class="p">(</span><span class="n">Plugin_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
         <span class="s">"""
         Query this implementation and return its properties. This is
@@ -388,8 +475,8 @@ Properties of this implementation</p>
         and to discover the supported features.
         """</span>
         <span class="k">return</span> <span class="p">{</span><span class="s">"plugin"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"vendor"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"required_api_version"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"features"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">],</span> <span class="s">"configuration"</span><span class="p">:</span> <span class="p">{</span><span class="s">"string"</span><span class="p">:</span> <span class="s">"string"</span><span class="p">},</span> <span class="s">"required_cluster_stack"</span><span class="p">:</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]}</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -408,7 +495,7 @@ Properties of this implementation</p>
 <td>unnamed</td>
 <td>out</td>
 <td>query_result</td>
-<td>Properties of this implementation</td>
+<td>Properties of this implementation.</td>
 </tr>
 </tbody></table>
 <h2 id='plugin-method-ls'>Method: <code>ls</code></h2>
@@ -417,45 +504,45 @@ Properties of this implementation</p>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.ls"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">srs</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.ls"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">srs</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Plugin</span><span class="p">.</span><span class="n">ls</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"srs_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"srs_2"</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">srs</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"srs_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"srs_2"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">srs</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Plugin_myimplementation</span><span class="p">(</span><span class="n">Plugin_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">ls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
         <span class="s">"""
         [ls dbg]: returns a list of attached SRs
         """</span>
         <span class="k">return</span> <span class="p">[</span><span class="s">"string"</span><span class="p">]</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -483,38 +570,38 @@ Properties of this implementation</p>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.diagnostics"</span><span class="p">,</span><span class="w"> </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">}</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">diagnostics</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">diagnostics</span> <span class="n">dbg</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Plugin.diagnostics"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">diagnostics</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import necessary libraries if needed</span>
-<span class="c"># we assume that your library providing the client is called myclient and it provides a connect method</span>
-<span class="kn">import</span> <span class="nn">myclient</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">Plugin</span><span class="o">.</span><span class="n">diagnostics</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-</code></pre>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Plugin</span><span class="p">.</span><span class="n">diagnostics</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
 <blockquote>
 <p>Server</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="s2">"diagnostics"</span><span class="w">
-</span></code></pre><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
-    <span class="k">let</span> <span class="n">diagnostics</span> <span class="p">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">diagnostics</span> <span class="n">dbg</span> <span class="k">in</span>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="s2">"diagnostics"</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">diagnostics</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
-<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
 
-</code></pre><pre class="highlight python tab-python"><code>
-<span class="c"># import additional libraries if needed</span>
-
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
 <span class="k">class</span> <span class="nc">Plugin_myimplementation</span><span class="p">(</span><span class="n">Plugin_skeleton</span><span class="p">):</span>
-    <span class="c"># by default each method will return a Not_implemented error</span>
-    <span class="c"># ...</span>
-
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
     <span class="k">def</span> <span class="nf">diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">):</span>
         <span class="s">"""
         Returns a printable set of backend diagnostic information.
@@ -524,8 +611,8 @@ Properties of this implementation</p>
         automatically included in bug reports.
         """</span>
         <span class="k">return</span> <span class="s">"string"</span>
-    <span class="c"># ...</span>
-</code></pre>
+    <span class="c1"># ...
+</span></code></pre></div>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -547,8 +634,8 @@ Properties of this implementation</p>
 <td>A string containing loggable human-readable diagnostics information</td>
 </tr>
 </tbody></table>
-<h2 id='plugin-errors'>Errors</h2><h3 id='plugin-errors-exnt'>exnt</h3><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
-</span></code></pre>
+<h2 id='plugin-errors'>Errors</h2><h3 id='plugin-errors-exnt'>exnt</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"Unimplemented"</span><span class="p">,</span><span class="w"> </span><span class="s2">"exnt"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div>
 <p>type <code>exnt</code> = <code>variant { ... }</code></p>
 <h4 id='plugin-errors-exnt-constructors'>Constructors</h4>
 <table><thead>
