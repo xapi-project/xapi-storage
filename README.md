@@ -13,6 +13,6 @@ website and pushes it to the `gh-pages` branch.
 
 Our custom modifications are on top of a given snapshot of Slate.
 The version of Slate the website is based on can be updated by simply rebasing
-this branch on top of the `master` branch from the `slate` repository.
+this branch on top of the `main` branch from the `slate` repository.
 
-[Slate]: https://github.com/lord/slate
+[Slate]: https://github.com/slatedocs/slate
