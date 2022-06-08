@@ -9,7 +9,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 toc_footers:
   - <a href='https://github.com/xapi-project/xapi-storage'>Source Code of SMAPIv3 Interface</a>
   - <a href='https://github.com/xapi-project/xapi-storage/tree/slate'>Source Code of Website</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
 includes:
   - plugin
@@ -18,6 +18,12 @@ includes:
   - task
 
 search: true
+
+code_clipboard: true
+
+meta:
+  - name: description
+    content: Documentation for SMAPIv3
 ---
 
 # Introduction
@@ -210,6 +216,7 @@ Cmdliner.Term.eval_choice default_cmd (List.map (fun t -> t rpc) (Cmds.implement
 ```python
 class Implementation(xapi.volume.SR_skeleton):
     pass
+curl "http://example.com/api/kittens/2"
 
 if __name__ == "__main__":
     cmd = xapi.volume.SR_commandline(Implementation())
@@ -251,6 +258,8 @@ datasources to the [xcp-rrdd] daemon which will record history. XenAPI clients
 can then use the [RRD API] to fetch the data, draw graphs etc.
 
 ### Expose backend-specific functions?
+curl "http://example.com/api/kittens/2"
+  -X DELETE
 
 The SMAPIv3 is intended to be a _generic_ API. Before extending the SMAPIv3
 itself, first ask the question: would this make sense for 3 completely
