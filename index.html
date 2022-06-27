@@ -387,6 +387,9 @@
                     <a href="#datapath-method-activate" class="toc-h2 toc-link" data-title="Method: activate">Method: <code>activate</code></a>
                   </li>
                   <li>
+                    <a href="#datapath-method-activate_readonly" class="toc-h2 toc-link" data-title="Method: activate_readonly">Method: <code>activate_readonly</code></a>
+                  </li>
+                  <li>
                     <a href="#datapath-method-deactivate" class="toc-h2 toc-link" data-title="Method: deactivate">Method: <code>deactivate</code></a>
                   </li>
                   <li>
@@ -1663,6 +1666,90 @@ simultaneously.</p></li>
 <td>An opaque string which represents the Xen domain.</td>
 </tr>
 </tbody></table>
+<h2 id='datapath-method-activate_readonly'>Method: <code>activate_readonly</code></h2>
+<p>[activate_readonly uri domain] is called just before a VM, or the  control domain, needs to read a volume. A single volume may be  activated readonly multiple times, including on multiple independent  hosts. It is not permitted for a volume to be activated both readonly  and read-write concurrently. Implementations shall declare the  ATTACH_READONLY feature for this method to be supported. Once a  volume is activated readonly it is required that all readonly  activations are deactivated before any read-write activation is  attempted. This function is idempotent and in all other respects  is interchangeable with activate.</p>
+
+<blockquote>
+<p>Client</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.activate_readonly"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">33</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate_readonly</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+</span><span class="kn">import</span> <span class="nn">myclient</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">myclient</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Datapath</span><span class="p">.</span><span class="n">activate_readonly</span><span class="p">({</span> <span class="n">dbg</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="s">"string"</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="s">"string"</span> <span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</code></pre></div>
+<blockquote>
+<p>Server</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="kc">null</span><span class="w">
+</span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
+    <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">activate_readonly</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="k">with</span> <span class="nc">Exn</span> <span class="p">(</span><span class="nc">Unimplemented</span> <span class="n">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">...</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code>
+<span class="c1"># import additional libraries if needed
+</span>
+<span class="k">class</span> <span class="nc">Datapath_myimplementation</span><span class="p">(</span><span class="n">Datapath_skeleton</span><span class="p">):</span>
+    <span class="c1"># by default each method will return a Not_implemented error
+</span>    <span class="c1"># ...
+</span>
+    <span class="k">def</span> <span class="nf">activate_readonly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="s">"""
+        [activate_readonly uri domain] is called just before a VM, or the
+        control domain, needs to read a volume. A single volume may be
+        activated readonly multiple times, including on multiple independent
+        hosts. It is not permitted for a volume to be activated both readonly
+        and read-write concurrently. Implementations shall declare the
+        ATTACH_READONLY feature for this method to be supported. Once a
+        volume is activated readonly it is required that all readonly
+        activations are deactivated before any read-write activation is
+        attempted. This function is idempotent and in all other respects
+        is interchangeable with activate.
+        """</span>
+    <span class="c1"># ...
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Direction</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>dbg</td>
+<td>in</td>
+<td>string</td>
+<td>Debug context from the caller</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>in</td>
+<td>uri</td>
+<td>A URI which represents how to access the volume disk data.</td>
+</tr>
+<tr>
+<td>domain</td>
+<td>in</td>
+<td>domain</td>
+<td>An opaque string which represents the Xen domain.</td>
+</tr>
+</tbody></table>
 <h2 id='datapath-method-deactivate'>Method: <code>deactivate</code></h2>
 <p>[deactivate uri domain] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.</p>
 
@@ -1672,7 +1759,7 @@ simultaneously.</p></li>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.deactivate"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">33</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">deactivate</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
@@ -1751,7 +1838,7 @@ simultaneously.</p></li>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.detach"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">detach</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="k">in</span>
@@ -1833,7 +1920,7 @@ simultaneously.</p></li>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Datapath.close"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">36</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">close</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="k">in</span>
@@ -1945,7 +2032,7 @@ disk will be a perfect mirror of the source.</p></li>
       </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">36</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">copy</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="n">blocklist</span> <span class="k">in</span>
@@ -2047,7 +2134,7 @@ disk will be a perfect mirror of the source.</p></li>
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w"> </span><span class="nl">"remote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote"</span><span class="p">,</span><span class="w"> </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain"</span><span class="p">,</span><span class="w"> </span><span class="nl">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uri"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">mirror</span> <span class="n">dbg</span> <span class="n">uri</span> <span class="n">domain</span> <span class="n">remote</span> <span class="k">in</span>
@@ -2139,7 +2226,7 @@ disk will be a perfect mirror of the source.</p></li>
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w"> </span><span class="nl">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">39</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">status</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
@@ -2218,7 +2305,7 @@ disk will be a perfect mirror of the source.</p></li>
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w"> </span><span class="nl">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">39</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
@@ -2290,7 +2377,7 @@ disk will be a perfect mirror of the source.</p></li>
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w"> </span><span class="nl">"operation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"Copy_1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Copy_2"</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">operation</span> <span class="k">in</span>
@@ -2358,7 +2445,7 @@ disk will be a perfect mirror of the source.</p></li>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.ls"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span><span class="w"> </span><span class="p">}</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data.ls"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">operations</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
@@ -5650,7 +5737,7 @@ Unique identifier for a task.</p>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.stat"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">43</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">result</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">stat</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
@@ -5731,7 +5818,7 @@ Unique identifier for a task.</p>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.cancel"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">43</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">44</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">cancel</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
@@ -5804,7 +5891,7 @@ Unique identifier for a task.</p>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.destroy"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="p">,</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">44</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="bp">()</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">destroy</span> <span class="n">dbg</span> <span class="n">id</span> <span class="k">in</span>
@@ -5871,7 +5958,7 @@ Unique identifier for a task.</p>
 <blockquote>
 <p>Client</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.ls"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="w"> </span><span class="p">}</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Task.ls"</span><span class="p">,</span><span class="w"> </span><span class="nl">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"dbg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbg"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre></div><div class="highlight"><pre class="highlight ocaml tab-ocaml"><code><span class="k">try</span>
     <span class="k">let</span> <span class="n">task_list</span> <span class="o">=</span> <span class="nn">Client</span><span class="p">.</span><span class="n">ls</span> <span class="n">dbg</span> <span class="k">in</span>
     <span class="o">...</span>
