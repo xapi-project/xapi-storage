@@ -433,6 +433,83 @@ class Datapath_myimplementation(Datapath_skeleton):
  dbg    | in        | string | Debug context from the caller                              
  uri    | in        | uri    | A URI which represents how to access the volume disk data. 
  domain | in        | domain | An opaque string which represents the Xen domain.          
+## Method: `activate_readonly`
+\[activate\_readonly uri domain\] is called just before a VM, or the  control domain, needs to read a volume. A single volume may be  activated readonly multiple times, including on multiple independent  hosts. It is not permitted for a volume to be activated both readonly  and read-write concurrently. Implementations shall declare the  ATTACH\_READONLY feature for this method to be supported. Once a  volume is activated readonly it is required that all readonly  activations are deactivated before any read-write activation is  attempted. This function is idempotent and in all other respects  is interchangeable with activate.
+
+> Client
+
+```json
+{
+  "method": "Datapath.activate_readonly",
+  "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
+  "id": 33
+}
+```
+
+```ocaml
+try
+    let () = Client.activate_readonly dbg uri domain in
+    ...
+with Exn (Unimplemented str) -> ...
+
+```
+
+```python
+
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
+
+if __name__ == "__main__":
+    c = myclient.connect()
+    results = c.Datapath.activate_readonly({ dbg: "string", uri: "string", domain: "string" })
+    print(repr(results))
+```
+
+> Server
+
+```json
+null
+```
+
+```ocaml
+try
+    let () = Client.activate_readonly dbg uri domain in
+    ...
+with Exn (Unimplemented str) -> ...
+
+```
+
+```python
+
+# import additional libraries if needed
+
+class Datapath_myimplementation(Datapath_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+
+    def activate_readonly(self, dbg, uri, domain):
+        """
+        [activate_readonly uri domain] is called just before a VM, or the
+        control domain, needs to read a volume. A single volume may be
+        activated readonly multiple times, including on multiple independent
+        hosts. It is not permitted for a volume to be activated both readonly
+        and read-write concurrently. Implementations shall declare the
+        ATTACH_READONLY feature for this method to be supported. Once a
+        volume is activated readonly it is required that all readonly
+        activations are deactivated before any read-write activation is
+        attempted. This function is idempotent and in all other respects
+        is interchangeable with activate.
+        """
+    # ...
+```
+
+
+ Name   | Direction | Type   | Description                                                
+--------|-----------|--------|------------------------------------------------------------
+ dbg    | in        | string | Debug context from the caller                              
+ uri    | in        | uri    | A URI which represents how to access the volume disk data. 
+ domain | in        | domain | An opaque string which represents the Xen domain.          
 ## Method: `deactivate`
 \[deactivate uri domain\] is called as soon as a VM has finished reading or writing its disk. This is an opportunity for an implementation which needs to perform an explicit volume handover to do it. This function is called in the migration downtime window so delays here will be noticeable to users and should be minimised. This function is idempotent.
 
@@ -442,7 +519,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.deactivate",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 33
+  "id": 34
 }
 ```
 
@@ -514,7 +591,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.detach",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 34
+  "id": 35
 }
 ```
 
@@ -589,7 +666,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.close",
   "params": [ { "uri": "uri", "dbg": "dbg" } ],
-  "id": 35
+  "id": 36
 }
 ```
 
@@ -706,7 +783,7 @@ To mirror a VDI a sequence of these API calls is required:
       "dbg": "dbg"
     }
   ],
-  "id": 36
+  "id": 37
 }
 ```
 
@@ -786,7 +863,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "remote": "remote", "domain": "domain", "uri": "uri", "dbg": "dbg" }
   ],
-  "id": 37
+  "id": 38
 }
 ```
 
@@ -861,7 +938,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
   ],
-  "id": 38
+  "id": 39
 }
 ```
 
@@ -933,7 +1010,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
   ],
-  "id": 39
+  "id": 40
 }
 ```
 
@@ -1003,7 +1080,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
   ],
-  "id": 40
+  "id": 41
 }
 ```
 
@@ -1069,7 +1146,7 @@ class Data_myimplementation(Data_skeleton):
 > Client
 
 ```json
-{ "method": "Data.ls", "params": [ { "dbg": "dbg" } ], "id": 41 }
+{ "method": "Data.ls", "params": [ { "dbg": "dbg" } ], "id": 42 }
 ```
 
 ```ocaml
