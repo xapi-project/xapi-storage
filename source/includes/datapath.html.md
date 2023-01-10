@@ -434,7 +434,7 @@ class Datapath_myimplementation(Datapath_skeleton):
  uri    | in        | uri    | A URI which represents how to access the volume disk data. 
  domain | in        | domain | An opaque string which represents the Xen domain.          
 ## Method: `activate_readonly`
-\[activate\_readonly uri domain\] is called just before a VM, or the  control domain, needs to read a volume. A single volume may be  activated readonly multiple times, including on multiple independent  hosts. It is not permitted for a volume to be activated both readonly  and read-write concurrently. Implementations shall declare the  ATTACH\_READONLY feature for this method to be supported. Once a  volume is activated readonly it is required that all readonly  activations are deactivated before any read-write activation is  attempted. This function is idempotent and in all other respects  is interchangeable with activate.
+\[activate\_readonly uri domain\] is called just before a VM, or the  control domain, needs to read a volume. A single volume may be  activated readonly multiple times, including on multiple independent  hosts. It is not permitted for a volume to be activated both readonly  and read-write concurrently. Implementations shall declare the  VDI\_ATTACH\_READONLY feature for this method to be supported. Once a  volume is activated readonly it is required that all readonly  activations are deactivated before any read-write activation is  attempted. This function is idempotent and in all other respects  is interchangeable with activate.
 
 > Client
 
@@ -495,7 +495,7 @@ class Datapath_myimplementation(Datapath_skeleton):
         activated readonly multiple times, including on multiple independent
         hosts. It is not permitted for a volume to be activated both readonly
         and read-write concurrently. Implementations shall declare the
-        ATTACH_READONLY feature for this method to be supported. Once a
+        VDI_ATTACH_READONLY feature for this method to be supported. Once a
         volume is activated readonly it is required that all readonly
         activations are deactivated before any read-write activation is
         attempted. This function is idempotent and in all other respects
