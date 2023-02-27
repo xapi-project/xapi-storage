@@ -1667,7 +1667,7 @@ simultaneously.</p></li>
 </tr>
 </tbody></table>
 <h2 id='datapath-method-activate_readonly'>Method: <code>activate_readonly</code></h2>
-<p>[activate_readonly uri domain] is called just before a VM, or the  control domain, needs to read a volume. A single volume may be  activated readonly multiple times, including on multiple independent  hosts. It is not permitted for a volume to be activated both readonly  and read-write concurrently. Implementations shall declare the  VDI_ATTACH_READONLY feature for this method to be supported. Once a  volume is activated readonly it is required that all readonly  activations are deactivated before any read-write activation is  attempted. This function is idempotent and in all other respects  is interchangeable with activate.</p>
+<p>[activate_readonly uri domain] is called just before a VM, or the  control domain, needs to read a volume. A single volume may be  activated readonly multiple times, including on multiple independent  hosts. It is not permitted for a volume to be activated both readonly  and read-write concurrently. Implementations shall declare the  VDI_ACTIVATE_READONLY feature for this method to be supported. Once a  volume is activated readonly it is required that all readonly  activations are deactivated before any read-write activation is  attempted. This function is idempotent and in all other respects  is interchangeable with activate.</p>
 
 <blockquote>
 <p>Client</p>
@@ -1715,7 +1715,7 @@ simultaneously.</p></li>
         activated readonly multiple times, including on multiple independent
         hosts. It is not permitted for a volume to be activated both readonly
         and read-write concurrently. Implementations shall declare the
-        VDI_ATTACH_READONLY feature for this method to be supported. Once a
+        VDI_ACTIVATE_READONLY feature for this method to be supported. Once a
         volume is activated readonly it is required that all readonly
         activations are deactivated before any read-write activation is
         attempted. This function is idempotent and in all other respects
