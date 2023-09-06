@@ -2474,6 +2474,87 @@ class Volume_myimplementation(Volume_skeleton):
  offset         | in        | int64          | The offset of the extent for which changed blocks should be computed 
  length         | in        | int            | The length of the extent for which changed blocks should be computed 
  changed_blocks | out       | changed_blocks | The changed blocks between two volumes in the specified extent       
+## Method: `compose`
+\[compose sr volume1 volume2\] layers the updates from \[volume2\] onto \[volume1\], modifying \[volume2\]. Implementations shall declare the VDI\_COMPOSE feature for this method to be supported.
+
+> Client
+
+```json
+{
+  "method": "Volume.compose",
+  "params": [ { "key2": "key2", "key": "key", "sr": "sr", "dbg": "dbg" } ],
+  "id": 30
+}
+```
+
+```ocaml
+try
+    let () = Client.compose dbg sr key key2 in
+    ...
+with Exn (Sr_not_attached str) -> ...
+| Exn (SR_does_not_exist str) -> ...
+| Exn (Volume_does_not_exist str) -> ...
+| Exn (Unimplemented str) -> ...
+| Exn (Cancelled str) -> ...
+| Exn (Activated_on_another_host str) -> ...
+
+```
+
+```python
+
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
+
+if __name__ == "__main__":
+    c = myclient.connect()
+    results = c.Volume.compose({ dbg: "string", sr: "string", key: "string", key2: "string" })
+    print(repr(results))
+```
+
+> Server
+
+```json
+null
+```
+
+```ocaml
+try
+    let () = Client.compose dbg sr key key2 in
+    ...
+with Exn (Sr_not_attached str) -> ...
+| Exn (SR_does_not_exist str) -> ...
+| Exn (Volume_does_not_exist str) -> ...
+| Exn (Unimplemented str) -> ...
+| Exn (Cancelled str) -> ...
+| Exn (Activated_on_another_host str) -> ...
+
+```
+
+```python
+
+# import additional libraries if needed
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+
+    def compose(self, dbg, sr, key, key2):
+        """
+        [compose sr volume1 volume2] layers the updates from [volume2] onto
+        [volume1], modifying [volume2]. Implementations shall declare the
+        VDI_COMPOSE feature for this method to be supported.
+        """
+    # ...
+```
+
+
+ Name | Direction | Type   | Description                   
+------|-----------|--------|-------------------------------
+ dbg  | in        | string | Debug context from the caller 
+ sr   | in        | string | The Storage Repository        
+ key  | in        | key    | The volume key                
+ key2 | in        | key    | The volume key                
 ## Errors
 ### exns
 ```json
