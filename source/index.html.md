@@ -111,17 +111,17 @@ their disks and network interfaces. There are several implementations of these
 protocols including:
 
 * the [Linux
-  xen-blkback](http://lxr.free-electrons.com/source/drivers/block/xen-blkback/blkback.c)
+  xen-blkback](https://elixir.bootlin.com/linux/latest/source/drivers/block/xen-blkback/blkback.c)
   kernel module
 * the [FreeBSD
-  blkback](https://github.com/freebsd/freebsd/blob/master/sys/dev/xen/blkback/blkback.c)
+  blkback](https://elixir.bootlin.com/freebsd/latest/source/sys/dev/xen/blkback/blkback.c)
   driver
 * the [QEMU
-  qdisk](https://github.com/qemu/qemu/blob/master/hw/xen/xen_backend.c)
+  qdisk](https://elixir.bootlin.com/qemu/latest/source/hw/xen/xen-backend.c)
   userspace implementation
-* the [XenServer
-  tapdisk3](http://xenserver.org/discuss-virtualization/virtualization-blog/entry/tapdisk3.html)
-  userspace implementation
+* the XenServer tapdisk3 userspace implementation, part of the [blktap
+  project](https://github.com/xapi-project/blktap), [described
+  here](https://web.archive.org/web/20170208204504/http://xenserver.org/discuss-virtualization/virtualization-blog/entry/tapdisk3.html)
 * the [MirageOS](https://github.com/mirage/mirage-block-xen) userspace and
   kernelspace implementation
 
@@ -319,6 +319,6 @@ Below you can find the SMAPIv3 API Reference:
 [CloudStack]: http://cloudstack.apache.org/
 [XenCenter]: https://github.com/xenserver/xenadmin
 [Xen Orchestra]: https://xen-orchestra.com/
-[xcp-rrdd]: https://github.com/xapi-project/xcp-rrdd
+[xcp-rrdd]: https://github.com/xapi-project/xen-api/tree/master/ocaml/xcp-rrdd
 [RRD API]: http://xapi-project.github.io/xen-api/metrics.html
 [XenAPI extension]: http://xapi-project.github.io/devguide/howtos/add-api-extension.html
