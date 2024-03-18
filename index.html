@@ -630,18 +630,18 @@ their disks and network interfaces. There are several implementations of these
 protocols including:</p>
 
 <ul>
-<li>the <a href="http://lxr.free-electrons.com/source/drivers/block/xen-blkback/blkback.c">Linux
+<li>the <a href="https://elixir.bootlin.com/linux/latest/source/drivers/block/xen-blkback/blkback.c">Linux
 xen-blkback</a>
 kernel module</li>
-<li>the <a href="https://github.com/freebsd/freebsd/blob/master/sys/dev/xen/blkback/blkback.c">FreeBSD
+<li>the <a href="https://elixir.bootlin.com/freebsd/latest/source/sys/dev/xen/blkback/blkback.c">FreeBSD
 blkback</a>
 driver</li>
-<li>the <a href="https://github.com/qemu/qemu/blob/master/hw/xen/xen_backend.c">QEMU
+<li>the <a href="https://elixir.bootlin.com/qemu/latest/source/hw/xen/xen-backend.c">QEMU
 qdisk</a>
 userspace implementation</li>
-<li>the <a href="http://xenserver.org/discuss-virtualization/virtualization-blog/entry/tapdisk3.html">XenServer
-tapdisk3</a>
-userspace implementation</li>
+<li>the XenServer tapdisk3 userspace implementation, part of the <a href="https://github.com/xapi-project/blktap">blktap
+project</a>, <a href="https://web.archive.org/web/20170208204504/http://xenserver.org/discuss-virtualization/virtualization-blog/entry/tapdisk3.html">described
+here</a></li>
 <li>the <a href="https://github.com/mirage/mirage-block-xen">MirageOS</a> userspace and
 kernelspace implementation</li>
 </ul>
@@ -762,7 +762,7 @@ isolation.</p>
 <p>Dynamic properties like space consumption, bandwidth or latency should be
 exposed as &quot;datasources&quot;. The SR.stat function should return a list of URIs
 pointing at these in &quot;xenostats&quot; format. The toolstack will hook up these
-datasources to the <a href="https://github.com/xapi-project/xcp-rrdd">xcp-rrdd</a> daemon which will record history. XenAPI clients
+datasources to the <a href="https://github.com/xapi-project/xen-api/tree/master/ocaml/xcp-rrdd">xcp-rrdd</a> daemon which will record history. XenAPI clients
 can then use the <a href="http://xapi-project.github.io/xen-api/metrics.html">RRD API</a> to fetch the data, draw graphs etc.</p>
 <h3 id='learn-frequently-asked-questions-expose-backend-specific-functions'>Expose backend-specific functions?</h3>
 <p>curl &quot;http://example.com/api/kittens/2&quot;
