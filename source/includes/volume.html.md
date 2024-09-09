@@ -2513,7 +2513,7 @@ class Volume_myimplementation(Volume_skeleton):
  length         | in        | int            | The length of the extent for which changed blocks should be computed 
  changed_blocks | out       | changed_blocks | The changed blocks between two volumes in the specified extent       
 ## Method: `compose`
-\[compose sr volume1 volume2\] layers the updates from \[volume2\] onto \[volume1\], modifying \[volume2\]. Implementations shall declare the VDI\_COMPOSE feature for this method to be supported.
+\[compose sr child\_volume parent\_volume\] layers the updates from  \[child\_volume\] onto \[parent\_volume\], modifying \[child\_volume\].  In the case of a delta file format this means updating the  \[child\_volume\] to have a parent or backing object defined by  \[parent\_volume\]. Implementations shall declare the VDI\_COMPOSE  feature for this method to be supported. After a successful  return it should be assumed that the \[parent\_volume\] is no  longer valid. Calling SR.ls, will return the list of currently  known, valid, volumes.
 
 > Client
 
@@ -2579,9 +2579,15 @@ class Volume_myimplementation(Volume_skeleton):
 
     def compose(self, dbg, sr, key, key2):
         """
-        [compose sr volume1 volume2] layers the updates from [volume2] onto
-        [volume1], modifying [volume2]. Implementations shall declare the
-        VDI_COMPOSE feature for this method to be supported.
+        [compose sr child_volume parent_volume] layers the updates from
+        [child_volume] onto [parent_volume], modifying [child_volume].
+        In the case of a delta file format this means updating the
+        [child_volume] to have a parent or backing object defined by
+        [parent_volume]. Implementations shall declare the VDI_COMPOSE
+        feature for this method to be supported. After a successful
+        return it should be assumed that the [parent_volume] is no
+        longer valid. Calling SR.ls, will return the list of currently
+        known, valid, volumes.
         """
     # ...
 ```
