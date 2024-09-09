@@ -5596,7 +5596,7 @@ List of blocks for copying.</p>
 </tr>
 </tbody></table>
 <h2 id='volume-method-compose'>Method: <code>compose</code></h2>
-<p>[compose sr volume1 volume2] layers the updates from [volume2] onto [volume1], modifying [volume2]. Implementations shall declare the VDI_COMPOSE feature for this method to be supported.</p>
+<p>[compose sr child_volume parent_volume] layers the updates from  [child_volume] onto [parent_volume], modifying [child_volume].  In the case of a delta file format this means updating the  [child_volume] to have a parent or backing object defined by  [parent_volume]. Implementations shall declare the VDI_COMPOSE  feature for this method to be supported. After a successful  return it should be assumed that the [parent_volume] is no  longer valid. Calling SR.ls, will return the list of currently  known, valid, volumes.</p>
 
 <blockquote>
 <p>Client</p>
@@ -5649,9 +5649,15 @@ List of blocks for copying.</p>
 </span>
     <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key2</span><span class="p">):</span>
         <span class="s">"""
-        [compose sr volume1 volume2] layers the updates from [volume2] onto
-        [volume1], modifying [volume2]. Implementations shall declare the
-        VDI_COMPOSE feature for this method to be supported.
+        [compose sr child_volume parent_volume] layers the updates from
+        [child_volume] onto [parent_volume], modifying [child_volume].
+        In the case of a delta file format this means updating the
+        [child_volume] to have a parent or backing object defined by
+        [parent_volume]. Implementations shall declare the VDI_COMPOSE
+        feature for this method to be supported. After a successful
+        return it should be assumed that the [parent_volume] is no
+        longer valid. Calling SR.ls, will return the list of currently
+        known, valid, volumes.
         """</span>
     <span class="c1"># ...
 </span></code></pre></div>
