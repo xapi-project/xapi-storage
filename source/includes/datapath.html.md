@@ -143,30 +143,31 @@ List of blocks for copying.
  ranges    | int64 * int64 list | List of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
 ### operation
 ```json
-[ "Copy", [ "operation", "operation" ] ]
-[ "Mirror", [ "operation", "operation" ] ]
+[ "CopyV1", "operation" ]
+[ "MirrorV1", "operation" ]
 ```
 type `operation` = `variant { ... }`
 The primary key for referring to a long-running operation.
 #### Constructors
- Name   | Type            | Description                                                                                         
---------|-----------------|-----------------------------------------------------------------------------------------------------
- Copy   | string * string | Copy \(src,dst\) represents an on-going copy operation from the \[src\] URI to the \[dst\] URI.     
- Mirror | string * string | Mirror \(src,dst\) represents an on-going mirror operation from the \[src\] URI to the \[dst\] URI. 
+ Name     | Type   | Description                                                                       
+----------|--------|-----------------------------------------------------------------------------------
+ CopyV1   | string | CopyV1 \(key\) represents an on-going copy operation with the unique \[key\].     
+ MirrorV1 | string | MirrorV1 \(key\) represents an on-going mirror operation with the unique \[key\]. 
 ### status
 ```json
-{ "progress": 0.0, "failed": true }
+{ "progress": 0.0, "complete": true, "failed": true }
 ```
 type `status` = `struct { ... }`
 Status information for on-going tasks.
 #### Members
- Name     | Type         | Description                                                                     
-----------|--------------|---------------------------------------------------------------------------------
- failed   | bool         | \[failed\] will be set to true if the operation has failed for some reason.     
- progress | float option | \[progress\] will be returned for a copy operation, and ranges between 0 and 1. 
+ Name     | Type         | Description                                                                                              
+----------|--------------|----------------------------------------------------------------------------------------------------------
+ failed   | bool         | \[failed\] will be set to true if the operation has failed for some reason.                              
+ complete | bool         | \[complete\] will be set true if the operation is complete, whether successfully or not, see \[failed\]. 
+ progress | float option | \[progress\] will be returned for a copy operation, and ranges between 0 and 1.                          
 ### operations
 ```json
-[ [ "Copy", [ "operations", "operations" ] ] ]
+[ [ "CopyV1", "operations" ] ]
 []
 ```
 type `operations` = `operation list`
@@ -896,7 +897,7 @@ if __name__ == "__main__":
 > Server
 
 ```json
-[ "Copy", [ "Copy_1", "Copy_2" ] ]
+[ "CopyV1", "CopyV1" ]
 ```
 
 ```ocaml
@@ -976,7 +977,7 @@ if __name__ == "__main__":
 > Server
 
 ```json
-[ "Copy", [ "Copy_1", "Copy_2" ] ]
+[ "CopyV1", "CopyV1" ]
 ```
 
 ```ocaml
@@ -1021,9 +1022,7 @@ class Data_myimplementation(Data_skeleton):
 ```json
 {
   "method": "Data.stat",
-  "params": [
-    { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
-  ],
+  "params": [ { "operation": [ "CopyV1", "CopyV1" ], "dbg": "dbg" } ],
   "id": 41
 }
 ```
@@ -1051,7 +1050,7 @@ if __name__ == "__main__":
 > Server
 
 ```json
-{ "progress": 0.0, "failed": true }
+{ "progress": 0.0, "complete": true, "failed": true }
 ```
 
 ```ocaml
@@ -1075,7 +1074,7 @@ class Data_myimplementation(Data_skeleton):
         [stat operation] returns the current status of [operation]. For a
         copy operation, this will contain progress information.
         """
-        return {"failed": True, "progress": None}
+        return {"failed": True, "complete": True, "progress": None}
     # ...
 ```
 
@@ -1093,9 +1092,7 @@ class Data_myimplementation(Data_skeleton):
 ```json
 {
   "method": "Data.cancel",
-  "params": [
-    { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
-  ],
+  "params": [ { "operation": [ "CopyV1", "CopyV1" ], "dbg": "dbg" } ],
   "id": 42
 }
 ```
@@ -1163,9 +1160,7 @@ class Data_myimplementation(Data_skeleton):
 ```json
 {
   "method": "Data.destroy",
-  "params": [
-    { "operation": [ "Copy", [ "Copy_1", "Copy_2" ] ], "dbg": "dbg" }
-  ],
+  "params": [ { "operation": [ "CopyV1", "CopyV1" ], "dbg": "dbg" } ],
   "id": 43
 }
 ```
@@ -1258,7 +1253,7 @@ if __name__ == "__main__":
 > Server
 
 ```json
-[ [ "Copy", [ "Copy_1", "Copy_2" ] ], [ "Copy", [ "Copy_1", "Copy_2" ] ] ]
+[ [ "CopyV1", "CopyV1" ], [ "CopyV1", "CopyV1" ] ]
 ```
 
 ```ocaml
