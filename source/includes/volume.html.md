@@ -194,12 +194,12 @@ Primary key for a volume. This can be any string which is meaningful to the impl
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
 ```
 type `blocklist` = `struct { ... }`
-List of blocks for copying.
+
 #### Members
- Name      | Type               | Description                                                                                        
------------|--------------------|----------------------------------------------------------------------------------------------------
- blocksize | int                | Size of the individual blocks.                                                                     
- ranges    | int64 * int64 list | List of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
+ Name      | Type               | Description 
+-----------|--------------------|-------------
+ blocksize | int                |             
+ ranges    | int64 * int64 list |             
 ### key_list
 ```json
 [ "key_list" ]
@@ -2098,7 +2098,7 @@ class Volume_myimplementation(Volume_skeleton):
  sr      | in        | string    | The Storage Repository        
  key     | in        | key       | The volume key                
  key2    | in        | key       | The volume key                
- unnamed | out       | blocklist | List of blocks for copying.   
+ unnamed | out       | blocklist |                               
 ## Method: `similar_content`
 \[similar\_content sr volume\] returns a list of VDIs which have similar content to \[vdi\]
 

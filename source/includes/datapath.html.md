@@ -123,7 +123,7 @@ Path to a UNIX domain socket
 "uri"
 ```
 type `uri` = `string`
-A URI representing the means for accessing the volume data. The interpretation of the URI is specific to the implementation. Xapi will choose which implementation to use based on the URI scheme.
+
 ### domain
 ```json
 "domain"
@@ -135,12 +135,12 @@ A string representing a Xen domain on the local host. The string is guaranteed t
 { "ranges": [ [ 0, 0 ] ], "blocksize": 0 }
 ```
 type `blocklist` = `struct { ... }`
-List of blocks for copying.
+
 #### Members
- Name      | Type               | Description                                                                                        
------------|--------------------|----------------------------------------------------------------------------------------------------
- blocksize | int                | Size of the individual blocks.                                                                     
- ranges    | int64 * int64 list | List of block ranges, where a range is a \(start,length\) pair, measured in units of \[blocksize\] 
+ Name      | Type               | Description 
+-----------|--------------------|-------------
+ blocksize | int                |             
+ ranges    | int64 * int64 list |             
 ### operation
 ```json
 [ "CopyV1", "operation" ]
@@ -937,7 +937,7 @@ class Data_myimplementation(Data_skeleton):
  uri       | in        | uri       | A URI which represents how to access the volume disk data.      
  domain    | in        | domain    | An opaque string which represents the Xen domain.               
  remote    | in        | uri       | A URI which represents how to access a remote volume disk data. 
- blocklist | in        | blocklist | List of blocks for copying.                                     
+ blocklist | in        | blocklist |                                                                 
  operation | out       | operation | The primary key for referring to a long-running operation.      
 ## Method: `mirror`
 \[mirror uri domain remote\] starts mirroring new writes to the volume  to a remote URI \(usually NBD\). This is called as part of a volume  mirroring process
