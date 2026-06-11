@@ -726,8 +726,7 @@ A list of volumes</p>
 Primary key for a volume. This can be any string which is meaningful to the implementation. For example this could be an NFS filename, an LVM LV name or even a URI. This string is abstract.</p>
 <h3 id='volume-type-definitions-blocklist'>blocklist</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="nl">"ranges"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nl">"blocksize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>type <code>blocklist</code> = <code>struct { ... }</code>
-List of blocks for copying.</p>
+<p>type <code>blocklist</code> = <code>struct { ... }</code></p>
 <h4 id='volume-type-definitions-blocklist-members'>Members</h4>
 <table><thead>
 <tr>
@@ -739,12 +738,12 @@ List of blocks for copying.</p>
 <tr>
 <td>blocksize</td>
 <td>int</td>
-<td>Size of the individual blocks.</td>
+<td></td>
 </tr>
 <tr>
 <td>ranges</td>
 <td>int64 * int64 list</td>
-<td>List of block ranges, where a range is a (start,length) pair, measured in units of [blocksize]</td>
+<td></td>
 </tr>
 </tbody></table>
 <h3 id='volume-type-definitions-key_list'>key_list</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w"> </span><span class="s2">"key_list"</span><span class="w"> </span><span class="p">]</span><span class="w">
@@ -2888,7 +2887,7 @@ List of blocks for copying.</p>
 <td>unnamed</td>
 <td>out</td>
 <td>blocklist</td>
-<td>List of blocks for copying.</td>
+<td></td>
 </tr>
 </tbody></table>
 <h2 id='volume-method-similar_content'>Method: <code>similar_content</code></h2>
