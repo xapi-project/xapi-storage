@@ -154,7 +154,7 @@ The task interface is for querying the status of asynchronous  tasks. All long-r
 {
   "method": "Task.stat",
   "params": [ { "id": "id", "dbg": "dbg" } ],
-  "id": 45
+  "id": 46
 }
 ```
 
@@ -228,7 +228,7 @@ class Task_myimplementation(Task_skeleton):
 {
   "method": "Task.cancel",
   "params": [ { "id": "id", "dbg": "dbg" } ],
-  "id": 46
+  "id": 47
 }
 ```
 
@@ -299,7 +299,7 @@ class Task_myimplementation(Task_skeleton):
 {
   "method": "Task.destroy",
   "params": [ { "id": "id", "dbg": "dbg" } ],
-  "id": 47
+  "id": 48
 }
 ```
 
@@ -364,7 +364,7 @@ class Task_myimplementation(Task_skeleton):
 > Client
 
 ```json
-{ "method": "Task.ls", "params": [ { "dbg": "dbg" } ], "id": 48 }
+{ "method": "Task.ls", "params": [ { "dbg": "dbg" } ], "id": 49 }
 ```
 
 ```ocaml

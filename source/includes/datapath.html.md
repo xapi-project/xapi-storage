@@ -210,7 +210,7 @@ Volumes must be attached via the following sequence of calls:
 {
   "method": "Datapath.open",
   "params": [ { "persistent": true, "uri": "uri", "dbg": "dbg" } ],
-  "id": 31
+  "id": 32
 }
 ```
 
@@ -282,7 +282,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.attach",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 32
+  "id": 33
 }
 ```
 
@@ -377,7 +377,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.activate",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 33
+  "id": 34
 }
 ```
 
@@ -449,7 +449,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.activate_readonly",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 34
+  "id": 35
 }
 ```
 
@@ -526,7 +526,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.import_activate",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 35
+  "id": 36
 }
 ```
 
@@ -606,7 +606,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.deactivate",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 36
+  "id": 37
 }
 ```
 
@@ -678,7 +678,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.detach",
   "params": [ { "domain": "domain", "uri": "uri", "dbg": "dbg" } ],
-  "id": 37
+  "id": 38
 }
 ```
 
@@ -753,7 +753,7 @@ class Datapath_myimplementation(Datapath_skeleton):
 {
   "method": "Datapath.close",
   "params": [ { "uri": "uri", "dbg": "dbg" } ],
-  "id": 38
+  "id": 39
 }
 ```
 
@@ -870,7 +870,7 @@ To mirror a VDI a sequence of these API calls is required:
       "dbg": "dbg"
     }
   ],
-  "id": 39
+  "id": 40
 }
 ```
 
@@ -950,7 +950,7 @@ class Data_myimplementation(Data_skeleton):
   "params": [
     { "remote": "remote", "domain": "domain", "uri": "uri", "dbg": "dbg" }
   ],
-  "id": 40
+  "id": 41
 }
 ```
 
@@ -1023,7 +1023,7 @@ class Data_myimplementation(Data_skeleton):
 {
   "method": "Data.stat",
   "params": [ { "operation": [ "CopyV1", "CopyV1" ], "dbg": "dbg" } ],
-  "id": 41
+  "id": 42
 }
 ```
 
@@ -1093,7 +1093,7 @@ class Data_myimplementation(Data_skeleton):
 {
   "method": "Data.cancel",
   "params": [ { "operation": [ "CopyV1", "CopyV1" ], "dbg": "dbg" } ],
-  "id": 42
+  "id": 43
 }
 ```
 
@@ -1161,7 +1161,7 @@ class Data_myimplementation(Data_skeleton):
 {
   "method": "Data.destroy",
   "params": [ { "operation": [ "CopyV1", "CopyV1" ], "dbg": "dbg" } ],
-  "id": 43
+  "id": 44
 }
 ```
 
@@ -1227,7 +1227,7 @@ class Data_myimplementation(Data_skeleton):
 > Client
 
 ```json
-{ "method": "Data.ls", "params": [ { "dbg": "dbg" } ], "id": 44 }
+{ "method": "Data.ls", "params": [ { "dbg": "dbg" } ], "id": 45 }
 ```
 
 ```ocaml

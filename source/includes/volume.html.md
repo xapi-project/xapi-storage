@@ -1505,6 +1505,89 @@ class Volume_myimplementation(Volume_skeleton):
  dbg  | in        | string | Debug context from the caller 
  sr   | in        | string | The Storage Repository        
  key  | in        | key    | The volume key                
+## Method: `revert`
+\[revert sr snapshot volume\] returns a reference to a volume. This  volume must contain the contents of the read-only \[snapshot\], and its  identity must remain the same as \[volume\].
+
+> Client
+
+```json
+{
+  "method": "Volume.revert",
+  "params": [
+    { "key": "key", "snapshot": "snapshot", "sr": "sr", "dbg": "dbg" }
+  ],
+  "id": 18
+}
+```
+
+```ocaml
+try
+    let () = Client.revert dbg sr snapshot key in
+    ...
+with Exn (Sr_not_attached str) -> ...
+| Exn (SR_does_not_exist str) -> ...
+| Exn (Volume_does_not_exist str) -> ...
+| Exn (Unimplemented str) -> ...
+| Exn (Cancelled str) -> ...
+| Exn (Activated_on_another_host str) -> ...
+
+```
+
+```python
+
+# import necessary libraries if needed
+# we assume that your library providing the client is called myclient and it provides a connect method
+import myclient
+
+if __name__ == "__main__":
+    c = myclient.connect()
+    results = c.Volume.revert({ dbg: "string", sr: "string", snapshot: "string", key: "string" })
+    print(repr(results))
+```
+
+> Server
+
+```json
+null
+```
+
+```ocaml
+try
+    let () = Client.revert dbg sr snapshot key in
+    ...
+with Exn (Sr_not_attached str) -> ...
+| Exn (SR_does_not_exist str) -> ...
+| Exn (Volume_does_not_exist str) -> ...
+| Exn (Unimplemented str) -> ...
+| Exn (Cancelled str) -> ...
+| Exn (Activated_on_another_host str) -> ...
+
+```
+
+```python
+
+# import additional libraries if needed
+
+class Volume_myimplementation(Volume_skeleton):
+    # by default each method will return a Not_implemented error
+    # ...
+
+    def revert(self, dbg, sr, snapshot, key):
+        """
+        [revert sr snapshot volume] returns a reference to a volume. This
+        volume must contain the contents of the read-only [snapshot], and its
+        identity must remain the same as [volume].
+        """
+    # ...
+```
+
+
+ Name     | Direction | Type   | Description                                                                       
+----------|-----------|--------|-----------------------------------------------------------------------------------
+ dbg      | in        | string | Debug context from the caller                                                     
+ sr       | in        | string | The Storage Repository                                                            
+ snapshot | in        | key    | Read-only volume with the contents that are to be present in the resulting volume 
+ key      | in        | key    | The volume key                                                                    
 ## Method: `set_name`
 \[set\_name sr volume new\_name\] changes the name of \[volume\]
 
@@ -1516,7 +1599,7 @@ class Volume_myimplementation(Volume_skeleton):
   "params": [
     { "new_name": "new_name", "key": "key", "sr": "sr", "dbg": "dbg" }
   ],
-  "id": 18
+  "id": 19
 }
 ```
 
@@ -1602,7 +1685,7 @@ class Volume_myimplementation(Volume_skeleton):
       "dbg": "dbg"
     }
   ],
-  "id": 19
+  "id": 20
 }
 ```
 
@@ -1684,7 +1767,7 @@ class Volume_myimplementation(Volume_skeleton):
   "params": [
     { "v": "v", "k": "k", "key": "key", "sr": "sr", "dbg": "dbg" }
   ],
-  "id": 20
+  "id": 21
 }
 ```
 
@@ -1766,7 +1849,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.unset",
   "params": [ { "k": "k", "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 21
+  "id": 22
 }
 ```
 
@@ -1848,7 +1931,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.resize",
   "params": [ { "new_size": 0, "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 22
+  "id": 23
 }
 ```
 
@@ -1928,7 +2011,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.stat",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 23
+  "id": 24
 }
 ```
 
@@ -2021,7 +2104,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.compare",
   "params": [ { "key2": "key2", "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 24
+  "id": 25
 }
 ```
 
@@ -2108,7 +2191,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.similar_content",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 25
+  "id": 26
 }
 ```
 
@@ -2189,7 +2272,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.enable_cbt",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 26
+  "id": 27
 }
 ```
 
@@ -2267,7 +2350,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.disable_cbt",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 27
+  "id": 28
 }
 ```
 
@@ -2345,7 +2428,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.data_destroy",
   "params": [ { "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 28
+  "id": 29
 }
 ```
 
@@ -2433,7 +2516,7 @@ class Volume_myimplementation(Volume_skeleton):
       "dbg": "dbg"
     }
   ],
-  "id": 29
+  "id": 30
 }
 ```
 
@@ -2521,7 +2604,7 @@ class Volume_myimplementation(Volume_skeleton):
 {
   "method": "Volume.compose",
   "params": [ { "key2": "key2", "key": "key", "sr": "sr", "dbg": "dbg" } ],
-  "id": 30
+  "id": 31
 }
 ```
 
